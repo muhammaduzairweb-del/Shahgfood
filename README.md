@@ -2,6 +2,8 @@
 
 Bilingual (English / اردو) desi food‑delivery web app for **Islamabad & Rawalpindi**, built with **Next.js (App Router) + TypeScript**.
 
+> Status: actively under development. 🚧
+
 ## Features
 - 🍽️ Full menu — 54 dishes with real photos, 4‑per‑row responsive cards
 - 🛒 Cart, checkout (COD / card) and **live order tracking** with a moving rider on a real map (Leaflet + OpenStreetMap) and a countdown ETA
