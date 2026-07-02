@@ -23,9 +23,19 @@ body {
   font-family: "Noto Nastaliq Urdu", "Plus Jakarta Sans", serif;
 }
 
-/* Keep numbers / prices in the Latin font even in RTL mode */
+/* Keep digits in the Latin font, but let Urdu words (روپے، منٹ) fall back to Nastaliq */
 [dir="rtl"] .num {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "Plus Jakarta Sans", "Noto Nastaliq Urdu", sans-serif;
+}
+
+/* Nastaliq is tall & cursive — Urdu headings need much more line-height and no
+   negative tracking, otherwise the lines overlap. */
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3 {
+  line-height: 1.55 !important;
+  letter-spacing: normal !important;
+  padding-block: 0.08em;
 }
 
 .noscroll::-webkit-scrollbar {

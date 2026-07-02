@@ -3,6 +3,7 @@ import "leaflet/dist/leaflet.css";
 import "./globals.css";
 import { AppProvider } from "@/components/AppProvider";
 import Overlays from "@/components/Overlays";
+import DevBanner from "@/components/DevBanner";
 
 const SITE_URL = "https://shahjeefoods.com";
 const DESCRIPTION =
@@ -127,6 +128,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <AppProvider>
+          <DevBanner />
           {children}
           <Overlays />
         </AppProvider>

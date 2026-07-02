@@ -8,7 +8,9 @@ import { DICT } from "@/lib/i18n";
 import { fmt as fmtBase, mono } from "@/lib/cart";
 import { useApp } from "@/components/AppProvider";
 import { useWidth } from "@/components/hooks";
-import { DishCard, RED } from "@/components/ui";
+import { DishCard, DishRow, RED } from "@/components/ui";
+import { CategoryIcon, IconStar, IconScooter, IconPin, IconMenu } from "@/components/icons";
+import type { CategoryKey } from "@/lib/data";
 
 const CHARCOAL = "#16171B"; // sampled from the Daal Chawal photo background
 
@@ -19,7 +21,8 @@ export default function HomeContent() {
   const ur = lang === "ur";
   const fmt = (n: number) => fmtBase(n, ur);
   const w = useWidth();
-  const cols = w < 560 ? 1 : w < 900 ? 2 : w < 1200 ? 3 : 4;
+  const isPhone = w < 640;
+  const cols = w < 900 ? 2 : w < 1200 ? 3 : 4;
   const [search, setSearch] = useState("");
   const sig = MENU[0];
   // "Most loved" excludes Daal Chawal (id 1) since it's already the hero legend above
@@ -36,22 +39,28 @@ export default function HomeContent() {
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(160deg,rgba(94,26,134,.62) 0%,rgba(142,30,124,.5) 45%,rgba(23,13,27,.7) 100%)" }} />
           </>
         )}
-        <div style={{ maxWidth: 1040, margin: "0 auto", padding: "72px 20px 70px", position: "relative", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(224,160,32,.95)", color: "#211812", fontSize: 11.5, fontWeight: 800, padding: "7px 15px", borderRadius: 999, letterSpacing: ".7px" }}>{t.badge}</div>
-          <h1 style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: "clamp(36px,6vw,68px)", lineHeight: 1.05, marginTop: 20, maxWidth: 820, fontWeight: 400, letterSpacing: "-.5px" }}>{t.heroTitle}</h1>
-          <div style={{ color: "#F7D774", fontSize: "clamp(18px,2.4vw,25px)", marginTop: 14, fontWeight: 600 }}>{t.heroTagline}</div>
-          <p style={{ fontSize: 16.5, color: "rgba(255,255,255,.9)", marginTop: 16, maxWidth: 580, lineHeight: 1.75 }}>{t.heroDesc}</p>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginTop: 28 }}>
-            <Link href="/menu" style={{ textDecoration: "none", background: "#fff", color: RED, fontWeight: 800, fontSize: 16, padding: "16px 32px", borderRadius: 15, boxShadow: "0 16px 32px -12px rgba(0,0,0,.5)" }}>{t.orderNow}</Link>
-            <Link href="/branches" style={{ textDecoration: "none", border: "1.5px solid rgba(255,255,255,.55)", background: "rgba(255,255,255,.08)", color: "#fff", fontWeight: 700, fontSize: 16, padding: "16px 28px", borderRadius: 15 }}>{t.findBranch}</Link>
-          </div>
-          <div className="num" style={{ display: "flex", gap: 22, flexWrap: "wrap", justifyContent: "center", marginTop: 26, fontSize: 13, color: "rgba(255,255,255,.9)", fontWeight: 600 }}>
-            <span>⭐ 4.8 / 5</span><span>🛵 30–40 min</span><span>◉ 35+ {t.branches}</span><span>🍽️ 54 {t.dishesWord}</span>
-          </div>
-          <form onSubmit={(e) => { e.preventDefault(); router.push(`/menu?q=${encodeURIComponent(search)}`); }} style={{ background: "#fff", borderRadius: 16, display: "flex", alignItems: "center", gap: 11, padding: "15px 18px", marginTop: 30, width: "min(540px,100%)", boxShadow: "0 24px 44px -22px rgba(0,0,0,.5)" }}>
-            <span style={{ color: "#B0A692", fontSize: 19 }}>⌕</span>
-            <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t.searchPh} style={{ border: "none", outline: "none", flex: 1, fontSize: 15, fontFamily: "inherit", background: "transparent", color: "#211D18" }} />
+        <div style={{ maxWidth: 900, margin: "0 auto", padding: "52px 20px 56px", position: "relative", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
+          {!ur && <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(224,160,32,.95)", color: "#211812", fontSize: 11.5, fontWeight: 800, padding: "7px 15px", borderRadius: 999, letterSpacing: ".7px", marginBottom: 16 }}>{t.badge}</div>}
+          <h1 style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: ur ? "clamp(26px,4.2vw,44px)" : "clamp(34px,5.4vw,60px)", lineHeight: ur ? 1.5 : 1.06, marginTop: 0, maxWidth: 800, fontWeight: 400, letterSpacing: ur ? "normal" : "-.5px" }}>{t.heroTitle}</h1>
+
+          <form onSubmit={(e) => { e.preventDefault(); router.push(`/menu?q=${encodeURIComponent(search.trim())}`); }} style={{ background: "#fff", borderRadius: 16, display: "flex", alignItems: "center", gap: 8, padding: "8px 8px 8px 16px", marginTop: 26, width: "min(560px,100%)", boxShadow: "0 24px 44px -22px rgba(0,0,0,.55)" }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B0A692" strokeWidth="2.2" strokeLinecap="round"><circle cx="11" cy="11" r="7" /><path d="M21 21l-3.5-3.5" /></svg>
+            <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t.searchPh} style={{ border: "none", outline: "none", flex: 1, fontSize: 15.5, fontFamily: "inherit", background: "transparent", color: "#211D18" }} />
+            <button type="submit" aria-label={t.searchPh} style={{ cursor: "pointer", border: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 14, fontFamily: "inherit", padding: "11px 20px", borderRadius: 12, flex: "none" }}>{ur ? "تلاش" : "Search"}</button>
           </form>
+
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginTop: 18 }}>
+            <Link href="/menu" style={{ textDecoration: "none", background: "#fff", color: RED, fontWeight: 800, fontSize: 16, padding: "15px 30px", borderRadius: 14, boxShadow: "0 16px 32px -14px rgba(0,0,0,.5)" }}>{t.orderNow}</Link>
+            <Link href="/branches" style={{ textDecoration: "none", border: "1.5px solid rgba(255,255,255,.55)", background: "rgba(255,255,255,.08)", color: "#fff", fontWeight: 700, fontSize: 16, padding: "15px 28px", borderRadius: 14 }}>{t.findBranch}</Link>
+          </div>
+
+          {/* trust row with real icons */}
+          <div style={{ display: "flex", gap: 22, flexWrap: "wrap", justifyContent: "center", alignItems: "center", marginTop: 24, color: "rgba(255,255,255,.92)", fontSize: 13.5, fontWeight: 700 }}>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconStar size={16} color="#F7D774" /><span className="num">4.8 / 5</span></span>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconScooter size={17} color="#F7D774" strokeWidth={2} /><span className="num">30–40 min</span></span>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconPin size={16} color="#F7D774" strokeWidth={2.2} />35+ {t.branches}</span>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconMenu size={16} color="#F7D774" strokeWidth={2.2} /><span className="num">54</span> {t.dishesWord}</span>
+          </div>
         </div>
       </section>
 
@@ -83,7 +92,7 @@ export default function HomeContent() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(160px,1fr))", gap: 14 }}>
             {CATS.filter((c) => c.key !== "all").map((c) => (
               <Link key={c.key} href={`/menu?cat=${c.key}`} style={{ textDecoration: "none", color: "inherit", background: "#fff", border: "1px solid #EAE1D2", borderRadius: 18, padding: 18, display: "flex", alignItems: "center", gap: 13 }}>
-                <div style={{ width: 48, height: 48, borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, background: "#F5EEE1", flex: "none" }}>{c.icon}</div>
+                <div style={{ width: 48, height: 48, borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", background: "#FCF2F1", flex: "none" }}><CategoryIcon cat={c.key as CategoryKey} size={24} color={RED} strokeWidth={1.9} /></div>
                 <div>
                   <div style={{ fontSize: 14.5, fontWeight: 800, lineHeight: 1.25 }}>{ur ? c.su : c.short}</div>
                   <div className="num" style={{ fontSize: 11.5, color: "#8A8072", marginTop: 3 }}>{MENU.filter((d) => d.cat === c.key).length} {t.dishesWord}</div>
@@ -99,11 +108,19 @@ export default function HomeContent() {
             <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 23 }}>{t.mostLoved}</div>
             <Link href="/menu" style={{ textDecoration: "none", fontSize: 14, fontWeight: 700, color: RED, whiteSpace: "nowrap" }}>{t.seeFullMenu}</Link>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 18 }}>
-            {featured.map((d) => (
-              <DishCard key={d.id} d={d} ur={ur} t={t} fmt={fmt} qty={cart[d.id] || 0} onAdd={() => addItem(d.id)} onDec={() => decItem(d.id)} />
-            ))}
-          </div>
+          {isPhone ? (
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {featured.map((d) => (
+                <DishRow key={d.id} d={d} ur={ur} t={t} fmt={fmt} qty={cart[d.id] || 0} onAdd={() => addItem(d.id)} onDec={() => decItem(d.id)} />
+              ))}
+            </div>
+          ) : (
+            <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 18 }}>
+              {featured.map((d) => (
+                <DishCard key={d.id} d={d} ur={ur} t={t} fmt={fmt} qty={cart[d.id] || 0} onAdd={() => addItem(d.id)} onDec={() => decItem(d.id)} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </>

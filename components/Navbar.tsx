@@ -6,6 +6,7 @@ import { BRANCHES, LOGO } from "@/lib/data";
 import { DICT } from "@/lib/i18n";
 import { useApp } from "@/components/AppProvider";
 import { useWidth } from "@/components/hooks";
+import { IconHome, IconMenu, IconPin, IconInfo, IconBag } from "@/components/icons";
 
 const PURPLE = "#8E1E7C";
 
@@ -63,8 +64,8 @@ export default function Navbar() {
                 <div onClick={() => setLang("ur")} className="urdu" style={{ cursor: "pointer", padding: "0 11px", height: 26, display: "flex", alignItems: "center", fontWeight: 700, fontSize: 12.5, lineHeight: 1, borderRadius: 999, background: ur ? "#fff" : "transparent", color: ur ? PURPLE : "rgba(255,255,255,.85)" }}>اردو</div>
               </div>
 
-              <button onClick={() => setCartOpen(true)} aria-label={t.cart} style={{ cursor: "pointer", position: "relative", border: "none", background: "rgba(255,255,255,.16)", width: 42, height: 42, borderRadius: 13, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 19 }}>
-                🛍️
+              <button onClick={() => setCartOpen(true)} aria-label={t.cart} style={{ cursor: "pointer", position: "relative", border: "none", background: "rgba(255,255,255,.16)", width: 42, height: 42, borderRadius: 13, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff" }}>
+                <IconBag size={20} strokeWidth={2} />
                 <span className="num" style={{ position: "absolute", top: -6, insetInlineEnd: -6, background: "#fff", color: "#C01A6B", fontSize: 11, fontWeight: 800, minWidth: 20, height: 20, borderRadius: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: "0 5px", boxShadow: "0 2px 6px rgba(0,0,0,.25)" }}>{cartCount}</span>
               </button>
 
@@ -84,29 +85,26 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* mobile bottom nav */}
+      {/* mobile bottom nav — floating island */}
       {isMobile && (
-        <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 60, background: "rgba(17,14,11,.96)", backdropFilter: "blur(12px)", borderTop: "1px solid rgba(255,255,255,.1)", display: "flex", padding: "8px 6px 10px" }}>
-          <MobileTab href="/" icon="🏠" label={t.home} active={pathname === "/"} />
-          <MobileTab href="/menu" icon="🍽️" label={t.menu} active={pathname.startsWith("/menu")} />
-          <div onClick={() => setCartOpen(true)} style={{ cursor: "pointer", flex: 1, textAlign: "center", color: "#F7D774", position: "relative" }}>
-            <div style={{ fontSize: 20 }}>🛍️</div>
-            <div style={{ fontSize: 10.5, fontWeight: 700, marginTop: 2 }}>{t.cart}</div>
-            {cartCount > 0 && <span className="num" style={{ position: "absolute", top: -2, insetInlineEnd: "26%", background: "#ED1E79", color: "#fff", fontSize: 10, fontWeight: 800, minWidth: 17, height: 17, borderRadius: 9, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>{cartCount}</span>}
-          </div>
-          <MobileTab href="/branches" icon="📍" label={t.branches} active={pathname.startsWith("/branches")} />
-          <MobileTab href="/about" icon="ℹ️" label={t.about} active={pathname.startsWith("/about")} />
-        </div>
+        <nav style={{ position: "fixed", bottom: 14, insetInlineStart: 14, insetInlineEnd: 14, zIndex: 60, height: 66, borderRadius: 22, background: "linear-gradient(90deg,#5E1A86 0%,#8E1E7C 48%,#B71C66 100%)", boxShadow: "0 14px 34px -8px rgba(94,26,134,.65)", display: "flex", alignItems: "center", padding: "0 6px" }}>
+          <MobileTab href="/" Icon={IconHome} label={t.home} active={pathname === "/"} />
+          <MobileTab href="/menu" Icon={IconMenu} label={t.menu} active={pathname.startsWith("/menu")} />
+          <MobileTab href="/branches" Icon={IconPin} label={t.branches} active={pathname.startsWith("/branches")} />
+          <MobileTab href="/about" Icon={IconInfo} label={t.about} active={pathname.startsWith("/about")} />
+        </nav>
       )}
     </>
   );
 }
 
-function MobileTab({ href, icon, label, active }: { href: string; icon: string; label: string; active: boolean }) {
+function MobileTab({ href, Icon, label, active }: { href: string; Icon: (p: { size?: number; color?: string; strokeWidth?: number }) => React.ReactElement; label: string; active: boolean }) {
   return (
-    <Link href={href} style={{ textDecoration: "none", flex: 1, textAlign: "center", color: active ? "#F7D774" : "rgba(255,255,255,.7)" }}>
-      <div style={{ fontSize: 20 }}>{icon}</div>
-      <div style={{ fontSize: 10.5, fontWeight: 700, marginTop: 2 }}>{label}</div>
+    <Link href={href} style={{ textDecoration: "none", flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
+      <div style={{ width: 46, height: 32, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", background: active ? "#fff" : "transparent", transition: "background .18s" }}>
+        <Icon size={21} color={active ? "#8E1E7C" : "#fff"} strokeWidth={2.2} />
+      </div>
+      <span style={{ fontSize: 10.5, fontWeight: 700, color: active ? "#fff" : "rgba(255,255,255,.85)" }}>{label}</span>
     </Link>
   );
 }

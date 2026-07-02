@@ -24,30 +24,57 @@ export default function LocationPicker() {
   const [city, setCity] = useState<"Islamabad" | "Rawalpindi">("Islamabad");
   const [selected, setSelected] = useState<string>("");
   const [detecting, setDetecting] = useState(false);
+  const [detectedLabel, setDetectedLabel] = useState("");
+  const [geoError, setGeoError] = useState("");
 
   const inCity = useMemo(() => BRANCHES.filter((b) => b.city === city), [city]);
 
   const detect = () => {
-    if (!navigator.geolocation) return;
+    setGeoError("");
+    setDetectedLabel("");
+    if (!navigator.geolocation) {
+      setGeoError(ur ? "آپ کا براؤزر لوکیشن سپورٹ نہیں کرتا" : "Geolocation isn't supported by your browser");
+      return;
+    }
     setDetecting(true);
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
+      async (pos) => {
         const { latitude, longitude } = pos.coords;
+        // pick the nearest branch by real distance
         let best = BRANCHES[0];
         let bestD = Infinity;
         for (const b of BRANCHES) {
           const d = haversine(latitude, longitude, b.lat, b.lng);
-          if (d < bestD) {
-            bestD = d;
-            best = b;
-          }
+          if (d < bestD) { bestD = d; best = b; }
         }
         setCity(best.city);
         setSelected(best.name);
+        // reverse-geocode the real coordinates → human area name (OpenStreetMap Nominatim)
+        try {
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}&zoom=16&addressdetails=1`,
+            { headers: { "Accept-Language": ur ? "ur" : "en" } }
+          );
+          const data = await res.json();
+          const a = data.address || {};
+          const area = a.suburb || a.neighbourhood || a.quarter || a.city_district || a.town || a.city || a.county || "";
+          const cityName = a.city || a.town || a.state || "";
+          const label = [area, cityName].filter(Boolean).join(", ");
+          setDetectedLabel(label || `${latitude.toFixed(3)}, ${longitude.toFixed(3)}`);
+        } catch {
+          setDetectedLabel(`${latitude.toFixed(3)}, ${longitude.toFixed(3)}`);
+        }
         setDetecting(false);
       },
-      () => setDetecting(false),
-      { enableHighAccuracy: true, timeout: 8000 }
+      (err) => {
+        setDetecting(false);
+        setGeoError(
+          err.code === err.PERMISSION_DENIED
+            ? ur ? "لوکیشن کی اجازت مسترد کر دی گئی — براہ کرم اجازت دیں یا نیچے سے علاقہ منتخب کریں۔" : "Location permission denied — allow it, or pick your area below."
+            : ur ? "لوکیشن حاصل نہیں ہو سکی، دوبارہ کوشش کریں۔" : "Couldn't get your location. Please try again."
+        );
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     );
   };
 
@@ -68,9 +95,17 @@ export default function LocationPicker() {
         </div>
 
         <div style={{ padding: "20px 22px 24px", display: "flex", flexDirection: "column", gap: 14, overflowY: "auto" }} className="noscroll">
-          <button onClick={detect} disabled={detecting} style={{ cursor: "pointer", border: `1.5px solid ${RED}`, background: "#FCF2F1", color: RED, fontWeight: 800, fontSize: 15, fontFamily: "inherit", padding: 14, borderRadius: 13 }}>
+          <button onClick={detect} disabled={detecting} style={{ cursor: "pointer", border: `1.5px solid ${RED}`, background: "#FCF2F1", color: RED, fontWeight: 800, fontSize: 15, fontFamily: "inherit", padding: 14, borderRadius: 13, opacity: detecting ? 0.7 : 1 }}>
             {detecting ? x.locDetecting : x.locDetect}
           </button>
+
+          {detectedLabel && (
+            <div style={{ background: "#E7F3E7", color: "#1E5631", borderRadius: 12, padding: "10px 13px", fontSize: 12.5, fontWeight: 700, display: "flex", alignItems: "center", gap: 8 }}>
+              <span>📍</span>
+              <span>{ur ? "آپ کی لوکیشن: " : "Your location: "}{detectedLabel}{selected ? ` · ${selected}` : ""}</span>
+            </div>
+          )}
+          {geoError && <div style={{ background: "#FCE9E9", color: RED, borderRadius: 12, padding: "10px 13px", fontSize: 12.5, fontWeight: 700, lineHeight: 1.45 }}>{geoError}</div>}
 
           <div style={{ display: "flex", alignItems: "center", gap: 10, color: "#B0A692", fontSize: 12, fontWeight: 700 }}>
             <div style={{ flex: 1, height: 1, background: "#E0D6C4" }} />

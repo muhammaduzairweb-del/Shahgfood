@@ -27,6 +27,9 @@ function FitBounds({ points }: { points: LatLng[] }) {
   useEffect(() => {
     const bounds = L.latLngBounds(points.map((p) => [p.lat, p.lng] as [number, number]));
     map.fitBounds(bounds, { padding: [50, 50], maxZoom: 15 });
+    // Fix half-rendered tiles when the map mounts inside an animated / late-sized container
+    const t = setTimeout(() => map.invalidateSize(), 200);
+    return () => clearTimeout(t);
   }, [map, points]);
   return null;
 }
@@ -53,9 +56,8 @@ export default function TrackingMap({
       zoom={14}
       scrollWheelZoom={false}
       style={{ width: "100%", height: 300 }}
-      attributionControl={false}
     >
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <Polyline positions={[[branch.lat, branch.lng], [dest.lat, dest.lng]]} pathOptions={{ color: "#C1272D", weight: 4, opacity: 0.55, dashArray: "2 10" }} />
       <Polyline positions={[[branch.lat, branch.lng], [rider.lat, rider.lng]]} pathOptions={{ color: "#1E5631", weight: 5, opacity: 0.9 }} />
       <Marker position={[branch.lat, branch.lng]} icon={branchIcon} />

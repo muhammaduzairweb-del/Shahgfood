@@ -6,7 +6,7 @@ import { DICT } from "@/lib/i18n";
 import { fmt as fmtBase } from "@/lib/cart";
 import { useApp } from "@/components/AppProvider";
 import { useWidth } from "@/components/hooks";
-import { DishCard, RED } from "@/components/ui";
+import { DishCard, DishRow, RED } from "@/components/ui";
 import PageHero from "@/components/PageHero";
 
 export default function MenuContent() {
@@ -15,7 +15,8 @@ export default function MenuContent() {
   const ur = lang === "ur";
   const fmt = (n: number) => fmtBase(n, ur);
   const w = useWidth();
-  const cols = w < 560 ? 1 : w < 900 ? 2 : w < 1200 ? 3 : 4;
+  const isPhone = w < 640;
+  const cols = w < 900 ? 2 : w < 1200 ? 3 : 4;
 
   const [cat, setCat] = useState<"all" | CategoryKey>("all");
   const [search, setSearch] = useState("");
@@ -54,11 +55,19 @@ export default function MenuContent() {
       </div>
 
       <div className="num" style={{ fontSize: 13, fontWeight: 700, color: "#8A8072", margin: "8px 0 18px" }}>{dishes.length} {t.dishesWord}</div>
-      <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 18 }}>
-        {dishes.map((d) => (
-          <DishCard key={d.id} d={d} ur={ur} t={t} fmt={fmt} qty={cart[d.id] || 0} onAdd={() => addItem(d.id)} onDec={() => decItem(d.id)} showDesc />
-        ))}
-      </div>
+      {isPhone ? (
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          {dishes.map((d) => (
+            <DishRow key={d.id} d={d} ur={ur} t={t} fmt={fmt} qty={cart[d.id] || 0} onAdd={() => addItem(d.id)} onDec={() => decItem(d.id)} />
+          ))}
+        </div>
+      ) : (
+        <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 18 }}>
+          {dishes.map((d) => (
+            <DishCard key={d.id} d={d} ur={ur} t={t} fmt={fmt} qty={cart[d.id] || 0} onAdd={() => addItem(d.id)} onDec={() => decItem(d.id)} showDesc />
+          ))}
+        </div>
+      )}
     </div>
     </>
   );

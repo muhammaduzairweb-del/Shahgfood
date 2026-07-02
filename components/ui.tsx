@@ -42,6 +42,39 @@ export function DishCard({ d, ur, t, fmt, qty, onAdd, onDec, showDesc }: { d: Di
   );
 }
 
+// Compact horizontal row — used on phones instead of the big card.
+export function DishRow({ d, ur, t, fmt, qty, onAdd, onDec }: { d: Dish; ur: boolean; t: Translation; fmt: (n: number) => string; qty: number; onAdd: () => void; onDec: () => void }) {
+  const img = dishImage(d);
+  return (
+    <div style={{ display: "flex", gap: 12, background: "#fff", borderRadius: 16, padding: 10, border: "1px solid rgba(0,0,0,.05)", boxShadow: "0 8px 20px -18px rgba(60,30,10,.6)" }}>
+      <div style={{ flex: "none", width: 96, height: 96, borderRadius: 12, overflow: "hidden", background: img ? "#eee" : TILE[d.cat], display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+        {img ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={img} alt={ur ? d.urdu : d.name} loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+        ) : (
+          <span className="num" style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 30, color: "rgba(255,255,255,.92)" }}>{mono(d.name)}</span>
+        )}
+      </div>
+      <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
+        <div style={{ fontSize: 15, fontWeight: 800, lineHeight: 1.25 }}>{ur ? d.urdu : d.name}</div>
+        <div style={{ fontSize: 12, color: "#8A8072", marginTop: 3, lineHeight: 1.45, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{ur ? d.du : d.desc}</div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto", paddingTop: 8, gap: 8 }}>
+          <span className="num" style={{ fontSize: 16, fontWeight: 800 }}>{fmt(d.price)}</span>
+          {qty > 0 ? (
+            <div style={{ display: "flex", alignItems: "center", gap: 11, background: RED, borderRadius: 11, padding: "5px 9px" }}>
+              <button onClick={onDec} style={{ cursor: "pointer", border: "none", background: "transparent", color: "#fff", fontSize: 18, fontWeight: 700, width: 18, lineHeight: 1 }}>−</button>
+              <span className="num" style={{ color: "#fff", fontWeight: 800, fontSize: 14, minWidth: 14, textAlign: "center" }}>{qty}</span>
+              <button onClick={onAdd} style={{ cursor: "pointer", border: "none", background: "transparent", color: "#fff", fontSize: 18, fontWeight: 700, width: 18, lineHeight: 1 }}>+</button>
+            </div>
+          ) : (
+            <button onClick={onAdd} style={{ cursor: "pointer", border: `1.5px solid ${RED}`, background: "#fff", color: RED, fontWeight: 800, fontSize: 13, fontFamily: "inherit", padding: "8px 16px", borderRadius: 11, whiteSpace: "nowrap" }}>{t.add}</button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function SummaryRow({ label, value, big }: { label: string; value: string; big?: boolean }) {
   return (
     <div className="num" style={{ display: "flex", justifyContent: "space-between", fontSize: big ? 13.5 : 13, color: "#5A5245", padding: "3px 0" }}>
