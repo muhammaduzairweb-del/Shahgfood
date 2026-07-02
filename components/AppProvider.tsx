@@ -12,9 +12,10 @@ export type Cart = Record<number, number>;
 
 interface AppState {
   lang: Lang;
-  setLang: (l: Lang) => void;
+  setLang: (l: Lang) =>  void;
   toggleLang: () => void;
   branch: string;
+  
   setBranch: (b: string) => void;
   area: string;
   setArea: (a: string) => void;
