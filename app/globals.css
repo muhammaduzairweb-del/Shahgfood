@@ -1,0 +1,70 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #f2ece1;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #211d18;
+}
+
+.urdu {
+  font-family: "Noto Nastaliq Urdu", serif;
+}
+
+[dir="rtl"] {
+  font-family: "Noto Nastaliq Urdu", "Plus Jakarta Sans", serif;
+}
+
+/* Keep numbers / prices in the Latin font even in RTL mode */
+[dir="rtl"] .num {
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.noscroll::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+.noscroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #c1272d !important;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes rise {
+  from {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

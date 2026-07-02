@@ -1,0 +1,72 @@
+"use client";
+
+import { dishImage, TILE, type Dish } from "@/lib/data";
+import { mono } from "@/lib/cart";
+import type { Translation } from "@/lib/i18n";
+
+export const RED = "#C1272D";
+
+export function DishCard({ d, ur, t, fmt, qty, onAdd, onDec, showDesc }: { d: Dish; ur: boolean; t: Translation; fmt: (n: number) => string; qty: number; onAdd: () => void; onDec: () => void; showDesc?: boolean }) {
+  const img = dishImage(d);
+  return (
+    <div style={{ background: "#fff", border: "1px solid rgba(0,0,0,.05)", borderRadius: 20, overflow: "hidden", boxShadow: "0 14px 30px -24px rgba(60,30,10,.6)", display: "flex", flexDirection: "column" }}>
+      <div style={{ position: "relative", aspectRatio: "1 / 1", background: img ? "#eee" : TILE[d.cat], display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+        {img ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={img} alt={ur ? d.urdu : d.name} loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+        ) : (
+          <>
+            <div style={{ position: "absolute", inset: 0, opacity: 0.14, background: "radial-gradient(circle at 30% 30%, #F7D774 0 8px, transparent 9px),radial-gradient(circle at 72% 68%, #F7D774 0 6px, transparent 7px)" }} />
+            <span className="num" style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 46, color: "rgba(255,255,255,.92)" }}>{mono(d.name)}</span>
+          </>
+        )}
+        <div style={{ position: "absolute", top: 10, insetInlineStart: 10, background: "rgba(0,0,0,.4)", backdropFilter: "blur(4px)", color: "#fff", fontSize: 10, fontWeight: 700, padding: "4px 9px", borderRadius: 20 }}>{d.p ? t.tagBest : t.tagPop}</div>
+      </div>
+      <div style={{ padding: "14px 15px 16px", display: "flex", flexDirection: "column", flex: 1 }}>
+        <div style={{ fontSize: 15.5, fontWeight: 800, lineHeight: 1.3 }}>{ur ? d.urdu : d.name}</div>
+        {showDesc && <div style={{ fontSize: 12, color: "#8A8072", marginTop: 5, lineHeight: 1.55, minHeight: 34 }}>{ur ? d.du : d.desc}</div>}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto", paddingTop: 14, gap: 8 }}>
+          <span className="num" style={{ fontSize: 17, fontWeight: 800 }}>{fmt(d.price)}</span>
+          {qty > 0 ? (
+            <div style={{ display: "flex", alignItems: "center", gap: 12, background: RED, borderRadius: 12, padding: "6px 9px" }}>
+              <button onClick={onDec} style={{ cursor: "pointer", border: "none", background: "transparent", color: "#fff", fontSize: 19, fontWeight: 700, width: 20, lineHeight: 1 }}>−</button>
+              <span className="num" style={{ color: "#fff", fontWeight: 800, fontSize: 15, minWidth: 16, textAlign: "center" }}>{qty}</span>
+              <button onClick={onAdd} style={{ cursor: "pointer", border: "none", background: "transparent", color: "#fff", fontSize: 19, fontWeight: 700, width: 20, lineHeight: 1 }}>+</button>
+            </div>
+          ) : (
+            <button onClick={onAdd} style={{ cursor: "pointer", border: `1.5px solid ${RED}`, background: "#fff", color: RED, fontWeight: 800, fontSize: 13.5, fontFamily: "inherit", padding: "9px 18px", borderRadius: 12, whiteSpace: "nowrap" }}>{t.add}</button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function SummaryRow({ label, value, big }: { label: string; value: string; big?: boolean }) {
+  return (
+    <div className="num" style={{ display: "flex", justifyContent: "space-between", fontSize: big ? 13.5 : 13, color: "#5A5245", padding: "3px 0" }}>
+      <span style={{ fontFamily: "'Noto Nastaliq Urdu','Plus Jakarta Sans',serif" }}>{label}</span>
+      <span style={{ fontWeight: 700 }}>{value}</span>
+    </div>
+  );
+}
+
+export function Field({ label, placeholder, numeric, flex, value, onChange, type }: { label: string; placeholder: string; numeric?: boolean; flex?: boolean; value?: string; onChange?: (v: string) => void; type?: string }) {
+  return (
+    <label style={{ fontSize: 11.5, fontWeight: 700, color: "#8A8072", flex: flex ? 1 : undefined }}>{label}
+      <input type={type} className={numeric ? "num" : undefined} placeholder={placeholder} value={value} onChange={onChange ? (e) => onChange(e.target.value) : undefined} style={{ marginTop: 6, width: "100%", border: "1.5px solid #E0D6C4", background: "#F9F6F0", borderRadius: 12, padding: 13, fontSize: 15, fontFamily: "inherit", outline: "none" }} />
+    </label>
+  );
+}
+
+export function PayOption({ icon, title, desc, active, onClick }: { icon: string; title: string; desc: string; active: boolean; onClick: () => void }) {
+  return (
+    <div onClick={onClick} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 13, border: `1.5px solid ${active ? RED : "#E7DECD"}`, background: active ? "#FCF2F1" : "#fff", borderRadius: 14, padding: 15 }}>
+      <div style={{ fontSize: 22 }}>{icon}</div>
+      <div style={{ flex: 1 }}><div style={{ fontWeight: 800, fontSize: 14.5 }}>{title}</div><div style={{ fontSize: 12, color: "#8A8072", marginTop: 2 }}>{desc}</div></div>
+      <div style={{ width: 20, height: 20, borderRadius: "50%", border: `2px solid ${active ? RED : "#C9BEA9"}`, display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
+        <div style={{ width: 10, height: 10, borderRadius: "50%", background: active ? RED : "transparent" }} />
+      </div>
+    </div>
+  );
+}
