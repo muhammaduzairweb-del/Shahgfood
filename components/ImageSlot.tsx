@@ -13,7 +13,7 @@ export default function ImageSlot({
   label,
 }: {
   src?: string;
-  alt: string;
+  alt: string; 
   ratio?: string;
   radius?: number;
   label?: string;
