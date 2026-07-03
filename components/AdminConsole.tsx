@@ -5,7 +5,7 @@ import Link from "next/link";
 import { BRANCHES, LOGO } from "@/lib/data";
 import { EXTRA } from "@/lib/i18n-extra";
 import { useApp } from "@/components/AppProvider";
-import { ORDER_STATUSES, type Order, type OrderStatus } from "@/lib/orders-store";
+import { ORDER_STATUSES, listOrders, updateStatus, type Order, type OrderStatus } from "@/lib/orders";
 
 const RED = "#C1272D";
 const GREEN = "#1E5631";
@@ -53,16 +53,9 @@ export default function AdminConsole({ superMode = false }: { superMode?: boolea
     }
   }, [sessionKey, superMode]);
 
-  const load = useCallback(async () => {
+  const load = useCallback(() => {
     if (!authed) return;
-    const url = superMode ? "/api/orders" : `/api/orders?branch=${encodeURIComponent(branch)}`;
-    try {
-      const res = await fetch(url, { cache: "no-store" });
-      const data = await res.json();
-      if (Array.isArray(data.orders)) setOrders(data.orders);
-    } catch {
-      /* ignore */
-    }
+    setOrders(listOrders(superMode ? undefined : branch));
   }, [authed, superMode, branch]);
 
   useEffect(() => {
@@ -92,11 +85,10 @@ export default function AdminConsole({ superMode = false }: { superMode?: boolea
     setDrill(null);
   };
 
-  const advance = async (o: Order) => {
+  const advance = (o: Order) => {
     const next = NEXT[o.status];
     if (!next) return;
-    setOrders((prev) => prev.map((p) => (p.id === o.id ? { ...p, status: next } : p))); // optimistic
-    await fetch(`/api/orders/${o.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: next }) });
+    updateStatus(o.id, next);
     load();
   };
 

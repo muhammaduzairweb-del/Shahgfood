@@ -1,8 +1,12 @@
-// ===== Server-side order store =====
-// A simple in-memory store shared across API routes. It's attached to
-// globalThis so it survives Next.js hot-reloads in dev. Swap this for a real
-// database (Postgres / Prisma) when going to production — the API surface
-// (createOrder / getOrder / listOrders / updateStatus) stays the same.
+// ===== Client-side order store (localStorage) =====
+// Demo mode: no database. Orders live in the browser's localStorage so the whole
+// customer + admin + live-tracking flow works on a static/serverless deploy with
+// zero backend. Everything is scoped to a single browser — a customer and an
+// admin in two tabs of the SAME browser share state (and update each other live
+// via the `storage` event); two different devices/browsers do NOT sync.
+//
+// The API (createOrder / getOrder / listOrders / updateStatus) matches the old
+// server store, so swapping in a real DB later means reimplementing just this file.
 
 import { BRANCHES } from "./data";
 
@@ -35,16 +39,33 @@ export interface Order {
   dest: { lat: number; lng: number };
 }
 
-interface Store {
-  orders: Map<string, Order>;
-}
-
-const g = globalThis as unknown as { __sjfStore?: Store };
-const store: Store = g.__sjfStore ?? { orders: new Map() };
-g.__sjfStore = store;
+const LS = "sjf.orders.v1";
+// Fired on same-tab writes so listeners in the same tab update too (the native
+// `storage` event only fires in OTHER tabs).
+const EVT = "sjf-orders-changed";
 
 export function statusToStep(s: OrderStatus): number {
   return ORDER_STATUSES.indexOf(s);
+}
+
+function readAll(): Record<string, Order> {
+  if (typeof window === "undefined") return {};
+  try {
+    const raw = localStorage.getItem(LS);
+    return raw ? (JSON.parse(raw) as Record<string, Order>) : {};
+  } catch {
+    return {};
+  }
+}
+
+function writeAll(map: Record<string, Order>): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(LS, JSON.stringify(map));
+    window.dispatchEvent(new Event(EVT));
+  } catch {
+    /* ignore quota / private-mode errors */
+  }
 }
 
 function randomId(): string {
@@ -71,8 +92,9 @@ export function createOrder(input: {
   lang: "en" | "ur";
   dest?: { lat: number; lng: number };
 }): Order {
+  const map = readAll();
   let id = randomId();
-  while (store.orders.has(id)) id = randomId();
+  while (map[id]) id = randomId();
   const now = Date.now();
   const order: Order = {
     id,
@@ -90,23 +112,40 @@ export function createOrder(input: {
     lang: input.lang,
     dest: input.dest && input.dest.lat ? input.dest : destForBranch(input.branch),
   };
-  store.orders.set(id, order);
+  map[id] = order;
+  writeAll(map);
   return order;
 }
 
 export function getOrder(id: string): Order | undefined {
-  return store.orders.get(id);
+  return readAll()[id];
 }
 
 export function listOrders(branch?: string): Order[] {
-  const all = [...store.orders.values()].sort((a, b) => b.createdAt - a.createdAt);
+  const all = Object.values(readAll()).sort((a, b) => b.createdAt - a.createdAt);
   return branch ? all.filter((o) => o.branch === branch) : all;
 }
 
 export function updateStatus(id: string, status: OrderStatus): Order | undefined {
-  const o = store.orders.get(id);
+  const map = readAll();
+  const o = map[id];
   if (!o) return undefined;
   o.status = status;
   o.updatedAt = Date.now();
+  map[id] = o;
+  writeAll(map);
   return o;
+}
+
+/** Notify on any change to the order store — same-tab (custom event) and
+ *  cross-tab (native `storage` event). Returns an unsubscribe function. */
+export function subscribeOrders(cb: () => void): () => void {
+  if (typeof window === "undefined") return () => {};
+  const handler = () => cb();
+  window.addEventListener("storage", handler);
+  window.addEventListener(EVT, handler);
+  return () => {
+    window.removeEventListener("storage", handler);
+    window.removeEventListener(EVT, handler);
+  };
 }

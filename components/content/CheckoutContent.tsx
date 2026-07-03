@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { TILE } from "@/lib/data";
 import { DICT } from "@/lib/i18n";
 import { cartLines, cartMath, fmt as fmtBase } from "@/lib/cart";
+import { createOrder } from "@/lib/orders";
 import { useApp } from "@/components/AppProvider";
 import { Field, PayOption, SummaryRow, RED } from "@/components/ui";
 
@@ -41,22 +42,12 @@ export default function CheckoutContent() {
     );
   }
 
-  const placeOrder = async () => {
+  const placeOrder = () => {
     setPlacing(true);
     const items = lines.map(({ d, qty }) => ({ id: d.id, name: d.name, urdu: d.urdu, qty, price: d.price, cat: d.cat }));
-    const body = { branch, city: cust.city, customer: { name: cust.name, phone: cust.phone, address: cust.address, notes: cust.notes }, items, subtotal, delivery, tax, total, lang };
-    try {
-      const res = await fetch("/api/orders", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-      const data = await res.json();
-      if (data.order) {
-        clearCart();
-        router.push(`/track?id=${data.order.id}`);
-        return;
-      }
-    } catch {
-      /* ignore */
-    }
-    setPlacing(false);
+    const order = createOrder({ branch, city: cust.city, customer: { name: cust.name, phone: cust.phone, address: cust.address, notes: cust.notes }, items, subtotal, delivery, tax, total, lang });
+    clearCart();
+    router.push(`/track?id=${order.id}`);
   };
 
   return (

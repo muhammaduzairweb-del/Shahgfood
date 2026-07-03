@@ -4,7 +4,7 @@
   "private": true,
   "description": "Shah Jee Foods — desi comfort food delivery across Islamabad & Rawalpindi.",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -H 0.0.0.0",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

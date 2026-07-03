@@ -7,7 +7,7 @@ import { BRANCHES, MENU, SITE_IMAGES, type CategoryKey, TILE } from "@/lib/data"
 import { DICT } from "@/lib/i18n";
 import { EXTRA, PAGES } from "@/lib/i18n-extra";
 import { useApp } from "@/components/AppProvider";
-import { ORDER_STATUSES, type Order } from "@/lib/orders-store";
+import { ORDER_STATUSES, getOrder, type Order } from "@/lib/orders";
 import ImageSlot from "@/components/ImageSlot";
 import PageHero from "@/components/PageHero";
 
@@ -249,21 +249,19 @@ export function TrackContent() {
 
   const clearTimers = () => { timers.current.forEach(clearInterval); timers.current = []; };
 
-  const fetchOrder = useCallback(async (orderId: string) => {
-    const res = await fetch(`/api/orders/${orderId}`, { cache: "no-store" });
-    if (!res.ok) return null;
-    const data = await res.json();
-    return (data.order as Order) || null;
+  const fetchOrder = useCallback((orderId: string): Order | null => {
+    return getOrder(orderId) || null;
   }, []);
 
-  const startTracking = useCallback(async (clean: string) => {
-    const o = await fetchOrder(clean);
+  const startTracking = useCallback((clean: string) => {
+    const o = fetchOrder(clean);
     if (!o) { setOrder(null); setError(p.trackNotFound); return; }
     setError("");
     setOrder(o);
     setNow(Date.now());
     clearTimers();
-    timers.current.push(setInterval(async () => { const u = await fetchOrder(clean); if (u) setOrder(u); }, 3000));
+    // Re-read localStorage so admin status changes (in another tab) show up live.
+    timers.current.push(setInterval(() => { const u = fetchOrder(clean); if (u) setOrder(u); }, 1500));
     timers.current.push(setInterval(() => setNow(Date.now()), 1000));
   }, [fetchOrder, p.trackNotFound]);
 
