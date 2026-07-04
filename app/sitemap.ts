@@ -6,6 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   const routes: [string, number, MetadataRoute.Sitemap[number]["changeFrequency"]][] = [
     ["", 1, "daily"],
+    ["menu", 0.9, "weekly"],
     ["about", 0.6, "monthly"],
     ["branches", 0.8, "weekly"],
     ["careers", 0.5, "monthly"],
