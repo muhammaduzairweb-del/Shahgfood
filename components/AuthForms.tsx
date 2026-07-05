@@ -55,17 +55,22 @@ export default function AuthForms({ mode }: { mode: Mode }) {
 
   return (
     <div dir={ur ? "rtl" : "ltr"} style={{ minHeight: "100vh", background: "#F2ECE1", display: "flex", flexDirection: "column" }}>
-      {/* top bar */}
-      <div style={{ padding: "16px 20px", display: "flex", alignItems: "center", gap: 12, maxWidth: 1100, margin: "0 auto", width: "100%" }}>
-        <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={LOGO} alt="Shah G Foods" style={{ height: 50, width: "auto", objectFit: "contain", display: "block", filter: "brightness(1.02) contrast(1.12) drop-shadow(0 2px 5px rgba(0,0,0,.28))" }} />
-        </Link>
-        <div style={{ marginInlineStart: "auto", display: "flex", background: "#fff", border: "1px solid #E7DECD", borderRadius: 999, overflow: "hidden", padding: 2 }}>
-          <div onClick={() => setLang("en")} className="num" style={{ cursor: "pointer", padding: "6px 12px", fontWeight: 800, fontSize: 12, borderRadius: 999, background: ur ? "transparent" : RED, color: ur ? "#8A8072" : "#fff" }}>EN</div>
-          <div onClick={() => setLang("ur")} className="urdu" style={{ cursor: "pointer", padding: "4px 13px", fontWeight: 700, fontSize: 14, borderRadius: 999, background: ur ? RED : "transparent", color: ur ? "#fff" : "#8A8072" }}>اردو</div>
+      {/* top bar — matches the site navbar so the header colour is the same everywhere */}
+      <header>
+        <div style={{ height: 4, background: "linear-gradient(90deg,#F26B21,#ED1E79)" }} />
+        <div style={{ background: "linear-gradient(90deg,#5E1A86 0%,#8E1E7C 46%,#B71C66 100%)", boxShadow: "0 6px 24px -12px rgba(94,26,134,.7)" }}>
+          <div style={{ padding: "10px 20px", display: "flex", alignItems: "center", gap: 12, maxWidth: 1100, margin: "0 auto", width: "100%" }}>
+            <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={LOGO} alt="Shah G Foods" style={{ height: 50, width: "auto", objectFit: "contain", display: "block", filter: LOGO_FILTER }} />
+            </Link>
+            <div style={{ marginInlineStart: "auto", display: "flex", background: "#fff", border: "1px solid #E7DECD", borderRadius: 999, overflow: "hidden", padding: 2 }}>
+              <div onClick={() => setLang("en")} className="num" style={{ cursor: "pointer", padding: "6px 12px", fontWeight: 800, fontSize: 12, borderRadius: 999, background: ur ? "transparent" : RED, color: ur ? "#8A8072" : "#fff" }}>EN</div>
+              <div onClick={() => setLang("ur")} className="urdu" style={{ cursor: "pointer", padding: "4px 13px", fontWeight: 700, fontSize: 14, borderRadius: 999, background: ur ? RED : "transparent", color: ur ? "#fff" : "#8A8072" }}>اردو</div>
+            </div>
+          </div>
         </div>
-      </div>
+      </header>
 
       {/* card */}
       <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px 20px 60px" }}>
