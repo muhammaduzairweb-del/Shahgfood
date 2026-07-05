@@ -4,7 +4,7 @@ import { CareersContent } from "@/components/content/ContentPages";
 
 export const metadata: Metadata = {
   title: "Careers",
-  description: "Join the Shah Jee Foods team. Open roles for managers, chefs, riders and counter staff across Islamabad & Rawalpindi.",
+  description: "Join the Shah G Foods team. Open roles for managers, chefs, riders and counter staff across Islamabad & Rawalpindi.",
   alternates: { canonical: "/careers" },
 };
 

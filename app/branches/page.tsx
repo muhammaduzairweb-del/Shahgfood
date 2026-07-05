@@ -4,7 +4,7 @@ import { BranchesContent } from "@/components/content/ContentPages";
 
 export const metadata: Metadata = {
   title: "Our Branches",
-  description: "35+ Shah Jee Foods branches across Islamabad & Rawalpindi. Find your nearest one for fast desi food delivery.",
+  description: "35+ Shah G Foods branches across Islamabad & Rawalpindi. Find your nearest one for fast desi food delivery.",
   alternates: { canonical: "/branches" },
 };
 

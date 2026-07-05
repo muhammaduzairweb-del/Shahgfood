@@ -2,14 +2,14 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { BRANCHES, LOGO } from "@/lib/data";
+import { BRANCHES, LOGO, LOGO_FILTER } from "@/lib/data";
 import { EXTRA } from "@/lib/i18n-extra";
 import { useApp } from "@/components/AppProvider";
 import { ORDER_STATUSES, listOrders, updateStatus, type Order, type OrderStatus } from "@/lib/orders";
 
 const RED = "#C1272D";
 const GREEN = "#1E5631";
-const BRANCH_PW = "shahjee";
+const BRANCH_PW = "shahg";
 const SUPER_PW = "superadmin";
 
 const NEXT: Record<OrderStatus, OrderStatus | null> = {
@@ -275,7 +275,7 @@ function Shell({ children, lang, setLang, superMode, onLogout }: { children: Rea
       <header style={{ background: "#211812", color: "#fff", position: "sticky", top: 0, zIndex: 30 }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "12px 20px", display: "flex", alignItems: "center", gap: 12 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={LOGO} alt="Shah Jee Foods" style={{ height: 40, width: "auto", objectFit: "contain", display: "block" }} />
+          <img src={LOGO} alt="Shah G Foods" style={{ height: 40, width: "auto", objectFit: "contain", display: "block", filter: LOGO_FILTER }} />
           <div style={{ fontWeight: 800, fontSize: 15 }}>{x.adminPortal}</div>
           <span style={{ fontSize: 11, fontWeight: 700, background: superMode ? "#E0A020" : "rgba(255,255,255,.15)", color: superMode ? "#211812" : "#fff", padding: "3px 9px", borderRadius: 12 }}>{superMode ? x.superAdmin : x.branchAdmin}</span>
           <div style={{ marginInlineStart: "auto", display: "flex", alignItems: "center", gap: 10 }}>

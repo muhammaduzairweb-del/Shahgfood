@@ -3,7 +3,7 @@ import AuthForms from "@/components/AuthForms";
 
 export const metadata: Metadata = {
   title: "Reset password",
-  description: "Reset your Shah Jee Foods account password.",
+  description: "Reset your Shah G Foods account password.",
   robots: { index: false, follow: true },
 };
 

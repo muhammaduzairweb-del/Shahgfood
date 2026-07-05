@@ -1,7 +1,9 @@
-// ===== Shah Jee Foods — core data (menu, categories, branches) =====
+// ===== Shah G Foods — core data (menu, categories, branches) =====
 
-// Brand logo (transparent PNG, food-art wordmark). Used standalone everywhere.
-export const LOGO = "/logo.png";
+// Brand logo (transparent PNG, gold food-art wordmark). Used standalone everywhere.
+export const LOGO = "/Shahglogo.png";
+// Shared filter so the gold wordmark reads clearly on both dark and light backgrounds.
+export const LOGO_FILTER = "brightness(1.15) contrast(1.05) drop-shadow(0 2px 6px rgba(0,0,0,.45))";
 
 export type CategoryKey = "rice" | "bbq" | "fast" | "chaat" | "drinks";
 
@@ -254,3 +256,30 @@ export function dishImage(d: Dish): string {
 
 // Rough centre of the service area (used to frame the tracking map).
 export const CITY_CENTER = { lat: 33.65, lng: 73.05 };
+
+// ===== Real Google reviews (used in the home-page testimonial marquee) =====
+export interface Review {
+  name: string;
+  meta: string; // e.g. "Local Guide · 83 reviews"
+  rating: number; // out of 5
+  when: string;
+  text: string;
+}
+
+export const REVIEWS: Review[] = [
+  { name: "Arooj Bhatti", meta: "Local Guide · 83 reviews", rating: 5, when: "a month ago", text: "You'd think a place this cheap would lack quality — but the food packs a punch. The daal chawal is so good it reminds you of home-cooked food. I keep returning again and again. Deffo give it a shot :)" },
+  { name: "MoIn Shah", meta: "Local Guide · 126 reviews", rating: 5, when: "2 months ago", text: "Shah G Foods is a culinary gem that has made a real impact — known for its authentic Pakistani flavours and high-quality food. They've truly carved a niche for themselves." },
+  { name: "JustPassingBy", meta: "Local Guide · 53 reviews", rating: 5, when: "8 months ago", text: "Honestly the best branch of all. Food quality and taste are always on point — fresh, flavorful and well-balanced. Staff is active and polite, never had a wrong order or delay here." },
+  { name: "Hassan Ali", meta: "Local Guide · 325 reviews", rating: 5, when: "3 months ago", text: "A nice dhaaba-styled restaurant where you can get food round the clock. Their expertise is desi dishes — haleem, sabzi, nihaari, channay, roghni and khameeri naan." },
+  { name: "Zain T", meta: "Local Guide · 128 reviews", rating: 5, when: "4 months ago", text: "Their biryani is very good in taste and service is 10/10 quick. Recommended if you're looking for hygienic food at a nearly economical budget." },
+  { name: "Muhammad Umair Saleem", meta: "Local Guide · 96 reviews", rating: 5, when: "5 months ago", text: "I usually visit for tea and daal chawal — both specialities are amazing here. Lassi is also good. A great spot for chapli kabab, daal chawal and aaloo parathas." },
+  { name: "Muhammad Usman", meta: "Local Guide · 64 reviews", rating: 5, when: "2 months ago", text: "Delectable food. Especially the B.B.Q, potato-filled paratha and daal chawal. Highly satisfying every time." },
+  { name: "Asmat Khan", meta: "Local Guide · 188 reviews", rating: 5, when: "6 months ago", text: "A delightful dining experience with a diverse menu of traditional Pakistani cuisine. The ambiance is warm and welcoming — ideal for family dinners and casual outings." },
+  { name: "dr Rizwan", meta: "Local Guide · 68 reviews", rating: 5, when: "a month ago", text: "Daal chawal — cheap and tasty. One of my favourites, a must try!" },
+  { name: "Atif Bilal Siddiqui", meta: "Local Guide · 323 reviews", rating: 5, when: "7 months ago", text: "Shah G is like a landmark of F-10 Markaz. We usually go for the tea which is very good, and their daal chawal is very popular. The rest of the food is decent too." },
+  { name: "Shahid Says", meta: "Local Guide · 94 reviews", rating: 5, when: "11 months ago", text: "Tried breakfast — the parathas, omelette, chanay and nihari were all very tasty and satisfying. A proper desi breakfast spot." },
+  { name: "Muhammad Muneem Shabir", meta: "Local Guide · 55 reviews", rating: 5, when: "3 weeks ago", text: "Quality is good and a pretty economical option. Plenty of items available, but daal chawal is the real speciality." },
+  { name: "Sajjad Ali", meta: "Local Guide · 4 reviews", rating: 5, when: "7 months ago", text: "I've tasted their haleem — it was the best. Behtreen!" },
+  { name: "Sarmad Mohsin", meta: "Local Guide · 17 reviews", rating: 5, when: "7 months ago", text: "Nice food and quick service. Fresh fish and a good desi menu." },
+  { name: "Nazik Ali", meta: "Local Guide · 28 reviews", rating: 5, when: "7 months ago", text: "It's a very good taste, I like it very much. Will visit again." },
+];

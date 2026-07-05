@@ -33,7 +33,7 @@ export interface Extra {
 
 const EN_X: Extra = {
   locTitle: "Where should we deliver?",
-  locDesc: "Pick your area so we can connect you to the nearest Shah Jee Foods branch.",
+  locDesc: "Pick your area so we can connect you to the nearest Shah G Foods branch.",
   locDetect: "📍 Use my current location",
   locDetecting: "Detecting…",
   locOr: "or choose your area",
@@ -46,7 +46,7 @@ const EN_X: Extra = {
   welcomeBack: "Welcome back",
   loginSub: "Log in to reorder your favourites in seconds.",
   createAccount: "Create your account",
-  signupSub: "Join Shah Jee Foods for faster checkout & order tracking.",
+  signupSub: "Join Shah G Foods for faster checkout & order tracking.",
   emailOrPhone: "Phone or email",
   phoneLbl: "Phone number",
   passwordLbl: "Password",
@@ -55,7 +55,7 @@ const EN_X: Extra = {
   loginBtn: "Log in",
   signupBtn: "Create account",
   forgotQ: "Forgot password?",
-  noAccount: "New to Shah Jee Foods?",
+  noAccount: "New to Shah G Foods?",
   haveAccount: "Already have an account?",
   loginLink: "Log in",
   signupLink: "Create one",
@@ -80,7 +80,7 @@ const EN_X: Extra = {
   yourAddress: "Your address",
   branchLabel: "Branch",
 
-  adminPortal: "Shah Jee Foods — Admin",
+  adminPortal: "Shah G Foods — Admin",
   adminSubtitle: "Manage live orders across your branch.",
   branchAdmin: "Branch admin",
   superAdmin: "Super admin",
@@ -229,7 +229,7 @@ const EN_P: PageCopy = {
   aboutHeadline: "It started with one plate of Daal Chawal in F-10.",
   aboutSub: "Today, that same humble plate has grown into 35+ branches across Islamabad & Rawalpindi — but the taste, and the promise, has never changed.",
   aboutIntro:
-    "Shah Jee Foods began with a simple idea: give hard-working people a hot, honest, home-style meal they could actually afford. No shortcuts, no compromise — just proper desi food, cooked the way it's meant to be. That idea started at a single counter in F-10 Markaz, Islamabad, with one dish that would go on to define us: Daal Chawal.",
+    "Shah G Foods began with a simple idea: give hard-working people a hot, honest, home-style meal they could actually afford. No shortcuts, no compromise — just proper desi food, cooked the way it's meant to be. That idea started at a single counter in F-10 Markaz, Islamabad, with one dish that would go on to define us: Daal Chawal.",
   aboutBlocks: [
     {
       h: "Where it all began — F-10 Markaz",
@@ -241,7 +241,7 @@ const EN_P: PageCopy = {
     },
     {
       h: "35+ branches and still counting",
-      p: "From that one counter in F-10, Shah Jee Foods has grown to more than 35 branches across the twin cities — from Blue Area and Bahria Town to Saddar and beyond. Every new kitchen follows the same recipe book, the same standards, and the same belief that great desi food should be within everyone's reach. Wherever you are in Islamabad or Rawalpindi, a hot plate is only minutes away.",
+      p: "From that one counter in F-10, Shah G Foods has grown to more than 35 branches across the twin cities — from Blue Area and Bahria Town to Saddar and beyond. Every new kitchen follows the same recipe book, the same standards, and the same belief that great desi food should be within everyone's reach. Wherever you are in Islamabad or Rawalpindi, a hot plate is only minutes away.",
     },
   ],
   aboutQuote: "“Great food shouldn't be a luxury. It should be a plate of Daal Chawal that anyone can afford.”",
@@ -249,7 +249,7 @@ const EN_P: PageCopy = {
   careersTitle: "Work with us",
   careersSub: "Help us serve legendary desi food across Islamabad & Rawalpindi. We're always hiring good people.",
   openRoles: "Open positions",
-  perksTitle: "Why join Shah Jee Foods",
+  perksTitle: "Why join Shah G Foods",
   apply: "Apply now",
   roles: [
     { title: "Branch Manager", type: "Full-time", loc: "Islamabad / Rawalpindi" },
@@ -262,13 +262,13 @@ const EN_P: PageCopy = {
   contactTitle: "Get in touch",
   contactSub: "Questions, feedback or catering orders — we'd love to hear from you.",
   callTitle: "Call us", callVal: "+92 51 111 000 786",
-  emailTitle: "Email", emailVal: "hello@shahjeefoods.com",
+  emailTitle: "Email", emailVal: "hello@shahgfood.com",
   visitTitle: "Head office", visitVal: "F-10/4 Markaz, Islamabad",
   hoursTitle: "Open daily · 11:00 AM – 2:00 AM",
   formTitle: "Send us a message",
   fName: "Your name", fPhone: "Phone number", fMsg: "Your message", fSend: "Send message", fSent: "Thanks! We'll get back to you soon.",
   faqTitle: "Frequently asked questions",
-  faqSub: "Everything you need to know about ordering from Shah Jee Foods.",
+  faqSub: "Everything you need to know about ordering from Shah G Foods.",
   faqs: [
     { q: "What areas do you deliver to?", a: "We deliver across 35+ branches in Islamabad and Rawalpindi. Pick your area on the store and we'll connect you to the nearest branch." },
     { q: "How long does delivery take?", a: "Most orders arrive in 30–40 minutes, depending on your distance from the branch and the time of day." },
@@ -325,7 +325,7 @@ const UR_P: PageCopy = {
   contactTitle: "رابطہ کریں",
   contactSub: "سوالات، رائے یا کیٹرنگ آرڈرز — ہم آپ سے سننا پسند کریں گے۔",
   callTitle: "کال کریں", callVal: "+92 51 111 000 786",
-  emailTitle: "ای میل", emailVal: "hello@shahjeefoods.com",
+  emailTitle: "ای میل", emailVal: "hello@shahgfood.com",
   visitTitle: "ہیڈ آفس", visitVal: "F-10/4 مرکز، اسلام آباد",
   hoursTitle: "روزانہ کھلا · صبح 11 – رات 2",
   formTitle: "ہمیں پیغام بھیجیں",

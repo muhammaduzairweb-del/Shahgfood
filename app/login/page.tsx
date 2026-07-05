@@ -3,7 +3,7 @@ import AuthForms from "@/components/AuthForms";
 
 export const metadata: Metadata = {
   title: "Log in",
-  description: "Log in to your Shah Jee Foods account to reorder your favourites and track deliveries.",
+  description: "Log in to your Shah G Foods account to reorder your favourites and track deliveries.",
   robots: { index: false, follow: true },
 };
 

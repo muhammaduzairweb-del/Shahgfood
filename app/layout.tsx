@@ -5,20 +5,20 @@ import { AppProvider } from "@/components/AppProvider";
 import Overlays from "@/components/Overlays";
 import DevBanner from "@/components/DevBanner";
 
-const SITE_URL = "https://shahjeefoods.com";
+const SITE_URL = "https://shahgfood.com";
 const DESCRIPTION =
-  "Order legendary Daal Chawal, biryani, karahi, BBQ, rolls, chaat and desi chai from Shah Jee Foods. Fast delivery across 35+ branches in Islamabad & Rawalpindi.";
+  "Order legendary Daal Chawal, biryani, karahi, BBQ, rolls, chaat and desi chai from Shah G Foods. Fast delivery across 35+ branches in Islamabad & Rawalpindi.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Shah Jee Foods — Desi Comfort Food Delivery | Islamabad & Rawalpindi",
-    template: "%s | Shah Jee Foods",
+    default: "Shah G Foods — Desi Comfort Food Delivery | Islamabad & Rawalpindi",
+    template: "%s | Shah G Foods",
   },
   description: DESCRIPTION,
-  applicationName: "Shah Jee Foods",
+  applicationName: "Shah G Foods",
   keywords: [
-    "Shah Jee Foods",
+    "Shah G Foods",
     "Daal Chawal",
     "food delivery Islamabad",
     "food delivery Rawalpindi",
@@ -31,9 +31,9 @@ export const metadata: Metadata = {
     "chaat",
     "desi chai",
   ],
-  authors: [{ name: "Shah Jee Foods" }],
-  creator: "Shah Jee Foods",
-  publisher: "Shah Jee Foods",
+  authors: [{ name: "Shah G Foods" }],
+  creator: "Shah G Foods",
+  publisher: "Shah G Foods",
   category: "Food & Drink",
   alternates: {
     canonical: "/",
@@ -46,23 +46,23 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_PK",
     url: SITE_URL,
-    siteName: "Shah Jee Foods",
-    title: "Shah Jee Foods — The legendary Daal Chawal, delivered hot.",
+    siteName: "Shah G Foods",
+    title: "Shah G Foods — The legendary Daal Chawal, delivered hot.",
     description: DESCRIPTION,
     images: [
       {
-        url: "/logo.png",
+        url: "/Shahglogo.png",
         width: 1200,
         height: 630,
-        alt: "Shah Jee Foods — desi comfort food",
+        alt: "Shah G Foods — desi comfort food",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Shah Jee Foods — The legendary Daal Chawal, delivered hot.",
+    title: "Shah G Foods — The legendary Daal Chawal, delivered hot.",
     description: DESCRIPTION,
-    images: ["/logo.png"],
+    images: ["/Shahglogo.png"],
   },
   robots: {
     index: true,
@@ -76,8 +76,8 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
+    icon: "/Shahglogo.png",
+    apple: "/Shahglogo.png",
   },
   manifest: "/manifest.webmanifest",
 };
@@ -92,11 +92,11 @@ export const viewport: Viewport = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Restaurant",
-  name: "Shah Jee Foods",
+  name: "Shah G Foods",
   description: DESCRIPTION,
   url: SITE_URL,
-  image: `${SITE_URL}/logo.png`,
-  logo: `${SITE_URL}/logo.png`,
+  image: `${SITE_URL}/Shahglogo.png`,
+  logo: `${SITE_URL}/Shahglogo.png`,
   servesCuisine: ["Pakistani", "Desi", "BBQ", "Fast Food"],
   priceRange: "Rs. 20 – Rs. 1550",
   openingHours: "Mo-Su 11:00-02:00",
@@ -108,7 +108,7 @@ const jsonLd = {
     addressRegion: "Islamabad Capital Territory",
     addressCountry: "PK",
   },
-  sameAs: ["https://facebook.com/shahjeefoods", "https://instagram.com/shahjeefoods"],
+  sameAs: ["https://www.facebook.com/shah.g.foods.627153/", "https://www.instagram.com/shahgfoodsofficial/"],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

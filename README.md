@@ -1,4 +1,4 @@
-# Shah Jee Foods
+# Shah G Foods
 
 Bilingual (English / اردو) desi food‑delivery web app for **Islamabad & Rawalpindi**, built with **Next.js (App Router) + TypeScript**.
 
@@ -32,4 +32,4 @@ npm start
 - `components/` — Navbar, CartDrawer, TrackingMap, admin/auth, content pages
 - `lib/` — menu & branch data, bilingual copy, order store, cart helpers
 
-> Demo admin passwords: branch `shahjee`, super `superadmin`. The order store is in‑memory — swap for a database before production.
+> Demo admin passwords: branch `shahg`, super `superadmin`. The order store is in‑memory — swap for a database before production.

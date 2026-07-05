@@ -41,7 +41,7 @@ export function AboutContent() {
           <p style={{ fontSize: 16.5, color: "rgba(255,255,255,.9)", marginTop: 16, maxWidth: 620, lineHeight: 1.75 }}>{p.aboutSub}</p>
         </div>
         <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 20px", position: "relative", transform: "translateY(34px)" }}>
-          <ImageSlot src={SITE_IMAGES.aboutHero} alt="Shah Jee Foods — our kitchen" ratio="16 / 9" label={ur ? "ہیرو تصویر" : "About hero image"} />
+          <ImageSlot src={SITE_IMAGES.aboutHero} alt="Shah G Foods — our kitchen" ratio="16 / 9" label={ur ? "ہیرو تصویر" : "About hero image"} />
         </div>
       </section>
 
@@ -71,7 +71,7 @@ export function AboutContent() {
         {/* QUOTE */}
         <div style={{ textAlign: "center", margin: "56px auto", maxWidth: 720 }}>
           <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: "clamp(22px,3vw,32px)", fontStyle: "italic", color: "#211812", lineHeight: 1.4 }}>{p.aboutQuote}</div>
-          <div style={{ marginTop: 14, fontWeight: 800, color: RED, fontSize: 13, letterSpacing: 1 }}>— SHAH JEE FOODS</div>
+          <div style={{ marginTop: 14, fontWeight: 800, color: RED, fontSize: 13, letterSpacing: 1 }}>— SHAH G FOODS</div>
         </div>
 
         {/* STATS */}
@@ -157,7 +157,7 @@ export function CareersContent() {
               <div style={{ fontWeight: 800, fontSize: 16 }}>{r.title}</div>
               <div style={{ fontSize: 12.5, color: "#8A8072", marginTop: 3 }}>{r.type} · {r.loc}</div>
             </div>
-            <a href="mailto:careers@shahjeefoods.com" style={{ textDecoration: "none", border: `1.5px solid ${RED}`, color: RED, fontWeight: 800, fontSize: 13.5, padding: "10px 20px", borderRadius: 12 }}>{p.apply}</a>
+            <a href="mailto:careers@shahgfood.com" style={{ textDecoration: "none", border: `1.5px solid ${RED}`, color: RED, fontWeight: 800, fontSize: 13.5, padding: "10px 20px", borderRadius: 12 }}>{p.apply}</a>
           </div>
         ))}
       </div>
@@ -177,7 +177,7 @@ export function ContactContent() {
     <div style={WRAP}>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 22, alignItems: "flex-start" }}>
         <div style={{ flex: "1 1 260px", display: "flex", flexDirection: "column", gap: 14 }}>
-          {[{ icon: "📞", t: p.callTitle, v: p.callVal, href: "tel:+925111100786" }, { icon: "✉️", t: p.emailTitle, v: p.emailVal, href: "mailto:hello@shahjeefoods.com" }, { icon: "📍", t: p.visitTitle, v: p.visitVal }].map((c, i) => (
+          {[{ icon: "📞", t: p.callTitle, v: p.callVal, href: "tel:+925111100786" }, { icon: "✉️", t: p.emailTitle, v: p.emailVal, href: "mailto:hello@shahgfood.com" }, { icon: "📍", t: p.visitTitle, v: p.visitVal }].map((c, i) => (
             <div key={i} style={{ ...card, display: "flex", alignItems: "center", gap: 14 }}>
               <div style={{ width: 44, height: 44, borderRadius: 12, background: "#F5EEE1", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flex: "none" }}>{c.icon}</div>
               <div>

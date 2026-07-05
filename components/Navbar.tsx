@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BRANCHES, LOGO } from "@/lib/data";
+import { BRANCHES, LOGO, LOGO_FILTER } from "@/lib/data";
 import { DICT } from "@/lib/i18n";
 import { useApp } from "@/components/AppProvider";
 import { useWidth } from "@/components/hooks";
@@ -34,7 +34,7 @@ export default function Navbar() {
           <div style={{ maxWidth: 1280, margin: "0 auto", padding: "10px 22px", display: "flex", alignItems: "center", gap: 16 }}>
             <Link href="/" style={{ flex: "none", display: "flex", alignItems: "center" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={LOGO} alt="Shah Jee Foods" style={{ height: isMobile ? 46 : 60, width: "auto", objectFit: "contain", display: "block", filter: "drop-shadow(0 2px 6px rgba(0,0,0,.45))" }} />
+              <img src={LOGO} alt="Shah G Foods" style={{ height: isMobile ? 46 : 60, width: "auto", objectFit: "contain", display: "block", filter: LOGO_FILTER }} />
             </Link>
 
             {!isMobile && (

@@ -4,7 +4,7 @@ import { ContactContent } from "@/components/content/ContentPages";
 
 export const metadata: Metadata = {
   title: "Contact us",
-  description: "Get in touch with Shah Jee Foods — call, email or send us a message for orders, feedback and catering.",
+  description: "Get in touch with Shah G Foods — call, email or send us a message for orders, feedback and catering.",
   alternates: { canonical: "/contact" },
 };
 

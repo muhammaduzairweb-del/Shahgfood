@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Shah Jee Foods",
-    short_name: "Shah Jee",
+    name: "Shah G Foods",
+    short_name: "Shah G",
     description: "Desi comfort food delivery across Islamabad & Rawalpindi.",
     start_url: "/",
     display: "standalone",
@@ -11,7 +11,7 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#C1272D",
     icons: [
       {
-        src: "/logo.png",
+        src: "/Shahglogo.png",
         sizes: "386x358",
         type: "image/png",
         purpose: "any",

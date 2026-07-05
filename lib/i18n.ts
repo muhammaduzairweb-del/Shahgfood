@@ -1,4 +1,4 @@
-// ===== Shah Jee Foods — bilingual copy (English / Urdu) =====
+// ===== Shah G Foods — bilingual copy (English / Urdu) =====
 
 export type Lang = "en" | "ur";
 
@@ -24,6 +24,7 @@ export interface Translation {
   st0: string; st0d: string; st1: string; st1d: string; st2: string; st2d: string; st3: string; st3d: string;
   rider: string; riderName: string; vehicle: string; call: string; orderAgain: string;
   tagBest: string; tagPop: string;
+  reviewsBadge: string; reviewsTitle: string; reviewsSub: string; onGoogle: string; homeFaqTitle: string; homeFaqSub: string;
 }
 
 export const EN: Translation = {
@@ -34,7 +35,7 @@ export const EN: Translation = {
   menuTitle: "Order Now", menuSub: "Full menu · 54 dishes", brTitle: "Our Branches", brDesc: "35+ branches across Islamabad & Rawalpindi. Pick your nearest one.",
   mapTitle: "Branch locations", selectedLabel: "DELIVERING FROM", openNow: "Open now", hoursText: "11:00 AM – 2:00 AM",
   aboutH: "From one plate of Daal Chawal to 35+ branches.",
-  aboutStory: "Shah Jee Foods is a much-loved desi restaurant serving traditional, comforting Pakistani street food and mainland subcontinental classics. The dish that started it all is our legendary, budget-friendly Daal Chawal — lentils served over fluffy rice — still a favourite across every branch.",
+  aboutStory: "Shah G Foods is a much-loved desi restaurant serving traditional, comforting Pakistani street food and mainland subcontinental classics. The dish that started it all is our legendary, budget-friendly Daal Chawal — lentils served over fluffy rice — still a favourite across every branch.",
   statBranches: "Branches", statDishes: "Dishes", statCities: "Cities", knownFor: "What we're known for",
   c1t: "Desi curries & rice", c1d: "Daal Chawal, Bannu Pulao, Biryani, Karahi & Handi.", c2t: "Charcoal BBQ", c2d: "Tikka, seekh kebab, malai boti & fresh tandoori naan.", c3t: "Chai & lassi", c3d: "Sweet & salty lassi, milkshakes and proper desi chai.", seeMenu: "See the menu →",
   cartTitle: "Your Cart", emptyTitle: "Your cart is empty", emptyDesc: "Add some daal chawal, karahi or a paratha roll to get started.", browseMenu: "Browse menu", subtotal: "Subtotal", delivery: "Delivery", gst: "GST (5%)", total: "Total", free: "Free", placeOrder: "Place order · ",
@@ -50,6 +51,7 @@ export const EN: Translation = {
   st0: "Order received", st0d: "We've got your order", st1: "Preparing your food", st1d: "The kitchen is on it", st2: "Out for delivery", st2d: "Your rider is on the way", st3: "Delivered", st3d: "Enjoy your meal!",
   rider: "Your rider", riderName: "Bilal Ahmed", vehicle: "Bike · RIQ-4521", call: "Call", orderAgain: "Order again",
   tagBest: "Bestseller", tagPop: "Popular",
+  reviewsBadge: "15,000+ VERIFIED REVIEWS", reviewsTitle: "Loved across every branch", reviewsSub: "15,000+ verified reviews across our 35+ branches in Islamabad & Rawalpindi. Here's what people keep coming back for.", onGoogle: "on Google", homeFaqTitle: "Frequently asked questions", homeFaqSub: "Quick answers before you order.",
 };
 
 export const UR: Translation = {
@@ -76,6 +78,7 @@ export const UR: Translation = {
   st0: "آرڈر موصول ہوا", st0d: "ہمیں آپ کا آرڈر مل گیا", st1: "کھانا تیار ہو رہا ہے", st1d: "کچن میں کام جاری ہے", st2: "ڈیلیوری کے لیے روانہ", st2d: "رائیڈر راستے میں ہے", st3: "ڈیلیور ہو گیا", st3d: "کھانے سے لطف اٹھائیں!",
   rider: "آپ کا رائیڈر", riderName: "بلال احمد", vehicle: "بائیک · RIQ-4521", call: "کال کریں", orderAgain: "دوبارہ آرڈر کریں",
   tagBest: "بیسٹ سیلر", tagPop: "مقبول",
+  reviewsBadge: "15,000+ تصدیق شدہ ریویوز", reviewsTitle: "ہر شاخ پر پسند کیا گیا", reviewsSub: "اسلام آباد اور راولپنڈی کی 35+ شاخوں پر 15,000+ تصدیق شدہ ریویوز۔ دیکھیں لوگ بار بار کیوں آتے ہیں۔", onGoogle: "گوگل پر", homeFaqTitle: "اکثر پوچھے گئے سوالات", homeFaqSub: "آرڈر سے پہلے چند فوری جوابات۔",
 };
 
 export const DICT: Record<Lang, Translation> = { en: EN, ur: UR };

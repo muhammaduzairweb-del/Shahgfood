@@ -3,16 +3,69 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { CATS, MENU, SITE_IMAGES, dishImage } from "@/lib/data";
+import type { CSSProperties } from "react";
+import { CATS, MENU, REVIEWS, SITE_IMAGES, dishImage } from "@/lib/data";
 import { DICT } from "@/lib/i18n";
+import { PAGES } from "@/lib/i18n-extra";
 import { fmt as fmtBase, mono } from "@/lib/cart";
 import { useApp } from "@/components/AppProvider";
 import { useWidth } from "@/components/hooks";
 import { DishCard, DishRow, RED } from "@/components/ui";
 import { CategoryIcon, IconStar, IconScooter, IconPin, IconMenu } from "@/components/icons";
-import type { CategoryKey } from "@/lib/data";
+import type { CategoryKey, Review } from "@/lib/data";
 
 const CHARCOAL = "#16171B"; // sampled from the Daal Chawal photo background
+
+// ---- Testimonial helpers -------------------------------------------------
+const AVATAR_BG = ["#C1272D", "#5E1A86", "#B71C66", "#E0A020", "#1F7A4D", "#2A6BB0"];
+function avatarBg(name: string) {
+  let s = 0;
+  for (const ch of name) s += ch.charCodeAt(0);
+  return AVATAR_BG[s % AVATAR_BG.length];
+}
+
+function GoogleG({ size = 18 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48" style={{ flex: "none" }} aria-hidden>
+      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+      <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+    </svg>
+  );
+}
+
+function ReviewCard({ r }: { r: Review }) {
+  return (
+    <article style={{ flex: "none", width: 320, background: "#fff", color: "#211D18", border: "1px solid #EAE1D2", borderRadius: 18, padding: "18px 20px", display: "flex", flexDirection: "column", gap: 10, boxShadow: "0 16px 34px -26px rgba(60,30,10,.5)", whiteSpace: "normal", textAlign: "left" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 11 }}>
+        <div style={{ width: 42, height: 42, borderRadius: "50%", flex: "none", display: "grid", placeItems: "center", background: avatarBg(r.name), color: "#fff", fontWeight: 800, fontSize: 17 }}>{r.name.charAt(0)}</div>
+        <div style={{ minWidth: 0, flex: 1 }}>
+          <div style={{ fontWeight: 800, fontSize: 14.5, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.name}</div>
+          <div className="num" style={{ fontSize: 11.5, color: "#8A8072", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.meta}</div>
+        </div>
+        <GoogleG />
+      </div>
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <span style={{ display: "inline-flex", gap: 1 }}>{[0, 1, 2, 3, 4].map((i) => <IconStar key={i} size={14} color={i < r.rating ? "#FBBC04" : "#E3DDD0"} />)}</span>
+        <span className="num" style={{ fontSize: 11.5, color: "#8A8072" }}>{r.when}</span>
+      </div>
+      <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.6, color: "#4A4238", display: "-webkit-box", WebkitLineClamp: 5, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{r.text}</p>
+    </article>
+  );
+}
+
+function MarqueeRow({ items, dir, dur }: { items: Review[]; dir: "left" | "right"; dur: number }) {
+  return (
+    <div className={`marquee marquee--${dir}`} style={{ ["--marquee-dur" as string]: `${dur}s` } as CSSProperties}>
+      <div className="marquee__track" aria-hidden>
+        {[...items, ...items].map((r, i) => (
+          <ReviewCard key={`${r.name}-${i}`} r={r} />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function HomeContent() {
   const { lang, cart, addItem, decItem, setCartOpen } = useApp();
@@ -121,6 +174,49 @@ export default function HomeContent() {
               ))}
             </div>
           )}
+        </div>
+      </div>
+
+      {/* TESTIMONIALS — 15,000+ verified reviews, looping marquee */}
+      <section style={{ background: "#F2ECE1", color: "#211812", padding: "58px 0 62px", marginTop: 10, overflow: "hidden" }}>
+        <div style={{ maxWidth: 780, margin: "0 auto", padding: "0 20px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#fff", color: "#211812", fontSize: 11.5, fontWeight: 800, padding: "7px 15px 7px 11px", borderRadius: 999, letterSpacing: ".5px" }}>
+            <GoogleG size={16} /> {t.reviewsBadge}
+          </div>
+          <h2 style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: "clamp(26px,3.6vw,40px)", fontWeight: 400, margin: 0, lineHeight: 1.12 }}>{t.reviewsTitle}</h2>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
+            <span className="num" style={{ fontSize: 30, fontWeight: 800 }}>4.8</span>
+            <span style={{ display: "inline-flex", gap: 2 }}>{[0, 1, 2, 3, 4].map((i) => <IconStar key={i} size={18} color="#FBBC04" />)}</span>
+            <span style={{ fontSize: 13, color: "#8A8072", fontWeight: 700 }}>{t.onGoogle}</span>
+          </div>
+          <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.7, color: "#6B6355", maxWidth: 560 }}>{t.reviewsSub}</p>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 16, marginTop: 34 }}>
+          <MarqueeRow items={REVIEWS.slice(0, 5)} dir="left" dur={64} />
+          <MarqueeRow items={REVIEWS.slice(5, 10)} dir="right" dur={78} />
+          <MarqueeRow items={REVIEWS.slice(10, 15)} dir="left" dur={70} />
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <div style={{ maxWidth: 820, margin: "0 auto", padding: "48px 20px 58px" }}>
+        <div style={{ textAlign: "center", marginBottom: 26 }}>
+          <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 26 }}>{t.homeFaqTitle}</div>
+          <div style={{ color: "#8A8072", fontSize: 14.5, marginTop: 6 }}>{t.homeFaqSub}</div>
+        </div>
+        <div style={{ background: "#fff", border: "1px solid #EAE1D2", borderRadius: 18, padding: "4px 22px" }}>
+          {PAGES[lang].faqs.map((f, i) => (
+            <details className="faq" key={i} style={{ borderTop: i === 0 ? "none" : "1px solid #EFE7D8" }}>
+              <summary style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, padding: "16px 2px", fontWeight: 800, fontSize: 15.5 }}>
+                <span>{f.q}</span>
+                <span className="faq-sign" style={{ flex: "none", color: RED, fontSize: 24, fontWeight: 400, lineHeight: 1 }}>+</span>
+              </summary>
+              <p style={{ margin: "0 2px 16px", color: "#5A5245", fontSize: 14, lineHeight: 1.7 }}>{f.a}</p>
+            </details>
+          ))}
+        </div>
+        <div style={{ textAlign: "center", marginTop: 22 }}>
+          <Link href="/faqs" style={{ textDecoration: "none", color: RED, fontWeight: 800, fontSize: 14.5 }}>{ur ? "تمام سوالات دیکھیں ←" : "See all FAQs →"}</Link>
         </div>
       </div>
     </>

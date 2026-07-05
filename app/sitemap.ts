@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const SITE_URL = "https://shahjeefoods.com";
+const SITE_URL = "https://shahgfood.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -12,6 +12,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["careers", 0.5, "monthly"],
     ["contact", 0.5, "monthly"],
     ["faqs", 0.6, "monthly"],
+    ["privacy", 0.3, "yearly"],
+    ["terms", 0.3, "yearly"],
   ];
   return routes.map(([path, priority, changeFrequency]) => ({
     url: path ? `${SITE_URL}/${path}` : SITE_URL,

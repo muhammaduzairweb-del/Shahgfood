@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useApp } from "@/components/AppProvider";
 import { EXTRA } from "@/lib/i18n-extra";
-import { LOGO } from "@/lib/data";
+import { LOGO, LOGO_FILTER } from "@/lib/data";
 
 const RED = "#C1272D";
 type Mode = "login" | "signup" | "forgot";
@@ -59,7 +59,7 @@ export default function AuthForms({ mode }: { mode: Mode }) {
       <div style={{ padding: "16px 20px", display: "flex", alignItems: "center", gap: 12, maxWidth: 1100, margin: "0 auto", width: "100%" }}>
         <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={LOGO} alt="Shah Jee Foods" style={{ height: 50, width: "auto", objectFit: "contain", display: "block" }} />
+          <img src={LOGO} alt="Shah G Foods" style={{ height: 50, width: "auto", objectFit: "contain", display: "block", filter: "brightness(1.02) contrast(1.12) drop-shadow(0 2px 5px rgba(0,0,0,.28))" }} />
         </Link>
         <div style={{ marginInlineStart: "auto", display: "flex", background: "#fff", border: "1px solid #E7DECD", borderRadius: 999, overflow: "hidden", padding: 2 }}>
           <div onClick={() => setLang("en")} className="num" style={{ cursor: "pointer", padding: "6px 12px", fontWeight: 800, fontSize: 12, borderRadius: 999, background: ur ? "transparent" : RED, color: ur ? "#8A8072" : "#fff" }}>EN</div>
@@ -72,7 +72,7 @@ export default function AuthForms({ mode }: { mode: Mode }) {
         <div style={{ width: "min(430px,100%)", background: "#F7F3EB", borderRadius: 26, overflow: "hidden", boxShadow: "0 40px 90px -30px rgba(60,30,10,.45)", border: "1px solid #EAE1D2" }}>
           <div style={{ background: "linear-gradient(150deg,#C1272D,#8E1B12)", padding: "30px 30px 26px", textAlign: "center", color: "#fff" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={LOGO} alt="Shah Jee Foods" style={{ height: 86, width: "auto", objectFit: "contain", margin: "0 auto", display: "block", filter: "drop-shadow(0 6px 14px rgba(0,0,0,.3))" }} />
+            <img src={LOGO} alt="Shah G Foods" style={{ height: 86, width: "auto", objectFit: "contain", margin: "0 auto", display: "block", filter: LOGO_FILTER }} />
             <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 26, marginTop: 14 }}>{title}</div>
             <div style={{ fontSize: 13.5, color: "rgba(255,255,255,.85)", marginTop: 6, lineHeight: 1.6 }}>{sub}</div>
           </div>

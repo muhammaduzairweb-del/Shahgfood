@@ -1,8 +1,8 @@
 {
-  "name": "shahjee-foods",
+  "name": "shahg-foods",
   "version": "1.0.0",
   "private": true,
-  "description": "Shah Jee Foods — desi comfort food delivery across Islamabad & Rawalpindi.",
+  "description": "Shah G Foods — desi comfort food delivery across Islamabad & Rawalpindi.",
   "scripts": {
     "dev": "next dev -H 0.0.0.0",
     "build": "next build",

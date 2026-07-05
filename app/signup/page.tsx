@@ -3,7 +3,7 @@ import AuthForms from "@/components/AuthForms";
 
 export const metadata: Metadata = {
   title: "Create account",
-  description: "Join Shah Jee Foods for faster checkout, saved addresses and live order tracking.",
+  description: "Join Shah G Foods for faster checkout, saved addresses and live order tracking.",
   robots: { index: false, follow: true },
 };
 
