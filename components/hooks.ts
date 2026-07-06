@@ -13,3 +13,28 @@ export function useWidth(): number {
   }, []);
   return w;
 }
+
+/** True when the page is scrolling down (past `reveal` px) → hide the bar; false when scrolling up. */
+export function useHideOnScroll(reveal = 80): boolean {
+  const [hidden, setHidden] = useState(false);
+  useEffect(() => {
+    let last = window.scrollY;
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        const delta = y - last;
+        // ignore tiny jitters; always show near the very top
+        if (y < reveal) setHidden(false);
+        else if (Math.abs(delta) > 6) setHidden(delta > 0);
+        last = y;
+        ticking = false;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [reveal]);
+  return hidden;
+}

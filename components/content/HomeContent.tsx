@@ -84,7 +84,7 @@ export default function HomeContent() {
   return (
     <>
       {/* HERO */}
-      <section style={{ position: "relative", overflow: "hidden", background: "linear-gradient(90deg,#5E1A86 0%,#8E1E7C 46%,#B71C66 100%)", color: "#fff" }}>
+      <section style={{ position: "relative", overflow: "hidden", background: "linear-gradient(90deg,#5E1A86 0%,#8E1E7C 46%,#B71C66 100%)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", minHeight: isPhone ? "calc(100svh - 96px)" : undefined }}>
         {SITE_IMAGES.homeHero && (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -92,7 +92,7 @@ export default function HomeContent() {
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(160deg,rgba(94,26,134,.62) 0%,rgba(142,30,124,.5) 45%,rgba(23,13,27,.7) 100%)" }} />
           </>
         )}
-        <div style={{ maxWidth: 900, margin: "0 auto", padding: "52px 20px 56px", position: "relative", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div style={{ width: "100%", maxWidth: 900, margin: "0 auto", padding: isPhone ? "40px 20px 44px" : "52px 20px 56px", position: "relative", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
           {!ur && <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(224,160,32,.95)", color: "#211812", fontSize: 11.5, fontWeight: 800, padding: "7px 15px", borderRadius: 999, letterSpacing: ".7px", marginBottom: 16 }}>{t.badge}</div>}
           <h1 style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: ur ? "clamp(26px,4.2vw,44px)" : "clamp(34px,5.4vw,60px)", lineHeight: ur ? 1.5 : 1.06, marginTop: 0, maxWidth: 800, fontWeight: 400, letterSpacing: ur ? "normal" : "-.5px" }}>{t.heroTitle}</h1>
 

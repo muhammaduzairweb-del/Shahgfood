@@ -4,6 +4,7 @@ import Link from "next/link";
 import { LOGO, LOGO_FILTER } from "@/lib/data";
 import { DICT } from "@/lib/i18n";
 import { useApp } from "@/components/AppProvider";
+import { useWidth } from "@/components/hooks";
 import { IconFacebook, IconInstagram } from "@/components/icons";
 
 const colLink: React.CSSProperties = { color: "rgba(255,255,255,.75)", textDecoration: "none", display: "block" };
@@ -16,6 +17,7 @@ export default function SiteFooter() {
   const { lang } = useApp();
   const t = DICT[lang];
   const ur = lang === "ur";
+  const isMobile = useWidth() < 820;
 
   const company: [string, string][] = [
     [t.footCompanyLinks[0], "/about"],
@@ -61,7 +63,7 @@ export default function SiteFooter() {
           <Link href="/" className="num" style={{ ...colLink, marginTop: 10 }}>shahgfood.com</Link>
         </div>
       </div>
-      <div style={{ borderTop: "1px solid rgba(255,255,255,.1)", padding: "16px 20px", display: "flex", flexWrap: "wrap", gap: "6px 18px", alignItems: "center", justifyContent: "center", fontSize: 12, color: "rgba(255,255,255,.4)" }}>
+      <div style={{ borderTop: "1px solid rgba(255,255,255,.1)", padding: isMobile ? "16px 20px 104px" : "16px 20px", display: "flex", flexWrap: "wrap", gap: "6px 18px", alignItems: "center", justifyContent: "center", fontSize: 12, color: "rgba(255,255,255,.4)" }}>
         <span className="num">© 2026 Shah G Foods · shahgfood.com</span>
         <span style={{ opacity: 0.4 }}>·</span>
         <Link href="/privacy" style={{ color: "rgba(255,255,255,.55)", textDecoration: "none" }}>{ur ? "پرائیویسی پالیسی" : "Privacy Policy"}</Link>

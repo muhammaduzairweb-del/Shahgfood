@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { BRANCHES, LOGO, LOGO_FILTER } from "@/lib/data";
 import { DICT } from "@/lib/i18n";
 import { useApp } from "@/components/AppProvider";
-import { useWidth } from "@/components/hooks";
+import { useWidth, useHideOnScroll } from "@/components/hooks";
 import { IconHome, IconMenu, IconPin, IconInfo, IconBag } from "@/components/icons";
 
 const PURPLE = "#8E1E7C";
@@ -26,11 +27,35 @@ export default function Navbar() {
   const isMobile = w < 820;
   const selBranch = BRANCHES.find((b) => b.name === branch) || BRANCHES[0];
 
+  // mobile "liquid glass" dock — icons only; the droplet slides to the active tab
+  const M_TABS: { href: string; Icon: (p: { size?: number; color?: string; strokeWidth?: number }) => React.ReactElement; match: (p: string) => boolean }[] = [
+    { href: "/", Icon: IconHome, match: (p) => p === "/" },
+    { href: "/menu", Icon: IconMenu, match: (p) => p.startsWith("/menu") },
+    { href: "/branches", Icon: IconPin, match: (p) => p.startsWith("/branches") },
+    { href: "/about", Icon: IconInfo, match: (p) => p.startsWith("/about") },
+  ];
+  const M_TAB_W = 64;
+  const mFound = M_TABS.findIndex((tb) => tb.match(pathname));
+  const mIdx = mFound < 0 ? 0 : mFound;
+
+  // dynamic hiding — bars slide away on scroll-down, return on scroll-up
+  const hidden = useHideOnScroll();
+
+  // desktop nav — liquid capsule that morphs (slides + stretches) to the active link
+  const navRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const [ind, setInd] = useState<{ left: number; width: number }>({ left: 0, width: 0 });
+  const activeNav = NAV.findIndex(([href]) => (href === "/" ? pathname === "/" : pathname.startsWith(href)));
+  useEffect(() => {
+    if (isMobile) return;
+    const el = navRefs.current[activeNav < 0 ? 0 : activeNav];
+    if (el) setInd({ left: el.offsetLeft, width: el.offsetWidth });
+  }, [activeNav, isMobile, lang, w]);
+
   return (
     <>
       <header style={{ position: "sticky", top: 0, zIndex: 50 }}>
         <div style={{ height: 4, background: "linear-gradient(90deg,#F26B21,#ED1E79)" }} />
-        <div style={{ background: "linear-gradient(90deg,#5E1A86 0%,#8E1E7C 46%,#B71C66 100%)", boxShadow: "0 6px 24px -12px rgba(94,26,134,.7)" }}>
+        <div style={{ background: "linear-gradient(90deg,rgba(94,26,134,.82) 0%,rgba(142,30,124,.74) 46%,rgba(183,28,102,.82) 100%)", backdropFilter: "blur(20px) saturate(180%)", WebkitBackdropFilter: "blur(20px) saturate(180%)", boxShadow: "0 6px 24px -12px rgba(94,26,134,.7)", borderBottom: "1px solid rgba(255,255,255,.12)" }}>
           <div style={{ maxWidth: 1280, margin: "0 auto", padding: "10px 22px", display: "flex", alignItems: "center", gap: 16 }}>
             <Link href="/" style={{ flex: "none", display: "flex", alignItems: "center" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -49,11 +74,34 @@ export default function Navbar() {
 
             <div style={{ marginInlineStart: "auto", display: "flex", alignItems: "center", gap: 12 }}>
               {!isMobile && (
-                <nav style={{ display: "flex", gap: 2 }}>
-                  {NAV.map(([href, key]) => {
+                <nav style={{ position: "relative", display: "flex", gap: 2 }}>
+                  {/* liquid capsule — morphs between tabs */}
+                  <span
+                    aria-hidden
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: ind.left,
+                      width: ind.width,
+                      height: "100%",
+                      borderRadius: 999,
+                      background: "linear-gradient(180deg,#fff,rgba(255,255,255,.9))",
+                      boxShadow: "0 4px 14px -4px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.9)",
+                      opacity: ind.width ? 1 : 0,
+                      transition: "left .45s cubic-bezier(.34,1.56,.64,1), width .45s cubic-bezier(.34,1.56,.64,1), opacity .3s",
+                    }}
+                  />
+                  {NAV.map(([href, key], i) => {
                     const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
                     return (
-                      <Link key={href} href={href} style={{ textDecoration: "none", fontWeight: 700, fontSize: 13.5, padding: "8px 14px", borderRadius: 999, color: active ? PURPLE : "rgba(255,255,255,.9)", background: active ? "#fff" : "transparent" }}>{t[key]}</Link>
+                      <Link
+                        key={href}
+                        href={href}
+                        ref={(el) => { navRefs.current[i] = el; }}
+                        style={{ position: "relative", zIndex: 1, textDecoration: "none", fontWeight: 700, fontSize: 13.5, padding: "8px 14px", borderRadius: 999, color: active ? PURPLE : "rgba(255,255,255,.9)", transition: "color .35s ease" }}
+                      >
+                        {t[key]}
+                      </Link>
                     );
                   })}
                 </nav>
@@ -85,26 +133,64 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* mobile bottom nav — floating island */}
+      {/* mobile bottom nav — iOS "liquid glass" droplet dock (icons only) */}
       {isMobile && (
-        <nav style={{ position: "fixed", bottom: 14, insetInlineStart: 14, insetInlineEnd: 14, zIndex: 60, height: 66, borderRadius: 22, background: "linear-gradient(90deg,#5E1A86 0%,#8E1E7C 48%,#B71C66 100%)", boxShadow: "0 14px 34px -8px rgba(94,26,134,.65)", display: "flex", alignItems: "center", padding: "0 6px" }}>
-          <MobileTab href="/" Icon={IconHome} label={t.home} active={pathname === "/"} />
-          <MobileTab href="/menu" Icon={IconMenu} label={t.menu} active={pathname.startsWith("/menu")} />
-          <MobileTab href="/branches" Icon={IconPin} label={t.branches} active={pathname.startsWith("/branches")} />
-          <MobileTab href="/about" Icon={IconInfo} label={t.about} active={pathname.startsWith("/about")} />
+        <nav
+          aria-label="Primary"
+          style={{
+            position: "fixed",
+            bottom: 20,
+            left: "50%",
+            transform: `translateX(-50%) scale(${hidden ? 0.82 : 1})`,
+            transformOrigin: "bottom center",
+            transition: "transform .38s cubic-bezier(.34,1.56,.64,1)",
+            direction: "ltr",
+            zIndex: 60,
+            height: 54,
+            borderRadius: 27,
+            background: "rgba(26,14,34,.4)",
+            backdropFilter: "blur(24px) saturate(180%)",
+            WebkitBackdropFilter: "blur(24px) saturate(180%)",
+            border: "1px solid rgba(255,255,255,.22)",
+            boxShadow: "0 16px 40px -10px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.3)",
+            display: "flex",
+            alignItems: "center",
+            padding: "0 10px",
+          }}
+        >
+          {/* the droplet — slides & springs to the active tab */}
+          <span
+            aria-hidden
+            style={{
+              position: "absolute",
+              top: 5,
+              left: 10 + (M_TAB_W - 44) / 2,
+              width: 44,
+              height: 44,
+              borderRadius: 15,
+              background: "linear-gradient(160deg,rgba(255,255,255,.98),rgba(255,255,255,.82))",
+              boxShadow: "0 8px 18px -5px rgba(0,0,0,.45), inset 0 1px 1px rgba(255,255,255,.9)",
+              transform: `translateX(${mIdx * M_TAB_W}px)`,
+              transition: "transform .5s cubic-bezier(.34,1.56,.64,1)",
+            }}
+          />
+          {M_TABS.map((tb, i) => {
+            const active = i === mIdx;
+            return (
+              <Link
+                key={tb.href}
+                href={tb.href}
+                aria-current={active ? "page" : undefined}
+                style={{ position: "relative", zIndex: 1, width: M_TAB_W, height: 54, display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none" }}
+              >
+                <span style={{ display: "flex", transform: active ? "scale(1.08)" : "scale(1)", transition: "transform .45s cubic-bezier(.34,1.56,.64,1)" }}>
+                  <tb.Icon size={22} color={active ? "#8E1E7C" : "#fff"} strokeWidth={2.2} />
+                </span>
+              </Link>
+            );
+          })}
         </nav>
       )}
     </>
-  );
-}
-
-function MobileTab({ href, Icon, label, active }: { href: string; Icon: (p: { size?: number; color?: string; strokeWidth?: number }) => React.ReactElement; label: string; active: boolean }) {
-  return (
-    <Link href={href} style={{ textDecoration: "none", flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
-      <div style={{ width: 46, height: 32, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", background: active ? "#fff" : "transparent", transition: "background .18s" }}>
-        <Icon size={21} color={active ? "#8E1E7C" : "#fff"} strokeWidth={2.2} />
-      </div>
-      <span style={{ fontSize: 10.5, fontWeight: 700, color: active ? "#fff" : "rgba(255,255,255,.85)" }}>{label}</span>
-    </Link>
   );
 }
