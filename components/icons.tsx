@@ -134,11 +134,26 @@ function IconCup({ size = 24, color = "currentColor", strokeWidth = 2 }: IconPro
   );
 }
 
+function IconBowl({ size = 24, color = "currentColor", strokeWidth = 2 }: IconProps) {
+  return (
+    <svg {...base(size, color, strokeWidth)}>
+      <path d="M3 11h18a9 9 0 0 1-18 0z" />
+      <path d="M7 11c0-2.2 2.2-3.5 5-3.5s5 1.3 5 3.5" />
+      <path d="M12 4.5v2" />
+    </svg>
+  );
+}
+
 const CAT_MAP: Record<CategoryKey, (p: IconProps) => React.ReactElement> = {
   rice: IconRice,
+  curry: IconBowl,
+  karahi: IconBowl,
   bbq: IconFlame,
   fast: IconBurger,
   chaat: IconSalad,
+  shakes: IconCup,
+  juice: IconCup,
+  sweets: IconBowl,
   drinks: IconCup,
 };
 

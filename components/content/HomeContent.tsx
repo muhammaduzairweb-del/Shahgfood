@@ -112,7 +112,7 @@ export default function HomeContent() {
             <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconStar size={16} color="#F7D774" /><span className="num">4.8 / 5</span></span>
             <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconScooter size={17} color="#F7D774" strokeWidth={2} /><span className="num">30–40 min</span></span>
             <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconPin size={16} color="#F7D774" strokeWidth={2.2} />35+ {t.branches}</span>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconMenu size={16} color="#F7D774" strokeWidth={2.2} /><span className="num">54</span> {t.dishesWord}</span>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconMenu size={16} color="#F7D774" strokeWidth={2.2} /><span className="num">65</span> {t.dishesWord}</span>
           </div>
         </div>
       </section>
@@ -120,7 +120,7 @@ export default function HomeContent() {
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "26px 20px 40px" }}>
         {/* SIGNATURE */}
         <div style={{ background: CHARCOAL, borderRadius: 26, overflow: "hidden", display: "flex", flexWrap: "wrap", color: "#fff", boxShadow: "0 24px 50px -30px rgba(0,0,0,.7)" }}>
-          <div style={{ flex: "1 1 360px", minHeight: 320, background: CHARCOAL, position: "relative", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ flex: "1 1 360px", minHeight: isPhone ? 190 : 320, background: CHARCOAL, position: "relative", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
             {dishImage(sig) ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={dishImage(sig)} alt={sig.name} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
@@ -128,11 +128,11 @@ export default function HomeContent() {
               <span className="num" style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 92, color: "rgba(255,255,255,.92)" }}>{mono(sig.name)}</span>
             )}
           </div>
-          <div style={{ flex: "1.2 1 360px", padding: "40px 46px", display: "flex", flexDirection: "column", justifyContent: "center", gap: 13 }}>
+          <div style={{ flex: "1.2 1 360px", padding: isPhone ? "20px 20px 22px" : "40px 46px", display: "flex", flexDirection: "column", justifyContent: "center", gap: isPhone ? 8 : 13 }}>
             <div style={{ alignSelf: "flex-start", background: "#E0A020", color: "#211812", fontSize: 11, fontWeight: 800, padding: "5px 12px", borderRadius: 20, letterSpacing: ".6px" }}>{t.featBadge}</div>
-            <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: "clamp(30px,3.8vw,44px)", lineHeight: 1.08 }}>{ur ? sig.urdu : sig.name}</div>
-            <div style={{ color: "rgba(255,255,255,.72)", fontSize: 15, lineHeight: 1.75, maxWidth: 460 }}>{t.sigSub}</div>
-            <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 8, flexWrap: "wrap" }}>
+            <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: isPhone ? 28 : "clamp(30px,3.8vw,44px)", lineHeight: 1.08 }}>{ur ? sig.urdu : sig.name}</div>
+            <div style={{ color: "rgba(255,255,255,.72)", fontSize: isPhone ? 13.5 : 15, lineHeight: isPhone ? 1.55 : 1.75, maxWidth: 460 }}>{t.sigSub}</div>
+            <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: isPhone ? 4 : 8, flexWrap: "wrap" }}>
               <span className="num" style={{ fontSize: 26, fontWeight: 800 }}>{fmt(sig.price)}</span>
               <button onClick={() => { addItem(1); setCartOpen(true); }} style={{ cursor: "pointer", border: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 15, padding: "13px 26px", borderRadius: 13, fontFamily: "inherit" }}>{t.add}</button>
             </div>

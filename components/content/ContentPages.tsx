@@ -76,7 +76,7 @@ export function AboutContent() {
 
         {/* STATS */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))", gap: 14 }}>
-          {[{ v: "35+", l: t.statBranches }, { v: "54", l: t.statDishes }, { v: "2", l: t.statCities }, { v: "Rs.180", l: ur ? sig.urdu : sig.name }].map((s, i) => (
+          {[{ v: "35+", l: t.statBranches }, { v: "65", l: t.statDishes }, { v: "2", l: t.statCities }, { v: "Rs.180", l: ur ? sig.urdu : sig.name }].map((s, i) => (
             <div key={i} style={{ ...card, textAlign: "center" }}>
               <div className="num" style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 34, color: RED }}>{s.v}</div>
               <div style={{ fontSize: 12.5, color: "#8A8072", fontWeight: 600, marginTop: 4 }}>{s.l}</div>

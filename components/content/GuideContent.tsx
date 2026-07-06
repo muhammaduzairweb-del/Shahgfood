@@ -141,6 +141,15 @@ export default function GuideContent() {
           ))}
         </div>
 
+        <h2 style={h2}>{ur ? "مزید دیکھیں" : "Explore more"}</h2>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 9 }}>
+          <Link href="/best-daal-chawal-islamabad" style={chip}>{ur ? "بہترین دال چاول" : "Best Daal Chawal"}</Link>
+          <Link href="/shah-g-near-me" style={chip}>{ur ? "قریب ترین شاخ" : "Shah G near me"}</Link>
+          <Link href="/menu" style={chip}>{ur ? "مینو اور قیمتیں" : "Menu & prices"}</Link>
+          <Link href="/shah-g-contact-number" style={chip}>{ur ? "رابطہ نمبر" : "Contact number"}</Link>
+          <Link href="/shah-g-foods-photos" style={chip}>{ur ? "تصاویر" : "Photos"}</Link>
+        </div>
+
         <div style={{ marginTop: 30, textAlign: "center" }}>
           <Link href="/menu" style={{ textDecoration: "none", color: RED, fontWeight: 800, fontSize: 15 }}>{g.seeMenu}</Link>
         </div>

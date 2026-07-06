@@ -47,6 +47,15 @@ body {
   border-radius: 10px;
 }
 
+/* fully hidden scrollbar (keeps swipe/scroll, shows no bar) */
+.no-bar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-bar::-webkit-scrollbar {
+  display: none;
+}
+
 input:focus,
 textarea:focus {
   border-color: #c1272d !important;
