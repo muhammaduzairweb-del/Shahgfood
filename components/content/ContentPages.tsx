@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { BRANCHES, MENU, SITE_IMAGES, type CategoryKey, TILE } from "@/lib/data";
+import { BRANCHES, MENU, SITE_IMAGES, type CategoryKey, TILE, branchSlug } from "@/lib/data";
 import { DICT } from "@/lib/i18n";
 import { EXTRA, PAGES } from "@/lib/i18n-extra";
 import { useApp } from "@/components/AppProvider";
@@ -124,6 +124,9 @@ export function BranchesContent() {
             <div className="num" style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 12, fontSize: 12, color: "#5A5245", fontWeight: 600 }}>
               <span>🕐 {t.hoursText}</span><span>📍 {b.dist}</span>
             </div>
+            <Link href={`/branches/${branchSlug(b.name)}`} onClick={(e) => e.stopPropagation()} style={{ display: "inline-block", marginTop: 12, textDecoration: "none", color: RED, fontWeight: 800, fontSize: 12.5 }}>
+              {t.branches === "Branches" ? `View ${b.name} page →` : `${b.name} کا صفحہ ←`}
+            </Link>
           </div>
         ))}
       </div>

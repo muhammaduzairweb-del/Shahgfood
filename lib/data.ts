@@ -243,7 +243,22 @@ export const BRANCHES: Branch[] = [
   B("Westridge", "Westridge, Rawalpindi", "10.8 km", 33.592, 72.999, "Rawalpindi"),
   B("Bahria Phase 7", "Bahria Town Phase 7, Rawalpindi", "13.8 km", 33.521, 73.103, "Rawalpindi"),
   B("DHA Phase 1", "DHA Phase 1, Rawalpindi", "12.1 km", 33.549, 73.149, "Rawalpindi"),
+  // High-demand sectors people search for (added for local SEO coverage)
+  B("G-15 Markaz", "G-15 Markaz, Islamabad", "13.2 km", 33.6318, 72.9155, "Islamabad"),
+  B("B-17", "Multi Gardens B-17, Islamabad", "20.5 km", 33.6606, 72.833, "Islamabad"),
+  B("Faisal Town", "Faisal Town, Islamabad", "9.5 km", 33.648, 72.965, "Islamabad"),
+  B("Bhara Kahu", "Bhara Kahu, Islamabad", "17.0 km", 33.7415, 73.178, "Islamabad"),
 ];
+
+/** URL-safe slug for a branch name, e.g. "F-10 Markaz" → "f-10-markaz". */
+export function branchSlug(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
+
+/** Find a branch by its slug (used by the dedicated /branches/[slug] pages). */
+export function getBranchBySlug(slug: string): Branch | undefined {
+  return BRANCHES.find((b) => branchSlug(b.name) === slug);
+}
 
 export const HOURS = "11:00 AM – 2:00 AM";
 
