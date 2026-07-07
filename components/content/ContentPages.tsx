@@ -76,7 +76,7 @@ export function AboutContent() {
 
         {/* STATS */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))", gap: 14 }}>
-          {[{ v: "35+", l: t.statBranches }, { v: "65", l: t.statDishes }, { v: "2", l: t.statCities }, { v: "Rs.180", l: ur ? sig.urdu : sig.name }].map((s, i) => (
+          {[{ v: "35+", l: t.statBranches }, { v: "92", l: t.statDishes }, { v: "2", l: t.statCities }, { v: "Rs.180", l: ur ? sig.urdu : sig.name }].map((s, i) => (
             <div key={i} style={{ ...card, textAlign: "center" }}>
               <div className="num" style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 34, color: RED }}>{s.v}</div>
               <div style={{ fontSize: 12.5, color: "#8A8072", fontWeight: 600, marginTop: 4 }}>{s.l}</div>
@@ -180,7 +180,7 @@ export function ContactContent() {
     <div style={WRAP}>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 22, alignItems: "flex-start" }}>
         <div style={{ flex: "1 1 260px", display: "flex", flexDirection: "column", gap: 14 }}>
-          {[{ icon: "📞", t: p.callTitle, v: p.callVal, href: "tel:+925111100786" }, { icon: "✉️", t: p.emailTitle, v: p.emailVal, href: "mailto:hello@shahgfood.com" }, { icon: "📍", t: p.visitTitle, v: p.visitVal }].map((c, i) => (
+          {[{ icon: "📞", t: p.callTitle, v: p.callVal, href: "tel:+923307862992" }, { icon: "✉️", t: p.emailTitle, v: p.emailVal, href: "mailto:hello@shahgfood.com" }, { icon: "📍", t: p.visitTitle, v: p.visitVal }].map((c, i) => (
             <div key={i} style={{ ...card, display: "flex", alignItems: "center", gap: 14 }}>
               <div style={{ width: 44, height: 44, borderRadius: 12, background: "#F5EEE1", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flex: "none" }}>{c.icon}</div>
               <div>

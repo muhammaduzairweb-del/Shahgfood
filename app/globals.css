@@ -137,6 +137,44 @@ textarea:focus {
   }
 }
 
+/* ===== AI-style animated search box ===== */
+.ai-search {
+  position: relative;
+  border-radius: 16px;
+  padding: 2.5px;
+  overflow: hidden;
+  isolation: isolate;
+}
+.ai-search::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 260%;
+  height: 260%;
+  transform: translate(-50%, -50%);
+  background: conic-gradient(from 0deg, #c1272d, #e0a020, #8e1e7c, #2a6bb0, #e0a020, #c1272d);
+  animation: aiSpin 5s linear infinite;
+  z-index: -1;
+}
+.ai-search:focus-within::before {
+  animation-duration: 2s;
+}
+.ai-search__inner {
+  border-radius: 13.5px;
+  background: #fff;
+}
+@keyframes aiSpin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ai-search::before {
+    animation: none;
+  }
+}
+
 /* ===== FAQ accordion ===== */
 details.faq > summary {
   list-style: none;

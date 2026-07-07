@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { BRANCHES, branchSlug } from "@/lib/data";
+import { BRANCHES, branchSlug, MENU, dishSlug } from "@/lib/data";
 
 const SITE_URL = "https://shahgfood.com";
 
@@ -22,6 +22,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["terms", 0.3, "yearly"],
     // dedicated per-branch landing pages (local SEO)
     ...BRANCHES.map((b) => [`branches/${branchSlug(b.name)}`, 0.75, "weekly"] as [string, number, MetadataRoute.Sitemap[number]["changeFrequency"]]),
+    // dedicated per-dish pages (menu SEO)
+    ...MENU.map((d) => [`menu/${dishSlug(d.name)}`, 0.6, "weekly"] as [string, number, MetadataRoute.Sitemap[number]["changeFrequency"]]),
   ];
   return routes.map(([path, priority, changeFrequency]) => ({
     url: path ? `${SITE_URL}/${path}` : SITE_URL,

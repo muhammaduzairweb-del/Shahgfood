@@ -1,6 +1,7 @@
 "use client";
 
-import { dishImage, TILE, type Dish } from "@/lib/data";
+import Link from "next/link";
+import { dishImage, dishSlug, TILE, type Dish } from "@/lib/data";
 import { mono } from "@/lib/cart";
 import type { Translation } from "@/lib/i18n";
 
@@ -10,7 +11,7 @@ export function DishCard({ d, ur, t, fmt, qty, onAdd, onDec, showDesc }: { d: Di
   const img = dishImage(d);
   return (
     <div style={{ background: "#fff", border: "1px solid rgba(0,0,0,.05)", borderRadius: 20, overflow: "hidden", boxShadow: "0 14px 30px -24px rgba(60,30,10,.6)", display: "flex", flexDirection: "column" }}>
-      <div style={{ position: "relative", aspectRatio: "1 / 1", background: img ? "#eee" : TILE[d.cat], display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+      <Link href={`/menu/${dishSlug(d.name)}`} style={{ position: "relative", aspectRatio: "1 / 1", background: img ? "#eee" : TILE[d.cat], display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", textDecoration: "none" }}>
         {img ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={img} alt={ur ? d.urdu : d.name} loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
@@ -21,12 +22,12 @@ export function DishCard({ d, ur, t, fmt, qty, onAdd, onDec, showDesc }: { d: Di
           </>
         )}
         <div style={{ position: "absolute", top: 10, insetInlineStart: 10, background: "rgba(0,0,0,.4)", backdropFilter: "blur(4px)", color: "#fff", fontSize: 10, fontWeight: 700, padding: "4px 9px", borderRadius: 20 }}>{d.p ? t.tagBest : t.tagPop}</div>
-      </div>
+      </Link>
       <div style={{ padding: "14px 15px 16px", display: "flex", flexDirection: "column", flex: 1 }}>
-        <div style={{ fontSize: 15.5, fontWeight: 800, lineHeight: 1.3 }}>{ur ? d.urdu : d.name}</div>
+        <Link href={`/menu/${dishSlug(d.name)}`} style={{ fontSize: 15.5, fontWeight: 800, lineHeight: 1.3, color: "inherit", textDecoration: "none" }}>{d.groupName ? (ur ? d.groupNameU : d.groupName) : (ur ? d.urdu : d.name)}</Link>
         {showDesc && <div style={{ fontSize: 12, color: "#8A8072", marginTop: 5, lineHeight: 1.55, minHeight: 34 }}>{ur ? d.du : d.desc}</div>}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto", paddingTop: 14, gap: 8 }}>
-          <span className="num" style={{ fontSize: 17, fontWeight: 800 }}>{fmt(d.price)}</span>
+          <span className="num" style={{ fontSize: 17, fontWeight: 800 }}>{d.group ? `${ur ? "" : "from "}${fmt(d.price)}` : fmt(d.price)}</span>
           {qty > 0 ? (
             <div style={{ display: "flex", alignItems: "center", gap: 12, background: RED, borderRadius: 12, padding: "6px 9px" }}>
               <button onClick={onDec} style={{ cursor: "pointer", border: "none", background: "transparent", color: "#fff", fontSize: 19, fontWeight: 700, width: 20, lineHeight: 1 }}>−</button>
@@ -47,19 +48,19 @@ export function DishRow({ d, ur, t, fmt, qty, onAdd, onDec }: { d: Dish; ur: boo
   const img = dishImage(d);
   return (
     <div style={{ display: "flex", gap: 12, background: "#fff", borderRadius: 16, padding: 10, border: "1px solid rgba(0,0,0,.05)", boxShadow: "0 8px 20px -18px rgba(60,30,10,.6)" }}>
-      <div style={{ flex: "none", width: 96, height: 96, borderRadius: 12, overflow: "hidden", background: img ? "#eee" : TILE[d.cat], display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+      <Link href={`/menu/${dishSlug(d.name)}`} style={{ flex: "none", width: 96, height: 96, borderRadius: 12, overflow: "hidden", background: img ? "#eee" : TILE[d.cat], display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
         {img ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={img} alt={ur ? d.urdu : d.name} loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
         ) : (
           <span className="num" style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 30, color: "rgba(255,255,255,.92)" }}>{mono(d.name)}</span>
         )}
-      </div>
+      </Link>
       <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
-        <div style={{ fontSize: 15, fontWeight: 800, lineHeight: 1.25 }}>{ur ? d.urdu : d.name}</div>
+        <Link href={`/menu/${dishSlug(d.name)}`} style={{ fontSize: 15, fontWeight: 800, lineHeight: 1.25, color: "inherit", textDecoration: "none" }}>{d.groupName ? (ur ? d.groupNameU : d.groupName) : (ur ? d.urdu : d.name)}</Link>
         <div style={{ fontSize: 12, color: "#8A8072", marginTop: 3, lineHeight: 1.45, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{ur ? d.du : d.desc}</div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto", paddingTop: 8, gap: 8 }}>
-          <span className="num" style={{ fontSize: 16, fontWeight: 800 }}>{fmt(d.price)}</span>
+          <span className="num" style={{ fontSize: 16, fontWeight: 800 }}>{d.group ? `${ur ? "" : "from "}${fmt(d.price)}` : fmt(d.price)}</span>
           {qty > 0 ? (
             <div style={{ display: "flex", alignItems: "center", gap: 11, background: RED, borderRadius: 11, padding: "5px 9px" }}>
               <button onClick={onDec} style={{ cursor: "pointer", border: "none", background: "transparent", color: "#fff", fontSize: 18, fontWeight: 700, width: 18, lineHeight: 1 }}>−</button>

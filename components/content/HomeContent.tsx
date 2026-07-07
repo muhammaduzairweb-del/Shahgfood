@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
 import { CATS, MENU, REVIEWS, SITE_IMAGES, dishImage } from "@/lib/data";
 import { DICT } from "@/lib/i18n";
@@ -15,6 +15,19 @@ import { CategoryIcon, IconStar, IconScooter, IconPin, IconMenu } from "@/compon
 import type { CategoryKey, Review } from "@/lib/data";
 
 const CHARCOAL = "#16171B"; // sampled from the Daal Chawal photo background
+const PH_IDS = [1, 4, 8, 72, 18, 55, 71, 87]; // dish ids that cycle through the search placeholder
+
+function Highlight({ text, q }: { text: string; q: string }) {
+  const i = q ? text.toLowerCase().indexOf(q.toLowerCase()) : -1;
+  if (i < 0) return <>{text}</>;
+  return (
+    <>
+      {text.slice(0, i)}
+      <mark style={{ background: "#FCE9B0", color: "inherit", borderRadius: 3, padding: "0 1px" }}>{text.slice(i, i + q.length)}</mark>
+      {text.slice(i + q.length)}
+    </>
+  );
+}
 
 // ---- Testimonial helpers -------------------------------------------------
 const AVATAR_BG = ["#C1272D", "#5E1A86", "#B71C66", "#E0A020", "#1F7A4D", "#2A6BB0"];
@@ -77,9 +90,31 @@ export default function HomeContent() {
   const isPhone = w < 640;
   const cols = w < 900 ? 2 : w < 1200 ? 3 : 4;
   const [search, setSearch] = useState("");
+  const [focused, setFocused] = useState(false);
   const sig = MENU[0];
   // "Most loved" excludes Daal Chawal (id 1) since it's already the hero legend above
   const featured = MENU.filter((d) => d.p && d.id !== 1).slice(0, 8);
+
+  // hero search — same rich matching + suggestions as the menu page
+  const query = search.trim().toLowerCase();
+  const matches = (d: (typeof MENU)[number]) => {
+    if (!query) return false;
+    const c = CATS.find((x) => x.key === d.cat);
+    const hay = `${d.name} ${d.urdu} ${d.desc} ${d.du} ${c?.label ?? ""} ${c?.lu ?? ""} ${c?.short ?? ""}`.toLowerCase();
+    return hay.includes(query);
+  };
+  const suggestions = query ? MENU.filter(matches).slice(0, 7) : [];
+  const catLabel = (key: (typeof MENU)[number]["cat"]) => {
+    const c = CATS.find((x) => x.key === key);
+    return c ? (ur ? c.lu : c.short) : "";
+  };
+  const [phIdx, setPhIdx] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setPhIdx((i) => (i + 1) % PH_IDS.length), 2200);
+    return () => clearInterval(id);
+  }, []);
+  const phDish = MENU.find((x) => x.id === PH_IDS[phIdx]);
+  const heroPlaceholder = phDish ? `${ur ? "تلاش کریں" : "Search"} "${ur ? phDish.urdu : phDish.name}"…` : t.searchPh;
 
   return (
     <>
@@ -96,11 +131,35 @@ export default function HomeContent() {
           {!ur && <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(224,160,32,.95)", color: "#211812", fontSize: 11.5, fontWeight: 800, padding: "7px 15px", borderRadius: 999, letterSpacing: ".7px", marginBottom: 16 }}>{t.badge}</div>}
           <h1 style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: ur ? "clamp(26px,4.2vw,44px)" : "clamp(34px,5.4vw,60px)", lineHeight: ur ? 1.5 : 1.06, marginTop: 0, maxWidth: 800, fontWeight: 400, letterSpacing: ur ? "normal" : "-.5px" }}>{t.heroTitle}</h1>
 
-          <form onSubmit={(e) => { e.preventDefault(); router.push(`/menu?q=${encodeURIComponent(search.trim())}`); }} style={{ background: "#fff", borderRadius: 16, display: "flex", alignItems: "center", gap: 8, padding: "8px 8px 8px 16px", marginTop: 26, width: "min(560px,100%)", boxShadow: "0 24px 44px -22px rgba(0,0,0,.55)" }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B0A692" strokeWidth="2.2" strokeLinecap="round"><circle cx="11" cy="11" r="7" /><path d="M21 21l-3.5-3.5" /></svg>
-            <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t.searchPh} style={{ border: "none", outline: "none", flex: 1, fontSize: 15.5, fontFamily: "inherit", background: "transparent", color: "#211D18" }} />
-            <button type="submit" aria-label={t.searchPh} style={{ cursor: "pointer", border: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 14, fontFamily: "inherit", padding: "11px 20px", borderRadius: 12, flex: "none" }}>{ur ? "تلاش" : "Search"}</button>
-          </form>
+          <div style={{ position: "relative", width: "min(620px,100%)", marginTop: 26 }}>
+            <div className="ai-search" style={{ borderRadius: 18, boxShadow: "0 24px 44px -22px rgba(0,0,0,.55)" }}>
+              <form onSubmit={(e) => { e.preventDefault(); router.push(`/menu?q=${encodeURIComponent(search.trim())}`); }} className="ai-search__inner" style={{ background: "#fff", borderRadius: 15, display: "flex", alignItems: "center", gap: 8, padding: "8px 8px 8px 16px" }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B0A692" strokeWidth="2.2" strokeLinecap="round"><circle cx="11" cy="11" r="7" /><path d="M21 21l-3.5-3.5" /></svg>
+                <input value={search} onChange={(e) => setSearch(e.target.value)} onFocus={() => setFocused(true)} onBlur={() => setTimeout(() => setFocused(false), 150)} placeholder={heroPlaceholder} style={{ border: "none", outline: "none", flex: 1, fontSize: 15.5, fontFamily: "inherit", background: "transparent", color: "#211D18" }} />
+                <button type="submit" aria-label={ur ? "تلاش" : "Search"} style={{ cursor: "pointer", border: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 14, fontFamily: "inherit", padding: "11px 20px", borderRadius: 12, flex: "none" }}>{ur ? "تلاش" : "Search"}</button>
+              </form>
+            </div>
+
+            {focused && query && (
+              <div style={{ position: "absolute", top: "calc(100% + 8px)", left: 0, right: 0, background: "#fff", border: "1px solid #EAE1D2", borderRadius: 14, boxShadow: "0 26px 50px -18px rgba(0,0,0,.5)", overflow: "hidden", zIndex: 20, textAlign: ur ? "right" : "left" }}>
+                {suggestions.length > 0 ? (
+                  suggestions.map((s, i) => (
+                    <button
+                      key={s.id}
+                      onMouseDown={(e) => { e.preventDefault(); router.push(`/menu?q=${encodeURIComponent(ur ? s.urdu : s.name)}`); }}
+                      style={{ width: "100%", textAlign: ur ? "right" : "left", cursor: "pointer", border: "none", background: "transparent", padding: "11px 15px", display: "flex", alignItems: "center", gap: 11, borderTop: i === 0 ? "none" : "1px solid #F4EEE2", color: "#211D18" }}
+                    >
+                      <span style={{ color: "#B0A692", fontSize: 14, flex: "none" }}>⌕</span>
+                      <span style={{ flex: 1, fontSize: 14.5, fontWeight: 600 }}><Highlight text={ur ? s.urdu : s.name} q={query} /></span>
+                      <span className="num" style={{ fontSize: 12, color: "#8A8072", flex: "none" }}>{catLabel(s.cat)} · {fmt(s.price)}</span>
+                    </button>
+                  ))
+                ) : (
+                  <div style={{ padding: "14px 16px", fontSize: 14, color: "#8A8072" }}>{ur ? "کوئی ڈش نہیں ملی۔" : "No matches — try another word."}</div>
+                )}
+              </div>
+            )}
+          </div>
 
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginTop: 18 }}>
             <Link href="/menu" style={{ textDecoration: "none", background: "#fff", color: RED, fontWeight: 800, fontSize: 16, padding: "15px 30px", borderRadius: 14, boxShadow: "0 16px 32px -14px rgba(0,0,0,.5)" }}>{t.orderNow}</Link>
@@ -112,7 +171,7 @@ export default function HomeContent() {
             <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconStar size={16} color="#F7D774" /><span className="num">4.8 / 5</span></span>
             <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconScooter size={17} color="#F7D774" strokeWidth={2} /><span className="num">30–40 min</span></span>
             <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconPin size={16} color="#F7D774" strokeWidth={2.2} />35+ {t.branches}</span>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconMenu size={16} color="#F7D774" strokeWidth={2.2} /><span className="num">65</span> {t.dishesWord}</span>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconMenu size={16} color="#F7D774" strokeWidth={2.2} /><span className="num">92</span> {t.dishesWord}</span>
           </div>
         </div>
       </section>

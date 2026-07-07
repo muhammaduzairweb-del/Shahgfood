@@ -18,7 +18,7 @@ export interface LegalDoc {
 
 const COMPANY = "Shah G Foods";
 const EMAIL = "hello@shahgfood.com";
-const PHONE = "+92 51 111 000 786";
+const PHONE = "+92 330 786 2992";
 const OFFICE = "F-10/4 Markaz, Islamabad, Pakistan";
 const UPDATED_EN = "Last updated: 5 July 2026";
 const UPDATED_UR = "آخری اپ ڈیٹ: 5 جولائی 2026";

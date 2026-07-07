@@ -42,7 +42,7 @@ const EN = {
     {
       h: "Why Shah G Foods",
       body: [
-        "Freshly cooked, hand-seasoned food at prices anyone can afford, served fast and hot across 40+ branches in Islamabad and Rawalpindi. Open daily from 11:00 AM to 2:00 AM, with home delivery usually within 30–40 minutes and live order tracking so you always know where your rider is.",
+        "Freshly cooked, hand-seasoned food at prices anyone can afford, served fast and hot across 40+ branches in Islamabad and Rawalpindi. Open daily from 8:00 AM to 2:00 AM, with home delivery usually within 30–40 minutes and live order tracking so you always know where your rider is.",
       ],
     },
   ] as Sec[],
@@ -86,7 +86,7 @@ const UR = {
     {
       h: "شاہ جی فوڈز ہی کیوں",
       body: [
-        "تازہ، ہاتھ سے مصالحہ لگا کھانا ایسی قیمت پر جو سب کی پہنچ میں ہو، اسلام آباد اور راولپنڈی کی 40+ شاخوں پر گرم گرم۔ روزانہ صبح 11 سے رات 2 بجے تک، ڈیلیوری عموماً 30–40 منٹ میں اور لائیو ٹریکنگ کے ساتھ۔",
+        "تازہ، ہاتھ سے مصالحہ لگا کھانا ایسی قیمت پر جو سب کی پہنچ میں ہو، اسلام آباد اور راولپنڈی کی 40+ شاخوں پر گرم گرم۔ روزانہ صبح 8 سے رات 2 بجے تک، ڈیلیوری عموماً 30–40 منٹ میں اور لائیو ٹریکنگ کے ساتھ۔",
       ],
     },
   ] as Sec[],

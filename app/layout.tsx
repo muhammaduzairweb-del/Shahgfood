@@ -4,6 +4,7 @@ import "./globals.css";
 import { AppProvider } from "@/components/AppProvider";
 import Overlays from "@/components/Overlays";
 import DevBanner from "@/components/DevBanner";
+import { BRANCHES, branchSlug } from "@/lib/data";
 
 const SITE_URL = "https://shahgfood.com";
 const DESCRIPTION =
@@ -88,25 +89,72 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-// Restaurant structured data (JSON-LD) for rich results
+// Local-business structured data (JSON-LD) — helps Google identify & rank the real site
+const PHONE = "+923307862992";
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Restaurant",
+  "@id": `${SITE_URL}/#restaurant`,
   name: "Shah G Foods",
+  alternateName: ["Shah G Food", "Shah Gee Foods"],
   description: DESCRIPTION,
   url: SITE_URL,
   image: `${SITE_URL}/Shahglogo.png`,
   logo: `${SITE_URL}/Shahglogo.png`,
+  telephone: PHONE,
   servesCuisine: ["Pakistani", "Desi", "BBQ", "Fast Food"],
-  priceRange: "Rs. 20 – Rs. 1550",
-  openingHours: "Mo-Su 11:00-02:00",
-  areaServed: ["Islamabad", "Rawalpindi"],
+  priceRange: "Rs 100–2000",
+  currenciesAccepted: "PKR",
+  paymentAccepted: "Cash, Credit Card, Debit Card",
+  openingHours: "Mo-Su 08:00-02:00",
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      opens: "08:00",
+      closes: "02:00",
+    },
+  ],
+  areaServed: [
+    { "@type": "City", name: "Islamabad" },
+    { "@type": "City", name: "Rawalpindi" },
+  ],
   address: {
     "@type": "PostalAddress",
-    streetAddress: "F-10/4",
+    streetAddress: "F-10/4 Markaz",
     addressLocality: "Islamabad",
     addressRegion: "Islamabad Capital Territory",
+    postalCode: "44000",
     addressCountry: "PK",
+  },
+  geo: { "@type": "GeoCoordinates", latitude: 33.6975, longitude: 73.0119 },
+  hasMenu: `${SITE_URL}/menu`,
+  acceptsReservations: false,
+  // every branch as its own location so Google knows all of them
+  department: BRANCHES.map((b) => ({
+    "@type": "Restaurant",
+    name: `Shah G Foods ${b.name}`,
+    image: `${SITE_URL}/Shahglogo.png`,
+    url: `${SITE_URL}/branches/${branchSlug(b.name)}`,
+    telephone: PHONE,
+    servesCuisine: ["Pakistani", "Desi", "BBQ"],
+    priceRange: "Rs 100–2000",
+    openingHours: "Mo-Su 08:00-02:00",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: b.address,
+      addressLocality: b.city,
+      addressRegion: b.city === "Rawalpindi" ? "Punjab" : "Islamabad Capital Territory",
+      addressCountry: "PK",
+    },
+    geo: { "@type": "GeoCoordinates", latitude: b.lat, longitude: b.lng },
+  })),
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.8",
+    reviewCount: "15000",
+    bestRating: "5",
+    worstRating: "1",
   },
   sameAs: ["https://www.facebook.com/shah.g.foods.627153/", "https://www.instagram.com/shahgfoodsofficial/"],
 };

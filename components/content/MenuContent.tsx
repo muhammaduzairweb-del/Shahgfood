@@ -9,6 +9,21 @@ import { useWidth } from "@/components/hooks";
 import { DishCard, DishRow, RED } from "@/components/ui";
 import PageHero from "@/components/PageHero";
 
+// dish ids whose names cycle through the search placeholder
+const PH_IDS = [1, 4, 8, 72, 18, 55, 71, 87];
+
+function Highlight({ text, q }: { text: string; q: string }) {
+  const i = q ? text.toLowerCase().indexOf(q.toLowerCase()) : -1;
+  if (i < 0) return <>{text}</>;
+  return (
+    <>
+      {text.slice(0, i)}
+      <mark style={{ background: "#FCE9B0", color: "inherit", borderRadius: 3, padding: "0 1px" }}>{text.slice(i, i + q.length)}</mark>
+      {text.slice(i + q.length)}
+    </>
+  );
+}
+
 function CategoryBanner({ c, ur, count, h, imgW }: { c: Category; ur: boolean; count: number; h: number; imgW: string }) {
   const img = MENU.filter((d) => d.cat === c.key).map(dishImage).find(Boolean);
   const word = ur ? c.lu : c.label;
@@ -48,6 +63,7 @@ export default function MenuContent() {
 
   const [cat, setCat] = useState<"all" | CategoryKey>("all");
   const [search, setSearch] = useState("");
+  const [focused, setFocused] = useState(false);
 
   // read ?cat= and ?q= from the URL on mount
   useEffect(() => {
@@ -59,11 +75,31 @@ export default function MenuContent() {
   }, []);
 
   const query = search.trim().toLowerCase();
-  const matches = (d: (typeof MENU)[number]) => !query || d.name.toLowerCase().includes(query) || d.urdu.includes(search.trim());
+  // search across name, urdu, description AND category — so "rice", "spicy", "cold" etc. all work
+  const matches = (d: (typeof MENU)[number]) => {
+    if (!query) return true;
+    const c = CATS.find((x) => x.key === d.cat);
+    const hay = `${d.name} ${d.urdu} ${d.desc} ${d.du} ${c?.label ?? ""} ${c?.lu ?? ""} ${c?.short ?? ""}`.toLowerCase();
+    return hay.includes(query);
+  };
+  const suggestions = query ? MENU.filter((d) => matches(d) && (!d.group || d.primary)).slice(0, 8) : [];
+  const catLabel = (key: CategoryKey) => {
+    const c = CATS.find((x) => x.key === key);
+    return c ? (ur ? c.lu : c.short) : "";
+  };
+
+  // rotating placeholder that shows real dish names
+  const [phIdx, setPhIdx] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setPhIdx((i) => (i + 1) % PH_IDS.length), 2200);
+    return () => clearInterval(id);
+  }, []);
+  const phDish = MENU.find((x) => x.id === PH_IDS[phIdx]);
+  const placeholder = phDish ? `${ur ? "تلاش کریں" : "Search"} "${ur ? phDish.urdu : phDish.name}"…` : t.searchPh;
 
   const shownCats = cat === "all" ? CATS.filter((c) => c.key !== "all") : CATS.filter((c) => c.key === cat);
   const sections = shownCats
-    .map((c) => ({ c, items: MENU.filter((d) => d.cat === c.key && matches(d)) }))
+    .map((c) => ({ c, items: MENU.filter((d) => d.cat === c.key && matches(d) && (!d.group || d.primary)) }))
     .filter((s) => s.items.length > 0);
   const total = sections.reduce((n, s) => n + s.items.length, 0);
 
@@ -73,9 +109,43 @@ export default function MenuContent() {
 
       {/* search — normal width, scrolls away */}
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 20px 4px" }}>
-        <div style={{ flex: "1 1 260px", maxWidth: 420, background: "#fff", border: "1px solid #EAE1D2", borderRadius: 14, display: "flex", alignItems: "center", gap: 10, padding: "12px 15px" }}>
-          <span style={{ color: "#B0A692", fontSize: 17 }}>⌕</span>
-          <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t.searchPh} style={{ border: "none", outline: "none", flex: 1, fontSize: 14, fontFamily: "inherit", background: "transparent" }} />
+        <div style={{ position: "relative", maxWidth: 640, margin: "0 auto" }}>
+          <div className="ai-search">
+            <div className="ai-search__inner" style={{ display: "flex", alignItems: "center", gap: 10, padding: "13px 16px" }}>
+              <span style={{ color: RED, fontSize: 17, display: "flex" }}>⌕</span>
+              <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onFocus={() => setFocused(true)}
+                onBlur={() => setTimeout(() => setFocused(false), 150)}
+                placeholder={placeholder}
+                style={{ border: "none", outline: "none", flex: 1, fontSize: 15, fontFamily: "inherit", background: "transparent", color: "#211D18" }}
+              />
+              {search && (
+                <button onClick={() => setSearch("")} aria-label="Clear" style={{ cursor: "pointer", border: "none", background: "#F2ECE1", color: "#8A8072", width: 24, height: 24, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, lineHeight: 1, flex: "none" }}>×</button>
+              )}
+            </div>
+          </div>
+
+          {focused && query && (
+            <div style={{ position: "absolute", top: "calc(100% + 8px)", left: 0, right: 0, background: "#fff", border: "1px solid #EAE1D2", borderRadius: 14, boxShadow: "0 22px 44px -18px rgba(0,0,0,.4)", overflow: "hidden", zIndex: 45 }}>
+              {suggestions.length > 0 ? (
+                suggestions.map((s, i) => (
+                  <button
+                    key={s.id}
+                    onMouseDown={(e) => { e.preventDefault(); setSearch(ur ? s.urdu : s.name); setFocused(false); }}
+                    style={{ width: "100%", textAlign: ur ? "right" : "left", cursor: "pointer", border: "none", background: "transparent", padding: "11px 15px", display: "flex", alignItems: "center", gap: 11, borderTop: i === 0 ? "none" : "1px solid #F4EEE2" }}
+                  >
+                    <span style={{ color: "#B0A692", fontSize: 14, flex: "none" }}>⌕</span>
+                    <span style={{ flex: 1, fontSize: 14.5, fontWeight: 600, color: "#211D18" }}><Highlight text={ur ? s.urdu : s.name} q={query} /></span>
+                    <span className="num" style={{ fontSize: 12, color: "#8A8072", flex: "none" }}>{catLabel(s.cat)} · {fmt(s.price)}</span>
+                  </button>
+                ))
+              ) : (
+                <div style={{ padding: "14px 16px", fontSize: 14, color: "#8A8072" }}>{ur ? "کوئی ڈش نہیں ملی۔" : "No matches — try another word."}</div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 

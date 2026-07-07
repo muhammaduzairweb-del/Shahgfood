@@ -36,7 +36,8 @@ export default function Navbar() {
   ];
   const M_TAB_W = 64;
   const mFound = M_TABS.findIndex((tb) => tb.match(pathname));
-  const mIdx = mFound < 0 ? 0 : mFound;
+  const mActive = mFound >= 0; // false on pages not in the dock (privacy/terms/contact…)
+  const mIdx = mActive ? mFound : 0;
 
   // dynamic hiding — bars slide away on scroll-down, return on scroll-up
   const hidden = useHideOnScroll();
@@ -47,7 +48,8 @@ export default function Navbar() {
   const activeNav = NAV.findIndex(([href]) => (href === "/" ? pathname === "/" : pathname.startsWith(href)));
   useEffect(() => {
     if (isMobile) return;
-    const el = navRefs.current[activeNav < 0 ? 0 : activeNav];
+    if (activeNav < 0) { setInd({ left: 0, width: 0 }); return; } // no nav item active (e.g. privacy/terms) → hide pill
+    const el = navRefs.current[activeNav];
     if (el) setInd({ left: el.offsetLeft, width: el.offsetWidth });
   }, [activeNav, isMobile, lang, w]);
 
@@ -171,11 +173,12 @@ export default function Navbar() {
               background: "linear-gradient(160deg,rgba(255,255,255,.98),rgba(255,255,255,.82))",
               boxShadow: "0 8px 18px -5px rgba(0,0,0,.45), inset 0 1px 1px rgba(255,255,255,.9)",
               transform: `translateX(${mIdx * M_TAB_W}px)`,
-              transition: "transform .5s cubic-bezier(.34,1.56,.64,1)",
+              opacity: mActive ? 1 : 0,
+              transition: "transform .5s cubic-bezier(.34,1.56,.64,1), opacity .25s",
             }}
           />
           {M_TABS.map((tb, i) => {
-            const active = i === mIdx;
+            const active = mActive && i === mIdx;
             return (
               <Link
                 key={tb.href}

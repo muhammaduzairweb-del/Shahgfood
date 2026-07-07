@@ -10,8 +10,8 @@ import PageHero from "@/components/PageHero";
 
 const RED = "#C1272D";
 const CHARCOAL = "#16171B";
-const PHONE_DISPLAY = "+92 51 111 000 786";
-const PHONE_TEL = "+925111100786";
+const PHONE_DISPLAY = "+92 330 786 2992";
+const PHONE_TEL = "+923307862992";
 
 const h2: React.CSSProperties = { fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 25, fontWeight: 400, margin: "34px 0 12px" };
 const chip: React.CSSProperties = { textDecoration: "none", background: "#fff", border: "1px solid #EAE1D2", borderRadius: 999, padding: "8px 15px", fontSize: 13, fontWeight: 700, color: "#4A4238" };

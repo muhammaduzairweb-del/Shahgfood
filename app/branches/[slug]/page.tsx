@@ -34,11 +34,11 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     "@type": "Restaurant",
     name: `Shah G Foods ${b.name}`,
     servesCuisine: ["Pakistani", "Desi", "BBQ"],
-    priceRange: "Rs 1–1,000",
+    priceRange: "Rs 100–2000",
     url: `${SITE_URL}/branches/${slug}`,
     address: { "@type": "PostalAddress", streetAddress: b.address, addressLocality: b.city, addressRegion: b.city === "Rawalpindi" ? "Punjab" : "Islamabad Capital Territory", addressCountry: "PK" },
     geo: { "@type": "GeoCoordinates", latitude: b.lat, longitude: b.lng },
-    openingHours: "Mo-Su 11:00-02:00",
+    openingHours: "Mo-Su 08:00-02:00",
   };
 
   return (

@@ -149,6 +149,7 @@ const CAT_MAP: Record<CategoryKey, (p: IconProps) => React.ReactElement> = {
   curry: IconBowl,
   karahi: IconBowl,
   bbq: IconFlame,
+  breakfast: IconBowl,
   fast: IconBurger,
   chaat: IconSalad,
   shakes: IconCup,

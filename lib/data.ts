@@ -5,7 +5,7 @@ export const LOGO = "/Shahglogo.png";
 // Shared filter so the gold wordmark reads clearly on both dark and light backgrounds.
 export const LOGO_FILTER = "brightness(1.15) contrast(1.05) drop-shadow(0 2px 6px rgba(0,0,0,.45))";
 
-export type CategoryKey = "rice" | "curry" | "karahi" | "bbq" | "fast" | "chaat" | "shakes" | "juice" | "sweets" | "drinks";
+export type CategoryKey = "rice" | "curry" | "karahi" | "bbq" | "breakfast" | "fast" | "chaat" | "shakes" | "juice" | "sweets" | "drinks";
 
 export interface Dish {
   id: number;
@@ -17,6 +17,14 @@ export interface Dish {
   du: string; // urdu description
   p: boolean; // popular / featured
   img?: string; // real photo URL (filled in later); falls back to gradient tile
+  // ----- variants (e.g. Half/Full, piece counts). Collapsed on the menu, chosen on the dish page -----
+  group?: string; // variants that share a group are one item on the menu
+  groupName?: string; // clean name shown on the menu for the whole group
+  groupNameU?: string;
+  variant?: string; // e.g. "Half", "Full", "3 Pcs"
+  variantU?: string;
+  serves?: string; // e.g. "1–2", "3–4"
+  primary?: boolean; // the variant shown on the menu (usually the smallest)
 }
 
 // ===== Dish photos =====
@@ -28,11 +36,14 @@ export const DISH_IMAGES: Record<number, string> = {
   2: "/Chana Chawel.jpg",
   3: "/Banu Beef Pulao.jpg",
   4: "/chicken Biryani.jpg",
-  5: "/Chicken Achari Handi.jpg",
-  6: "/White Handi.jpg",
-  7: "/Mutton Handi.jpg",
-  8: "/Beef Karahi.jpg",
-  9: "/Mutton Karahi.jpg",
+  5: "/Chicken Achari Handi.jpg", // Chicken Karahi (Full)
+  6: "/Chicken Achari Handi.jpg", // Chicken Karahi (Half)
+  7: "/Beef Karahi.jpg", // Chicken Karahi Desi (Full)
+  8: "/Beef Karahi.jpg", // Chicken Karahi Desi (Half)
+  9: "/Mutton Karahi.jpg", // Mutton Karahi (Full)
+  91: "/Mutton Karahi.jpg", // Mutton Karahi (Half)
+  92: "/BBQ Chicken Karahi.jpg", // BBQ Chicken Karahi (Full)
+  93: "/BBQ Chicken Karahi.jpg", // BBQ Chicken Karahi (Half)
   10: "/Daal Fry.jpg",
   11: "/Chana Masala.jpg",
   12: "/Qeema.jpg",
@@ -91,6 +102,33 @@ export const DISH_IMAGES: Record<number, string> = {
   63: "/Carrot_juice_in_glass_2K_202607070202.jpeg",
   64: "/Fresh_pomegranate_juice_in_glass_202607070200.jpeg",
   65: "/Strawberry_juice_in_glass_2K_202607070201.jpeg",
+  // Breads & Tandoor
+  66: "/Hot_kulcha_with_butter_plate_202607071314.jpeg",
+  67: "/Roghni naan.jpeg",
+  68: "/Hot_naan_on_ceramic_plate_202607071316.jpeg",
+  71: "/Crispy_golgappay_with_chutneys.jpeg",
+  // Rice, Curry, Sides & Karahi
+  72: "/Haleem_chawal_in_ceramic_bowl_202607071318.jpeg",
+  73: "/Chicken_haleem_in_ceramic_bowl_202607071319.jpeg",
+  74: "/Creamy_dal_maash_in_bowl_202607071319.jpeg",
+  75: "/Lobia_curry_in_ceramic_bowl_202607071321.jpeg",
+  76: "/Fry_gosht_in_ceramic_bowl_202607071322.jpeg",
+  77: "/Green_saag_in_ceramic_bowl_202607071323.jpeg",
+  78: "/Karhi_pakora_in_ceramic_bowl_202607071323.jpeg",
+  79: "/Fresh_raita_in_ceramic_bowl_202607071324.jpeg",
+  80: "/Fresh_salad_in_white_plate_202607071325.jpeg",
+  // BBQ / Karahi / Breakfast / Tea (new photos)
+  81: "/Shami Kabab.jpg",
+  82: "/Tawa Mix Karahi.jpg",
+  83: "/Plain Egg.jpg",
+  84: "/Plain Yogurt Plate.jpg",
+  85: "/Egg Omelet.jpg",
+  86: "/Fried Egg.jpg",
+  87: "/Aalo PAratha.jpg",
+  88: "/Boti Fry.jpg",
+  89: "/Chicken Kabab Fry.jpg",
+  94: "/Chicken Kabab Fry.jpg",
+  90: "/Green Tea.jpg",
 };
 
 // ===== Editable site image slots =====
@@ -132,6 +170,7 @@ export const TILE: Record<CategoryKey, string> = {
   curry: "linear-gradient(140deg,#C56A1A,#8a410c)",
   karahi: "linear-gradient(140deg,#9E1B2F,#5f1018)",
   bbq: "linear-gradient(140deg,#8E1B12,#5f120b)",
+  breakfast: "linear-gradient(140deg,#C98A2B,#8a5a14)",
   fast: "linear-gradient(140deg,#E0821C,#B5560F)",
   chaat: "linear-gradient(140deg,#4A7C2E,#2f5a1a)",
   shakes: "linear-gradient(140deg,#B7318C,#6E1A86)",
@@ -152,83 +191,150 @@ const M = (
 ): Dish => ({ id, name, urdu, cat, price, desc, du, p: !!p });
 
 export const MENU: Dish[] = [
-  M(1, "Daal Chawal", "دال چاول", "rice", 180, "Signature lentils over fluffy rice", "نرم چاول پر خاص دال", true),
-  M(2, "Chana Chawal", "چنا چاول", "rice", 200, "Spiced chickpeas over rice", "مصالحہ دار چنے چاول کے ساتھ"),
-  M(3, "Bannu Beef Pulao", "بنوں بیف پلاؤ", "rice", 350, "Aromatic Bannu-style beef pulao", "بنوں طرز کا خوشبودار بیف پلاؤ", true),
-  M(4, "Chicken Biryani", "چکن بریانی", "rice", 320, "Classic spicy chicken biryani", "روایتی مصالحہ دار چکن بریانی", true),
-  M(5, "Chicken Achari Handi", "چکن اچاری ہانڈی", "karahi", 780, "Tangy pickle-spiced chicken · half", "اچار کے مصالحے والی چکن ہانڈی · ہاف"),
-  M(6, "White Handi", "وائٹ ہانڈی", "karahi", 820, "Creamy white chicken handi · half", "کریمی وائٹ چکن ہانڈی · ہاف"),
-  M(7, "Mutton Handi", "مٹن ہانڈی", "karahi", 1450, "Slow-cooked mutton handi · half", "دم پر پکی مٹن ہانڈی · ہاف"),
-  M(8, "Beef Karahi", "بیف کڑاہی", "karahi", 950, "Tomato beef karahi · half", "ٹماٹر والی بیف کڑاہی · ہاف", true),
-  M(9, "Mutton Karahi", "مٹن کڑاہی", "karahi", 1550, "Tender mutton karahi · half", "نرم مٹن کڑاہی · ہاف"),
-  M(10, "Daal Fry", "دال فرائی", "curry", 260, "Tempered yellow daal", "بگھار والی زرد دال"),
-  M(11, "Chana Masala", "چنا مصالحہ", "curry", 240, "Spiced chickpea curry", "مصالحہ دار چنے"),
-  M(12, "Qeema", "قیمہ", "curry", 460, "Minced beef masala", "بھنا ہوا بیف قیمہ"),
-  M(13, "Aloo Palak", "آلو پالک", "curry", 260, "Potato & spinach curry", "آلو اور پالک کا سالن"),
-  M(14, "Mix Vegetable", "مکس سبزی", "curry", 260, "Seasonal mixed vegetables", "موسمی ملی جلی سبزیاں"),
-  M(15, "Anda Chana", "انڈا چنا", "curry", 230, "Egg & chickpea curry", "انڈا اور چنے کا سالن"),
-  M(16, "Chicken Tikka (Leg)", "چکن تکہ (لیگ)", "bbq", 280, "Charcoal-grilled leg piece", "کوئلوں پر بھنی ران", true),
-  M(17, "Chicken Tikka (Chest)", "چکن تکہ (چیسٹ)", "bbq", 300, "Charcoal-grilled chest piece", "کوئلوں پر بھنا سینہ"),
-  M(18, "Seekh Kebab", "سیخ کباب", "bbq", 400, "Beef seekh kebab · 4 pcs", "بیف سیخ کباب · 4 عدد"),
-  M(19, "Malai Boti", "ملائی بوٹی", "bbq", 460, "Creamy grilled chicken boti", "کریمی گرلڈ چکن بوٹی", true),
-  M(20, "Chicken Malai Tikka", "چکن ملائی تکہ", "bbq", 320, "Soft, mild malai tikka", "نرم ملائی تکہ"),
-  M(21, "Reshmi Kebab", "ریشمی کباب", "bbq", 420, "Silky smooth chicken kebab", "ریشمی چکن کباب"),
-  M(22, "Chicken Wings", "چکن ونگز", "bbq", 360, "Grilled spiced wings · 6 pcs", "مصالحہ دار گرلڈ ونگز · 6 عدد"),
-  M(23, "Tandoori Naan", "تندوری نان", "bbq", 40, "Fresh clay-oven naan", "تازہ تندوری نان"),
-  M(24, "Roti", "روٹی", "bbq", 20, "Tandoori roti", "تندوری روٹی"),
-  M(25, "Garlic Naan", "گارلک نان", "bbq", 90, "Buttery garlic naan", "مکھن گارلک نان"),
-  M(26, "Chicken Paratha Roll", "چکن پراٹھا رول", "fast", 250, "Chicken in a flaky paratha", "پراٹھے میں چکن رول", true),
-  M(27, "Beef Paratha Roll", "بیف پراٹھا رول", "fast", 280, "Beef in a flaky paratha", "پراٹھے میں بیف رول"),
-  M(28, "Zinger Burger", "زنگر برگر", "fast", 350, "Crispy zinger fillet burger", "کرسپی زنگر برگر", true),
-  M(29, "Zinger Cheese Burger", "زنگر چیز برگر", "fast", 400, "Zinger loaded with cheese", "چیز والا زنگر برگر"),
-  M(30, "Egg Shami Cheese Burger", "انڈا شامی چیز برگر", "fast", 300, "Shami, egg & cheese burger", "شامی، انڈا اور چیز برگر"),
-  M(31, "Afghani Burger", "افغانی برگر", "fast", 320, "Stuffed with fries & sausage", "فرائز اور ساسیج والا برگر", true),
-  M(32, "Chicken Cheese Roll", "چکن چیز رول", "fast", 300, "Cheesy grilled chicken roll", "چیزی چکن رول"),
-  M(33, "Chicken Shawarma", "چکن شوارما", "fast", 250, "Loaded chicken shawarma", "بھرپور چکن شوارما"),
-  M(34, "Loaded Fries", "لوڈڈ فرائز", "fast", 300, "Fries with sauces & chicken", "ساس اور چکن والی فرائز"),
-  M(35, "Chicken Nuggets", "چکن نگٹس", "fast", 350, "Crispy nuggets · 6 pcs", "کرسپی نگٹس · 6 عدد"),
-  M(36, "Club Sandwich", "کلب سینڈوچ", "fast", 320, "Triple-decker club sandwich", "ٹرپل ڈیکر کلب سینڈوچ"),
-  M(37, "Dahi Bhallay", "دہی بھلے", "chaat", 200, "Lentil dumplings in yogurt", "دہی میں بھلے", true),
-  M(38, "Samosa Chaat", "سموسہ چاٹ", "chaat", 180, "Crushed samosa chaat", "کرش سموسہ چاٹ"),
-  M(39, "Mix Chaat", "مکس چاٹ", "chaat", 220, "Everything-in chaat", "ملی جلی چاٹ"),
-  M(40, "Papri Chaat", "پاپڑی چاٹ", "chaat", 200, "Crispy papri chaat", "کرسپی پاپڑی چاٹ"),
-  M(41, "Chana Chaat", "چنا چاٹ", "chaat", 180, "Tangy chickpea chaat", "چٹ پٹی چنا چاٹ"),
-  M(42, "Fruit Chaat", "فروٹ چاٹ", "chaat", 200, "Fresh seasonal fruit chaat", "تازہ موسمی فروٹ چاٹ"),
+  M(1, "Daal Chawal", "دال چاول", "rice", 216, "Signature lentils over fluffy rice", "نرم چاول پر خاص دال", true),
+  M(2, "Chana Chawal", "چنا چاول", "rice", 240, "Spiced chickpeas over rice", "مصالحہ دار چنے چاول کے ساتھ"),
+  M(3, "Bannu Beef Pulao", "بنوں بیف پلاؤ", "rice", 420, "Aromatic Bannu-style beef pulao", "بنوں طرز کا خوشبودار بیف پلاؤ", true),
+  M(4, "Chicken Biryani", "چکن بریانی", "rice", 336, "Classic spicy chicken biryani", "روایتی مصالحہ دار چکن بریانی", true),
+  M(5, "Chicken Karahi (Full)", "چکن کڑاہی (فل)", "karahi", 1800, "Tomato chicken karahi · full", "ٹماٹر چکن کڑاہی · فل", true),
+  M(6, "Chicken Karahi (Half)", "چکن کڑاہی (ہاف)", "karahi", 960, "Tomato chicken karahi · half", "ٹماٹر چکن کڑاہی · ہاف"),
+  M(7, "Chicken Karahi Desi (Full)", "چکن کڑاہی دیسی (فل)", "karahi", 2160, "Desi-style chicken karahi · full", "دیسی چکن کڑاہی · فل"),
+  M(8, "Chicken Karahi Desi (Half)", "چکن کڑاہی دیسی (ہاف)", "karahi", 1140, "Desi-style chicken karahi · half", "دیسی چکن کڑاہی · ہاف"),
+  M(9, "Mutton Karahi (Full)", "مٹن کڑاہی (فل)", "karahi", 4080, "Tender mutton karahi · full", "نرم مٹن کڑاہی · فل", true),
+  M(91, "Mutton Karahi (Half)", "مٹن کڑاہی (ہاف)", "karahi", 2040, "Tender mutton karahi · half", "نرم مٹن کڑاہی · ہاف"),
+  M(92, "BBQ Chicken Karahi (Full)", "باربی کیو چکن کڑاہی (فل)", "karahi", 1920, "Smoky BBQ chicken karahi · full", "باربی کیو چکن کڑاہی · فل"),
+  M(93, "BBQ Chicken Karahi (Half)", "باربی کیو چکن کڑاہی (ہاف)", "karahi", 1020, "Smoky BBQ chicken karahi · half", "باربی کیو چکن کڑاہی · ہاف"),
+  M(10, "Daal Fry", "دال فرائی", "curry", 312, "Tempered yellow daal", "بگھار والی زرد دال"),
+  M(11, "Chana Masala", "چنا مصالحہ", "curry", 216, "Spiced chickpea curry", "مصالحہ دار چنے"),
+  M(12, "Qeema", "قیمہ", "curry", 552, "Minced beef masala", "بھنا ہوا بیف قیمہ"),
+  M(13, "Aloo Palak", "آلو پالک", "curry", 312, "Potato & spinach curry", "آلو اور پالک کا سالن"),
+  M(14, "Mix Vegetable", "مکس سبزی", "curry", 216, "Seasonal mixed vegetables", "موسمی ملی جلی سبزیاں"),
+  M(15, "Anda Chana", "انڈا چنا", "curry", 276, "Egg & chickpea curry", "انڈا اور چنے کا سالن"),
+  M(16, "Chicken Tikka (Leg)", "چکن تکہ (لیگ)", "bbq", 372, "Charcoal-grilled leg piece", "کوئلوں پر بھنی ران", true),
+  M(17, "Chicken Tikka (Chest)", "چکن تکہ (چیسٹ)", "bbq", 396, "Charcoal-grilled chest piece", "کوئلوں پر بھنا سینہ"),
+  M(18, "Seekh Kebab", "سیخ کباب", "bbq", 156, "Beef seekh kebab · 4 pcs", "بیف سیخ کباب · 4 عدد"),
+  M(19, "Malai Boti", "ملائی بوٹی", "bbq", 552, "Creamy grilled chicken boti", "کریمی گرلڈ چکن بوٹی", true),
+  M(20, "Chicken Malai Tikka", "چکن ملائی تکہ", "bbq", 384, "Soft, mild malai tikka", "نرم ملائی تکہ"),
+  M(21, "Reshmi Kebab", "ریشمی کباب", "bbq", 504, "Silky smooth chicken kebab", "ریشمی چکن کباب"),
+  M(22, "Chicken Wings", "چکن ونگز", "bbq", 432, "Grilled spiced wings · 6 pcs", "مصالحہ دار گرلڈ ونگز · 6 عدد"),
+  M(23, "Tandoori Naan", "تندوری نان", "bbq", 30, "Fresh clay-oven naan", "تازہ تندوری نان"),
+  M(24, "Roti", "روٹی", "bbq", 30, "Tandoori roti", "تندوری روٹی"),
+  M(25, "Garlic Naan", "گارلک نان", "bbq", 108, "Buttery garlic naan", "مکھن گارلک نان"),
+  M(26, "Chicken Paratha Roll", "چکن پراٹھا رول", "fast", 276, "Chicken in a flaky paratha", "پراٹھے میں چکن رول", true),
+  M(27, "Beef Paratha Roll", "بیف پراٹھا رول", "fast", 336, "Beef in a flaky paratha", "پراٹھے میں بیف رول"),
+  M(28, "Zinger Burger", "زنگر برگر", "fast", 420, "Crispy zinger fillet burger", "کرسپی زنگر برگر", true),
+  M(29, "Zinger Cheese Burger", "زنگر چیز برگر", "fast", 480, "Zinger loaded with cheese", "چیز والا زنگر برگر"),
+  M(30, "Egg Shami Cheese Burger", "انڈا شامی چیز برگر", "fast", 360, "Shami, egg & cheese burger", "شامی، انڈا اور چیز برگر"),
+  M(31, "Afghani Burger", "افغانی برگر", "fast", 384, "Stuffed with fries & sausage", "فرائز اور ساسیج والا برگر", true),
+  M(32, "Chicken Cheese Roll", "چکن چیز رول", "fast", 360, "Cheesy grilled chicken roll", "چیزی چکن رول"),
+  M(33, "Chicken Shawarma", "چکن شوارما", "fast", 300, "Loaded chicken shawarma", "بھرپور چکن شوارما"),
+  M(34, "Loaded Fries", "لوڈڈ فرائز", "fast", 360, "Fries with sauces & chicken", "ساس اور چکن والی فرائز"),
+  M(35, "Chicken Nuggets", "چکن نگٹس", "fast", 420, "Crispy nuggets · 6 pcs", "کرسپی نگٹس · 6 عدد"),
+  M(36, "Club Sandwich", "کلب سینڈوچ", "fast", 384, "Triple-decker club sandwich", "ٹرپل ڈیکر کلب سینڈوچ"),
+  M(37, "Dahi Bhallay", "دہی بھلے", "chaat", 216, "Lentil dumplings in yogurt", "دہی میں بھلے", true),
+  M(38, "Samosa Chaat", "سموسہ چاٹ", "chaat", 216, "Crushed samosa chaat", "کرش سموسہ چاٹ"),
+  M(39, "Mix Chaat", "مکس چاٹ", "chaat", 240, "Everything-in chaat", "ملی جلی چاٹ"),
+  M(40, "Papri Chaat", "پاپڑی چاٹ", "chaat", 216, "Crispy papri chaat", "کرسپی پاپڑی چاٹ"),
+  M(41, "Chana Chaat", "چنا چاٹ", "chaat", 216, "Tangy chickpea chaat", "چٹ پٹی چنا چاٹ"),
+  M(42, "Fruit Chaat", "فروٹ چاٹ", "chaat", 240, "Fresh seasonal fruit chaat", "تازہ موسمی فروٹ چاٹ"),
   // ---- Shakes (exclusive) ----
-  M(45, "Mango Milkshake", "مینگو ملک شیک", "shakes", 220, "Creamy mango shake", "کریمی آم شیک"),
-  M(46, "Chocolate Milkshake", "چاکلیٹ ملک شیک", "shakes", 240, "Rich chocolate shake", "بھرپور چاکلیٹ شیک"),
-  M(55, "Strawberry Shake", "اسٹرابیری شیک", "shakes", 280, "Fresh strawberry milkshake", "تازہ اسٹرابیری شیک", true),
-  M(56, "Almond Shake", "بادام شیک", "shakes", 320, "Rich roasted almond shake", "بھنے بادام کا شیک"),
-  M(57, "Apple Shake", "ایپل شیک", "shakes", 280, "Creamy fresh apple shake", "تازہ ایپل شیک"),
-  M(58, "Apple Banana Shake", "ایپل بنانا شیک", "shakes", 300, "Apple & banana blended shake", "ایپل اور کیلے کا شیک"),
+  M(45, "Mango Milkshake", "مینگو ملک شیک", "shakes", 264, "Creamy mango shake", "کریمی آم شیک"),
+  M(46, "Chocolate Milkshake", "چاکلیٹ ملک شیک", "shakes", 288, "Rich chocolate shake", "بھرپور چاکلیٹ شیک"),
+  M(55, "Strawberry Shake", "اسٹرابیری شیک", "shakes", 300, "Fresh strawberry milkshake", "تازہ اسٹرابیری شیک", true),
+  M(56, "Almond Shake", "بادام شیک", "shakes", 300, "Rich roasted almond shake", "بھنے بادام کا شیک"),
+  M(57, "Apple Shake", "ایپل شیک", "shakes", 240, "Creamy fresh apple shake", "تازہ ایپل شیک"),
+  M(58, "Apple Banana Shake", "ایپل بنانا شیک", "shakes", 240, "Apple & banana blended shake", "ایپل اور کیلے کا شیک"),
   M(59, "Pineapple Shake", "پائن ایپل شیک", "shakes", 300, "Creamy pineapple shake", "کریمی پائن ایپل شیک"),
-  M(60, "Dates & Almond Shake", "کھجور بادام شیک", "shakes", 350, "Dates & almond energy shake", "کھجور اور بادام کا شیک", true),
+  M(60, "Dates & Almond Shake", "کھجور بادام شیک", "shakes", 420, "Dates & almond energy shake", "کھجور اور بادام کا شیک", true),
   // ---- Fresh Juices (exclusive) ----
-  M(61, "Apple Juice", "ایپل جوس", "juice", 220, "Freshly pressed apple juice", "تازہ نچوڑا ایپل جوس"),
-  M(62, "Orange Juice", "اورنج جوس", "juice", 220, "Fresh orange juice", "تازہ اورنج جوس", true),
-  M(63, "Carrot Juice", "گاجر جوس", "juice", 200, "Fresh carrot juice", "تازہ گاجر جوس"),
-  M(64, "Pomegranate Juice", "انار جوس", "juice", 280, "Fresh pomegranate juice", "تازہ انار جوس", true),
-  M(65, "Strawberry Juice", "اسٹرابیری جوس", "juice", 240, "Fresh strawberry juice", "تازہ اسٹرابیری جوس"),
+  M(61, "Apple Juice", "ایپل جوس", "juice", 300, "Freshly pressed apple juice", "تازہ نچوڑا ایپل جوس"),
+  M(62, "Orange Juice", "اورنج جوس", "juice", 300, "Fresh orange juice", "تازہ اورنج جوس", true),
+  M(63, "Carrot Juice", "گاجر جوس", "juice", 240, "Fresh carrot juice", "تازہ گاجر جوس"),
+  M(64, "Pomegranate Juice", "انار جوس", "juice", 480, "Fresh pomegranate juice", "تازہ انار جوس", true),
+  M(65, "Strawberry Juice", "اسٹرابیری جوس", "juice", 300, "Fresh strawberry juice", "تازہ اسٹرابیری جوس"),
   // ---- Sweets ----
-  M(49, "Kheer", "کھیر", "sweets", 150, "Creamy rice pudding", "کریمی چاول کی کھیر"),
-  M(50, "Gulab Jamun", "گلاب جامن", "sweets", 120, "Warm gulab jamun · 2 pcs", "گرم گلاب جامن · 2 عدد"),
+  M(49, "Kheer", "کھیر", "sweets", 180, "Creamy rice pudding", "کریمی چاول کی کھیر"),
+  M(50, "Gulab Jamun", "گلاب جامن", "sweets", 144, "Warm gulab jamun · 2 pcs", "گرم گلاب جامن · 2 عدد"),
   // ---- Drinks ----
-  M(43, "Sweet Lassi", "میٹھی لسی", "drinks", 150, "Thick sweet yogurt lassi", "گاڑھی میٹھی لسی", true),
-  M(44, "Salty Lassi", "نمکین لسی", "drinks", 150, "Refreshing salty lassi", "تازگی بھری نمکین لسی"),
-  M(47, "Desi Chai", "دیسی چائے", "drinks", 80, "Traditional doodh patti chai", "روایتی دودھ پتی", true),
-  M(48, "Kashmiri Chai", "کشمیری چائے", "drinks", 150, "Pink Kashmiri tea", "گلابی کشمیری چائے"),
-  M(51, "Fresh Lime", "فریش لائم", "drinks", 120, "Fresh lime soda", "تازہ لیموں سوڈا"),
-  M(52, "Mint Margarita", "منٹ مارجریٹا", "drinks", 200, "Minty lime cooler", "پودینے والا لیموں کولر"),
-  M(53, "Soft Drink", "سافٹ ڈرنک", "drinks", 80, "Chilled soft drink", "ٹھنڈا سافٹ ڈرنک"),
-  M(54, "Water Bottle", "پانی کی بوتل", "drinks", 60, "Mineral water", "منرل واٹر"),
+  M(43, "Sweet Lassi", "میٹھی لسی", "drinks", 180, "Thick sweet yogurt lassi", "گاڑھی میٹھی لسی", true),
+  M(44, "Salty Lassi", "نمکین لسی", "drinks", 180, "Refreshing salty lassi", "تازگی بھری نمکین لسی"),
+  M(47, "Desi Chai", "دیسی چائے", "drinks", 96, "Traditional doodh patti chai", "روایتی دودھ پتی", true),
+  M(48, "Kashmiri Chai", "کشمیری چائے", "drinks", 144, "Pink Kashmiri tea", "گلابی کشمیری چائے"),
+  M(51, "Fresh Lime", "فریش لائم", "drinks", 108, "Fresh lime soda", "تازہ لیموں سوڈا"),
+  M(52, "Mint Margarita", "منٹ مارجریٹا", "drinks", 180, "Minty lime cooler", "پودینے والا لیموں کولر"),
+  M(53, "Soft Drink", "سافٹ ڈرنک", "drinks", 84, "Chilled soft drink", "ٹھنڈا سافٹ ڈرنک"),
+  M(54, "Water Bottle", "پانی کی بوتل", "drinks", 72, "Mineral water", "منرل واٹر"),
+  // ---- Breads & Tandoor ----
+  M(66, "Special Kulcha", "سپیشل کلچہ", "bbq", 36, "Soft tandoor-baked kulcha", "تندور کا نرم کلچہ"),
+  M(67, "Roghni Naan", "روغنی نان", "bbq", 96, "Sesame-topped roghni naan", "تلوں والا روغنی نان", true),
+  M(68, "Veggie Naan", "سبزی والا نان", "bbq", 120, "Naan stuffed with spiced veg", "مصالحہ سبزی والا نان"),
+  // ---- Chaat & Snacks ----
+  M(71, "Golgappay", "گول گپے", "chaat", 216, "Crispy golgappay with chutneys", "چٹنیوں کے ساتھ گول گپے", true),
+  // ---- Rice ----
+  M(72, "Haleem Chawal", "حلیم چاول", "rice", 240, "Wheat & lentil haleem over rice", "چاول پر حلیم", true),
+  // ---- Curry, Daal & Sides ----
+  M(73, "Chicken Haleem", "چکن حلیم", "curry", 228, "Slow-cooked chicken haleem", "دم پر پکی چکن حلیم"),
+  M(74, "Dal Maash", "دال ماش", "curry", 216, "Creamy white maash daal", "کریمی سفید ماش دال"),
+  M(75, "Lobia", "لوبیا", "curry", 216, "Kidney bean curry", "لوبیا سالن"),
+  M(77, "Saag", "ساگ", "curry", 216, "Green mustard & spinach saag", "ہرا ساگ"),
+  M(78, "Karhi Pakora", "کڑھی پکوڑا", "curry", 216, "Yogurt curry with pakoras", "پکوڑوں والی کڑھی"),
+  M(79, "Raita", "رائتہ", "curry", 72, "Cooling yogurt raita", "ٹھنڈا رائتہ"),
+  M(80, "Salad", "سلاد", "curry", 108, "Fresh garden salad", "تازہ سلاد"),
+  // ---- Karahi & Handi ----
+  M(76, "Fry Gosht", "فرائی گوشت", "karahi", 360, "Bhuna fried beef & mutton", "بھنا فرائی گوشت", true),
+  M(82, "Tawa Mix Karahi", "توا مکس کڑاہی", "karahi", 528, "Mixed meat tawa karahi", "مکس گوشت توا کڑاہی", true),
+  // ---- BBQ ----
+  M(81, "Shami Kabab", "شامی کباب", "bbq", 48, "Fried beef shami kabab · 1 pc", "بیف شامی کباب · 1 عدد"),
+  // ---- Breakfast & Specialty Fried Meats ----
+  M(83, "Plain Egg", "سادہ انڈہ", "breakfast", 72, "Boiled plain egg", "سادہ ابلا انڈہ"),
+  M(84, "Yogurt Plate", "دہی پلیٹ", "breakfast", 120, "Fresh plain yogurt", "تازہ سادہ دہی"),
+  M(85, "Egg Omelet", "انڈہ آملیٹ", "breakfast", 72, "Fluffy egg omelet", "انڈے کا آملیٹ"),
+  M(86, "Fried Egg", "انڈہ فرائی", "breakfast", 72, "Sunny-side fried egg", "فرائی انڈہ"),
+  M(87, "Aloo Paratha", "آلو پراٹھا", "breakfast", 120, "Potato-stuffed paratha", "آلو والا پراٹھا", true),
+  M(88, "Boti Fry", "بوٹی فرائی", "bbq", 900, "Fried meat boti · 15 pcs", "فرائی بوٹی · 15 عدد"),
+  M(89, "Chicken Kabab Fry (3 Pcs)", "چکن کباب فرائی (3 پیس)", "bbq", 720, "Fried chicken kababs · 3 pcs", "فرائی چکن کباب · 3 عدد"),
+  M(94, "Chicken Kabab Fry (6 Pcs)", "چکن کباب فرائی (6 پیس)", "bbq", 1320, "Fried chicken kababs · 6 pcs", "فرائی چکن کباب · 6 عدد"),
+  // ---- Tea ----
+  M(90, "Green Tea", "سبز چائے", "drinks", 84, "Fresh green tea", "تازہ سبز چائے"),
 ];
 
+// Variant grouping — Half/Full & piece options. On the menu these show as ONE item;
+// the size/pieces are chosen on the dish page (each variant is its own real dish + page).
+type VInfo = Omit<Dish, "id" | "name" | "urdu" | "cat" | "price" | "desc" | "du" | "p" | "img">;
+const VARIANTS: Record<number, VInfo> = {
+  // Chicken Karahi
+  6: { group: "chicken-karahi", groupName: "Chicken Karahi", groupNameU: "چکن کڑاہی", variant: "Half", variantU: "ہاف", serves: "1–2", primary: true },
+  5: { group: "chicken-karahi", groupName: "Chicken Karahi", groupNameU: "چکن کڑاہی", variant: "Full", variantU: "فل", serves: "3–4" },
+  // Chicken Karahi Desi
+  8: { group: "chicken-karahi-desi", groupName: "Chicken Karahi Desi", groupNameU: "چکن کڑاہی دیسی", variant: "Half", variantU: "ہاف", serves: "1–2", primary: true },
+  7: { group: "chicken-karahi-desi", groupName: "Chicken Karahi Desi", groupNameU: "چکن کڑاہی دیسی", variant: "Full", variantU: "فل", serves: "3–4" },
+  // Mutton Karahi
+  91: { group: "mutton-karahi", groupName: "Mutton Karahi", groupNameU: "مٹن کڑاہی", variant: "Half", variantU: "ہاف", serves: "1–2", primary: true },
+  9: { group: "mutton-karahi", groupName: "Mutton Karahi", groupNameU: "مٹن کڑاہی", variant: "Full", variantU: "فل", serves: "3–4" },
+  // BBQ Chicken Karahi
+  93: { group: "bbq-chicken-karahi", groupName: "BBQ Chicken Karahi", groupNameU: "باربی کیو چکن کڑاہی", variant: "Half", variantU: "ہاف", serves: "1–2", primary: true },
+  92: { group: "bbq-chicken-karahi", groupName: "BBQ Chicken Karahi", groupNameU: "باربی کیو چکن کڑاہی", variant: "Full", variantU: "فل", serves: "3–4" },
+  // Chicken Kabab Fry (pieces)
+  89: { group: "chicken-kabab-fry", groupName: "Chicken Kabab Fry", groupNameU: "چکن کباب فرائی", variant: "3 Pcs", variantU: "3 پیس", serves: "1", primary: true },
+  94: { group: "chicken-kabab-fry", groupName: "Chicken Kabab Fry", groupNameU: "چکن کباب فرائی", variant: "6 Pcs", variantU: "6 پیس", serves: "2–3" },
+};
+for (const d of MENU) {
+  const v = VARIANTS[d.id];
+  if (v) Object.assign(d, v);
+}
+
+/** All variants of a dish's group (Half/Full…), ordered by price. Single dish → just itself. */
+export function dishVariants(d: Dish): Dish[] {
+  if (!d.group) return [d];
+  return MENU.filter((x) => x.group === d.group).sort((a, b) => a.price - b.price);
+}
+
 export const CATS: Category[] = [
-  { key: "all", label: "All", lu: "تمام", icon: "🍽️", short: "Everything", su: "سب کچھ", sub: "The complete Shah G Foods menu — from our legendary Daal Chawal to sizzling karahi, charcoal BBQ, fresh shakes and juices. 65 dishes, all cooked fresh and delivered hot.", subu: "شاہ جی فوڈز کا مکمل مینو — مشہور دال چاول سے لے کر کڑاہی، باربی کیو، تازہ شیک اور جوس تک۔ 65 ڈشز، سب تازہ پکی اور گرم گرم۔" },
+  { key: "all", label: "All", lu: "تمام", icon: "🍽️", short: "Everything", su: "سب کچھ", sub: "The complete Shah G Foods menu — from our legendary Daal Chawal to sizzling karahi, charcoal BBQ, fresh shakes and juices. 92 dishes, all cooked fresh and delivered hot.", subu: "شاہ جی فوڈز کا مکمل مینو — مشہور دال چاول سے لے کر کڑاہی، باربی کیو، تازہ شیک اور جوس تک۔ 92 ڈشز، سب تازہ پکی اور گرم گرم۔" },
   { key: "rice", label: "Rice & Pulao", lu: "چاول اور پلاؤ", icon: "🍛", short: "Rice & Pulao", su: "چاول اور پلاؤ", sub: "The heart of our menu — legendary budget-friendly Daal Chawal, aromatic Bannu beef pulao, spicy chicken biryani and chana chawal, all cooked fresh and served over fluffy long-grain rice.", subu: "ہمارے مینو کا دل — مشہور اور کم قیمت دال چاول، خوشبودار بنوں بیف پلاؤ، مصالحہ دار چکن بریانی اور چنا چاول، سب تازہ پکے اور نرم چاول پر۔" },
   { key: "curry", label: "Curry & Daal", lu: "سالن اور دال", icon: "🍲", short: "Curry & Daal", su: "سالن اور دال", sub: "Comforting home-style curries — tempered daal fry, spicy chana masala, bhuna beef qeema, aloo palak and seasonal mixed vegetables. Simple, hearty and easy on the pocket.", subu: "دل کو بھانے والے گھریلو سالن — بگھار والی دال فرائی، چنا مصالحہ، بھنا بیف قیمہ، آلو پالک اور موسمی سبزیاں۔ سادہ، بھرپور اور جیب پر ہلکے۔" },
-  { key: "karahi", label: "Karahi & Handi", lu: "کڑاہی اور ہانڈی", icon: "🥘", short: "Karahi & Handi", su: "کڑاہی اور ہانڈی", sub: "Sizzling, freshly cooked karahi & handi — tomato beef karahi, tender mutton karahi, creamy white handi and tangy chicken achari handi. Best shared with hot tandoori naan.", subu: "تازہ پکی کڑاہی اور ہانڈی — ٹماٹر والی بیف کڑاہی، نرم مٹن کڑاہی، کریمی وائٹ ہانڈی اور اچاری چکن ہانڈی۔ گرم نان کے ساتھ بہترین۔" },
+  { key: "karahi", label: "Karahi", lu: "کڑاہی", icon: "🥘", short: "Karahi", su: "کڑاہی", sub: "Sizzling, freshly cooked karahi — chicken karahi, desi chicken karahi, mutton karahi and smoky BBQ chicken karahi (full & half), plus fry gosht and tawa mix karahi. Best with hot naan.", subu: "تازہ پکی کڑاہی — چکن کڑاہی، دیسی چکن کڑاہی، مٹن کڑاہی اور باربی کیو چکن کڑاہی (فل و ہاف)، ساتھ فرائی گوشت اور توا مکس کڑاہی۔ گرم نان کے ساتھ بہترین۔" },
   { key: "bbq", label: "BBQ & Tandoor", lu: "باربی کیو اور تندور", icon: "🔥", short: "BBQ & Tandoor", su: "باربی کیو اور تندور", sub: "Straight off the charcoal — juicy chicken tikka, beef seekh kebab, malai boti, reshmi kebab and grilled wings, with fresh tandoori, roghni and garlic naan.", subu: "کوئلوں سے سیدھا — رسیلا چکن تکہ، بیف سیخ کباب، ملائی بوٹی، ریشمی کباب اور گرلڈ ونگز، ساتھ تازہ تندوری، روغنی اور گارلک نان۔" },
+  { key: "breakfast", label: "Breakfast", lu: "ناشتہ", icon: "🍳", short: "Breakfast", su: "ناشتہ", sub: "A hearty desi breakfast — plain egg, fluffy omelet, fried egg, fresh yogurt and stuffed aloo paratha.", subu: "بھرپور دیسی ناشتہ — سادہ انڈہ، نرم آملیٹ، فرائی انڈہ، تازہ دہی اور آلو پراٹھا۔" },
   { key: "fast", label: "Fast Food", lu: "فاسٹ فوڈ", icon: "🍔", short: "Fast Food", su: "فاسٹ فوڈ", sub: "Quick bites done right — chicken & beef paratha rolls, zinger and afghani burgers, loaded shawarma, cheesy fries, crispy nuggets and club sandwiches.", subu: "جھٹ پٹ مزیدار — چکن و بیف پراٹھا رول، زنگر اور افغانی برگر، بھرپور شوارما، چیزی فرائز، نگٹس اور کلب سینڈوچ۔" },
   { key: "chaat", label: "Chaat", lu: "چاٹ", icon: "🥗", short: "Chaat", su: "چاٹ", sub: "Tangy, chatpata street-style chaat — dahi bhallay, crushed samosa chaat, papri, chana and fresh fruit chaat. The perfect light, zingy snack.", subu: "چٹ پٹی اسٹریٹ اسٹائل چاٹ — دہی بھلے، سموسہ چاٹ، پاپڑی، چنا اور تازہ فروٹ چاٹ۔ ہلکا پھلکا زبردست اسنیک۔" },
   { key: "shakes", label: "Shakes", lu: "شیکس", icon: "🧋", short: "Shakes", su: "شیکس", sub: "Thick, creamy milkshakes blended fresh — mango, chocolate, strawberry, almond, apple, banana, pineapple and our signature dates & almond energy shake.", subu: "تازہ بلینڈ گاڑھے کریمی شیک — آم، چاکلیٹ، اسٹرابیری، بادام، ایپل، بنانا، پائن ایپل اور خاص کھجور بادام انرجی شیک۔" },
@@ -300,6 +406,16 @@ export function getBranchBySlug(slug: string): Branch | undefined {
   return BRANCHES.find((b) => branchSlug(b.name) === slug);
 }
 
+/** URL-safe slug for a dish, e.g. "Chicken Karahi (Full)" → "chicken-karahi-full". */
+export function dishSlug(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
+
+/** Find a dish by its slug (used by the dedicated /menu/[slug] pages). */
+export function getDishBySlug(slug: string): Dish | undefined {
+  return MENU.find((d) => dishSlug(d.name) === slug);
+}
+
 /** Great-circle distance in km between two lat/lng points (for the "near me" finder). */
 export function distanceKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
   const R = 6371;
@@ -309,7 +425,7 @@ export function distanceKm(lat1: number, lng1: number, lat2: number, lng2: numbe
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-export const HOURS = "11:00 AM – 2:00 AM";
+export const HOURS = "8:00 AM – 2:00 AM";
 
 // Resolve a dish's photo URL (encoded for spaces/parentheses), or "" to fall
 // back to the gradient tile.
