@@ -24,7 +24,7 @@ function Highlight({ text, q }: { text: string; q: string }) {
   );
 }
 
-function CategoryBanner({ c, ur, count, h, imgW }: { c: Category; ur: boolean; count: number; h: number; imgW: string }) {
+function CategoryBanner({ c, ur, count, h, imgW, phone }: { c: Category; ur: boolean; count: number; h: number; imgW: string; phone: boolean }) {
   const img = MENU.filter((d) => d.cat === c.key).map(dishImage).find(Boolean);
   const word = ur ? c.lu : c.label;
   return (
@@ -35,15 +35,15 @@ function CategoryBanner({ c, ur, count, h, imgW }: { c: Category; ur: boolean; c
         <img
           src={img}
           alt={word}
-          style={{ position: "absolute", top: 0, insetInlineEnd: 0, height: "100%", width: imgW, objectFit: "cover", objectPosition: "center", WebkitMaskImage: "linear-gradient(90deg, transparent, #000 34%)", maskImage: "linear-gradient(90deg, transparent, #000 34%)" }}
+          style={{ position: "absolute", top: 0, insetInlineEnd: 0, height: "100%", width: imgW, objectFit: "cover", objectPosition: "center", WebkitMaskImage: "linear-gradient(90deg, transparent, #000 36%)", maskImage: "linear-gradient(90deg, transparent, #000 36%)" }}
         />
       )}
-      <div style={{ position: "relative", zIndex: 1, padding: "0 28px", maxWidth: "54%" }}>
-        <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: "clamp(32px,7.5vw,56px)", lineHeight: 1.02, color: "#F7EFE0", textTransform: ur ? "none" : "lowercase", letterSpacing: ur ? "normal" : "-.5px", textShadow: "0 4px 20px rgba(0,0,0,.5)" }}>{word}</div>
+      <div style={{ position: "relative", zIndex: 1, padding: phone ? "0 20px" : "0 30px", maxWidth: "56%" }}>
+        <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: "clamp(34px,10vw,58px)", lineHeight: 1.0, color: "#F7EFE0", textTransform: ur ? "none" : "lowercase", letterSpacing: ur ? "normal" : "-.5px", textShadow: "0 4px 20px rgba(0,0,0,.5)" }}>{word}</div>
         {(ur ? c.subu : c.sub) && (
-          <div style={{ marginTop: 10, color: "rgba(255,255,255,.92)", fontSize: "clamp(13px,1.6vw,16px)", fontWeight: 500, lineHeight: 1.55, fontStyle: ur ? "normal" : "italic", maxWidth: 460, textShadow: "0 2px 8px rgba(0,0,0,.45)", display: "-webkit-box", WebkitLineClamp: 5, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{ur ? c.subu : c.sub}</div>
+          <div style={{ marginTop: phone ? 7 : 10, color: "rgba(255,255,255,.92)", fontSize: phone ? 12 : "clamp(13px,1.5vw,15.5px)", fontWeight: 500, lineHeight: 1.5, fontStyle: ur ? "normal" : "italic", maxWidth: 440, textShadow: "0 2px 8px rgba(0,0,0,.45)", display: "-webkit-box", WebkitLineClamp: phone ? 2 : 4, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{ur ? c.subu : c.sub}</div>
         )}
-        <div className="num" style={{ marginTop: 13, display: "inline-block", background: "rgba(0,0,0,.32)", color: "#fff", fontSize: 12, fontWeight: 700, padding: "5px 12px", borderRadius: 999 }}>{count} {ur ? "ڈشز" : "items"}</div>
+        <div className="num" style={{ marginTop: phone ? 9 : 13, display: "inline-block", background: "rgba(0,0,0,.32)", color: "#fff", fontSize: 12, fontWeight: 700, padding: "5px 12px", borderRadius: 999 }}>{count} {ur ? "ڈشز" : "items"}</div>
       </div>
     </div>
   );
@@ -58,8 +58,8 @@ export default function MenuContent() {
   const isPhone = w < 640;
   const cols = w < 900 ? 2 : w < 1200 ? 3 : 4;
   const navTop = isPhone ? 70 : 84; // sits the sticky filter right under the navbar
-  const bannerH = isPhone ? 240 : 320; // as big as the home Daal Chawal feature
-  const imgW = isPhone ? "58%" : "50%";
+  const bannerH = isPhone ? 168 : 230; // Savour-style banner proportions
+  const imgW = isPhone ? "50%" : "48%";
 
   const [cat, setCat] = useState<"all" | CategoryKey>("all");
   const [search, setSearch] = useState("");
@@ -166,7 +166,7 @@ export default function MenuContent() {
         ) : (
           sections.map(({ c, items }) => (
             <section key={c.key} style={{ marginTop: 26 }}>
-              <CategoryBanner c={c} ur={ur} count={items.length} h={bannerH} imgW={imgW} />
+              <CategoryBanner c={c} ur={ur} count={items.length} h={bannerH} imgW={imgW} phone={isPhone} />
               <div style={{ marginTop: 16 }}>
                 {isPhone ? (
                   <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>

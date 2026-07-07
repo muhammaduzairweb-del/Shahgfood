@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
 import { BRANCHES, LOGO, LOGO_FILTER } from "@/lib/data";
 import { DICT } from "@/lib/i18n";
 import { useApp } from "@/components/AppProvider";
@@ -42,17 +41,6 @@ export default function Navbar() {
   // dynamic hiding — bars slide away on scroll-down, return on scroll-up
   const hidden = useHideOnScroll();
 
-  // desktop nav — liquid capsule that morphs (slides + stretches) to the active link
-  const navRefs = useRef<(HTMLAnchorElement | null)[]>([]);
-  const [ind, setInd] = useState<{ left: number; width: number }>({ left: 0, width: 0 });
-  const activeNav = NAV.findIndex(([href]) => (href === "/" ? pathname === "/" : pathname.startsWith(href)));
-  useEffect(() => {
-    if (isMobile) return;
-    if (activeNav < 0) { setInd({ left: 0, width: 0 }); return; } // no nav item active (e.g. privacy/terms) → hide pill
-    const el = navRefs.current[activeNav];
-    if (el) setInd({ left: el.offsetLeft, width: el.offsetWidth });
-  }, [activeNav, isMobile, lang, w]);
-
   return (
     <>
       <header style={{ position: "sticky", top: 0, zIndex: 50 }}>
@@ -76,31 +64,14 @@ export default function Navbar() {
 
             <div style={{ marginInlineStart: "auto", display: "flex", alignItems: "center", gap: 12 }}>
               {!isMobile && (
-                <nav style={{ position: "relative", display: "flex", gap: 2 }}>
-                  {/* liquid capsule — morphs between tabs */}
-                  <span
-                    aria-hidden
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: ind.left,
-                      width: ind.width,
-                      height: "100%",
-                      borderRadius: 999,
-                      background: "linear-gradient(180deg,#fff,rgba(255,255,255,.9))",
-                      boxShadow: "0 4px 14px -4px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.9)",
-                      opacity: ind.width ? 1 : 0,
-                      transition: "left .45s cubic-bezier(.34,1.56,.64,1), width .45s cubic-bezier(.34,1.56,.64,1), opacity .3s",
-                    }}
-                  />
-                  {NAV.map(([href, key], i) => {
+                <nav style={{ display: "flex", gap: 4 }}>
+                  {NAV.map(([href, key]) => {
                     const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
                     return (
                       <Link
                         key={href}
                         href={href}
-                        ref={(el) => { navRefs.current[i] = el; }}
-                        style={{ position: "relative", zIndex: 1, textDecoration: "none", fontWeight: 700, fontSize: 13.5, padding: "8px 14px", borderRadius: 999, color: active ? PURPLE : "rgba(255,255,255,.9)", transition: "color .35s ease" }}
+                        style={{ textDecoration: "none", fontWeight: 700, fontSize: 13.5, padding: "8px 15px", borderRadius: 999, color: active ? PURPLE : "rgba(255,255,255,.92)", background: active ? "#fff" : "transparent", boxShadow: active ? "0 4px 14px -5px rgba(0,0,0,.4)" : "none", transition: "background .25s ease, color .25s ease" }}
                       >
                         {t[key]}
                       </Link>
