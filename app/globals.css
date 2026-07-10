@@ -88,6 +88,26 @@ textarea:focus {
   }
 }
 
+/* gentle float for the empty-plate illustration */
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-9px) rotate(1deg);
+  }
+}
+.cart-bob {
+  animation: bob 2.6s ease-in-out infinite;
+  transform-origin: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cart-bob {
+    animation: none;
+  }
+}
+
 /* ===== Testimonial marquee ===== */
 .marquee {
   overflow: hidden;

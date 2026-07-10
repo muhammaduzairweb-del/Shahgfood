@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Shah G Foods",
-    short_name: "Shah G",
+    name: "Shah G LIVE",
+    short_name: "Shah G LIVE",
     description: "Desi comfort food delivery across Islamabad & Rawalpindi.",
     start_url: "/",
     display: "standalone",

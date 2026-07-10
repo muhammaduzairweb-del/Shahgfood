@@ -6,6 +6,7 @@ import { DICT } from "@/lib/i18n";
 import { useApp } from "@/components/AppProvider";
 import { useWidth } from "@/components/hooks";
 import { IconFacebook, IconInstagram } from "@/components/icons";
+import AppBadges from "@/components/AppBadges";
 
 const colLink: React.CSSProperties = { color: "rgba(255,255,255,.75)", textDecoration: "none", display: "block" };
 const social: React.CSSProperties = { color: "rgba(255,255,255,.85)", textDecoration: "none", display: "flex", alignItems: "center", gap: 9, fontSize: 13.5, fontWeight: 600 };
@@ -37,6 +38,7 @@ export default function SiteFooter() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={LOGO} alt="Shah G Foods" style={{ height: 74, width: "auto", objectFit: "contain", display: "block", filter: LOGO_FILTER }} />
           <div style={{ fontSize: 13, color: "rgba(255,255,255,.6)", marginTop: 12, lineHeight: 1.7 }}>{t.footTag}</div>
+          <AppBadges />
         </div>
 
         <div style={{ fontSize: 13, lineHeight: 2.1 }}>
@@ -61,12 +63,6 @@ export default function SiteFooter() {
             <a href={IG_URL} target="_blank" rel="noopener noreferrer" style={social}><IconInstagram size={22} />Instagram</a>
           </div>
           <Link href="/" className="num" style={{ ...colLink, marginTop: 10 }}>shahgfood.com</Link>
-          <button
-            onClick={() => window.dispatchEvent(new Event("pwa-install"))}
-            style={{ cursor: "pointer", marginTop: 12, display: "inline-flex", alignItems: "center", gap: 8, border: "1px solid rgba(255,255,255,.35)", background: "rgba(255,255,255,.1)", color: "#fff", fontWeight: 700, fontSize: 13, fontFamily: "inherit", padding: "9px 15px", borderRadius: 999 }}
-          >
-            📲 {ur ? "ایپ انسٹال کریں" : "Install app"}
-          </button>
         </div>
       </div>
       <div style={{ borderTop: "1px solid rgba(255,255,255,.1)", padding: isMobile ? "16px 20px 104px" : "16px 20px", display: "flex", flexWrap: "wrap", gap: "6px 18px", alignItems: "center", justifyContent: "center", fontSize: 12, color: "rgba(255,255,255,.4)" }}>

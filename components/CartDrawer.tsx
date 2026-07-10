@@ -31,7 +31,26 @@ export default function CartDrawer() {
 
         {count === 0 ? (
           <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 15, padding: 30, textAlign: "center" }}>
-            <div style={{ width: 88, height: 88, borderRadius: "50%", background: "#F0E7D8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 38 }}>🛍️</div>
+            <div className="cart-bob" style={{ width: 118 }}>
+              <svg viewBox="0 0 140 120" width="118" height="101" style={{ display: "block" }} aria-hidden>
+                {/* fork */}
+                <g stroke="#CBB98F" strokeWidth="4.5" strokeLinecap="round" fill="none">
+                  <path d="M20 20v16" />
+                  <path d="M28 20v16" />
+                  <path d="M36 20v16" />
+                  <path d="M28 36v58" />
+                </g>
+                {/* spoon */}
+                <g fill="#CBB98F">
+                  <ellipse cx="120" cy="32" rx="9.5" ry="13.5" />
+                  <path d="M116.5 44h7v48a3.5 3.5 0 0 1-7 0z" />
+                </g>
+                {/* empty plate */}
+                <ellipse cx="70" cy="68" rx="42" ry="42" fill="#fff" stroke="#E7DECD" strokeWidth="4" />
+                <ellipse cx="70" cy="68" rx="27" ry="27" fill="#FBF6EC" stroke="#EFE3CF" strokeWidth="2" />
+                <circle cx="70" cy="68" r="3" fill="#E7DECD" />
+              </svg>
+            </div>
             <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 20 }}>{t.emptyTitle}</div>
             <div style={{ fontSize: 13.5, color: "#8A8072", maxWidth: 240, lineHeight: 1.6 }}>{t.emptyDesc}</div>
             <button onClick={() => { setCartOpen(false); router.push("/menu"); }} style={{ cursor: "pointer", border: "none", background: RED, color: "#fff", fontWeight: 700, fontSize: 15, fontFamily: "inherit", padding: "12px 24px", borderRadius: 13 }}>{t.browseMenu}</button>

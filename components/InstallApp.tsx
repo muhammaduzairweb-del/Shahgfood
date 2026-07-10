@@ -6,6 +6,24 @@ import { useWidth } from "@/components/hooks";
 
 const RED = "#C1272D";
 
+function ShareIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5A5245" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M12 3v12" />
+      <path d="M8 7l4-4 4 4" />
+      <path d="M6 11v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-8" />
+    </svg>
+  );
+}
+function PlusSquareIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5A5245" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <rect x="4" y="4" width="16" height="16" rx="4" />
+      <path d="M12 9v6M9 12h6" />
+    </svg>
+  );
+}
+
 interface BIPEvent extends Event {
   prompt: () => void;
   userChoice: Promise<{ outcome: string }>;
@@ -98,15 +116,23 @@ export default function InstallApp() {
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/icon.svg" alt="Shah G Foods" width={44} height={44} style={{ borderRadius: 11, flex: "none" }} />
+      <img src="/icon.svg" alt="Shah G LIVE" width={44} height={44} style={{ borderRadius: 11, flex: "none", alignSelf: iosHelp ? "flex-start" : "center" }} />
       <div style={{ flex: 1, minWidth: 0 }}>
         {iosHelp ? (
-          <div style={{ fontSize: 13, color: "#4A4238", lineHeight: 1.5 }}>
-            {ur ? "سفاری میں شیئر بٹن ⬆️ دبائیں، پھر ”Add to Home Screen“ منتخب کریں۔" : "In Safari, tap the Share ⬆️ button, then choose “Add to Home Screen”."}
+          <div style={{ fontSize: 13, color: "#4A4238" }}>
+            <div style={{ fontWeight: 800, color: "#211812", marginBottom: 8 }}>{ur ? "سفاری میں انسٹال کریں" : "Install in Safari"}</div>
+            <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 7 }}>
+              <span style={{ flex: "none", width: 24, height: 24, borderRadius: 7, background: "#F2ECE1", display: "flex", alignItems: "center", justifyContent: "center" }}><ShareIcon /></span>
+              <span>{ur ? "نیچے شیئر بٹن دبائیں" : "Tap the Share button below"}</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
+              <span style={{ flex: "none", width: 24, height: 24, borderRadius: 7, background: "#F2ECE1", display: "flex", alignItems: "center", justifyContent: "center" }}><PlusSquareIcon /></span>
+              <span>{ur ? "”Add to Home Screen“ منتخب کریں" : "Choose “Add to Home Screen”"}</span>
+            </div>
           </div>
         ) : (
           <>
-            <div style={{ fontSize: 14.5, fontWeight: 800, color: "#211812" }}>{ur ? "شاہ جی فوڈز ایپ انسٹال کریں" : "Install the Shah G Foods app"}</div>
+            <div style={{ fontSize: 14.5, fontWeight: 800, color: "#211812" }}>{ur ? "شاہ جی لائیو انسٹال کریں" : "Install Shah G LIVE"}</div>
             <div style={{ fontSize: 12.5, color: "#8A8072", marginTop: 2 }}>{ur ? "تیز آرڈرنگ · ہوم اسکرین پر · آف لائن بھی" : "Faster ordering · on your home screen · works offline"}</div>
           </>
         )}

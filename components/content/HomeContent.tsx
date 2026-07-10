@@ -12,7 +12,6 @@ import { useApp } from "@/components/AppProvider";
 import { useWidth } from "@/components/hooks";
 import { DishCard, DishRow, RED } from "@/components/ui";
 import { CategoryIcon, IconStar, IconScooter, IconPin, IconMenu } from "@/components/icons";
-import AppPromo from "@/components/AppPromo";
 import type { CategoryKey, Review } from "@/lib/data";
 
 const CHARCOAL = "#16171B"; // sampled from the Daal Chawal photo background
@@ -235,9 +234,6 @@ export default function HomeContent() {
             </div>
           )}
         </div>
-
-        {/* GET THE APP */}
-        <AppPromo />
       </div>
 
       {/* TESTIMONIALS — 15,000+ verified reviews, looping marquee */}

@@ -28,7 +28,7 @@ export interface Translation {
 }
 
 export const EN: Translation = {
-  home: "Home", menu: "Menu", branches: "Branches", about: "About", deliverTo: "DELIVER TO", login: "Log in", cart: "Cart", add: "Add +", searchPh: "Search dishes…",
+  home: "Home", menu: "Menu", branches: "Branches", about: "About", deliverTo: "DELIVER TO", login: "Log in", cart: "Dastarkhwan", add: "Add +", searchPh: "Search dishes…",
   badge: "SINCE DAY ONE · 35+ BRANCHES", heroTitle: "The legendary Daal Chawal, delivered hot.", heroTagline: "Where it all began.",
   heroDesc: "Desi comfort food from Islamabad & Rawalpindi — biryani, karahi, BBQ, rolls, chaat and chai. Order in minutes.",
   orderNow: "Order now →", findBranch: "Find a branch", featBadge: "THE LEGEND", sigSub: "The dish that started it all — legendary, budget-friendly lentils served over fluffy rice. Loved at every branch.", browseCat: "Browse by category", mostLoved: "Most loved 🔥", seeFullMenu: "See full menu →", dishesWord: "dishes",
@@ -38,7 +38,7 @@ export const EN: Translation = {
   aboutStory: "Shah G Foods is a much-loved desi restaurant serving traditional, comforting Pakistani street food and mainland subcontinental classics. The dish that started it all is our legendary, budget-friendly Daal Chawal — lentils served over fluffy rice — still a favourite across every branch.",
   statBranches: "Branches", statDishes: "Dishes", statCities: "Cities", knownFor: "What we're known for",
   c1t: "Desi curries & rice", c1d: "Daal Chawal, Bannu Pulao, Biryani, Karahi & Handi.", c2t: "Charcoal BBQ", c2d: "Tikka, seekh kebab, malai boti & fresh tandoori naan.", c3t: "Chai & lassi", c3d: "Sweet & salty lassi, milkshakes and proper desi chai.", seeMenu: "See the menu →",
-  cartTitle: "Your Cart", emptyTitle: "Your cart is empty", emptyDesc: "Add some daal chawal, karahi or a paratha roll to get started.", browseMenu: "Browse menu", subtotal: "Subtotal", delivery: "Delivery", gst: "GST (5%)", total: "Total", free: "Free", placeOrder: "Place order · ",
+  cartTitle: "Your Dastarkhwan", emptyTitle: "Your dastarkhwan is empty", emptyDesc: "Add some daal chawal, karahi or a paratha roll — let's fill it up!", browseMenu: "Browse menu", subtotal: "Subtotal", delivery: "Delivery", gst: "GST (5%)", total: "Total", free: "Free", placeOrder: "Place order · ",
   fullName: "FULL NAME", phoneLbl: "PHONE NUMBER", passwordLbl: "PASSWORD", haveAccount: "Already have an account?", newHere: "New here?", loginLink: "Log in", createLink: "Create account", createAccount: "Create account", loginTitle: "Log in",
   orderPlaced: "Order placed!", orderDescA: "Your food from ", orderDescB: " is being prepared. Estimated delivery in 30–40 mins.", backHome: "Back to home",
   footTag: "Desi comfort food, delivered across Islamabad & Rawalpindi.", footCompany: "Company", footHelp: "Help", footFollow: "Follow", footCompanyLinks: ["About us", "Branches", "Careers"], footHelpLinks: ["Contact", "Order tracking", "FAQs"],
@@ -55,7 +55,7 @@ export const EN: Translation = {
 };
 
 export const UR: Translation = {
-  home: "ہوم", menu: "مینو", branches: "شاخیں", about: "تعارف", deliverTo: "ڈیلیوری", login: "لاگ ان", cart: "ٹوکری", add: "شامل کریں", searchPh: "کھانے تلاش کریں…",
+  home: "ہوم", menu: "مینو", branches: "شاخیں", about: "تعارف", deliverTo: "ڈیلیوری", login: "لاگ ان", cart: "دسترخوان", add: "شامل کریں", searchPh: "کھانے تلاش کریں…",
   badge: "پہلے دن سے · 35+ شاخیں", heroTitle: "مشہورِ زمانہ دال چاول، گرم گرم آپ تک۔", heroTagline: "جہاں سے سب شروع ہوا۔",
   heroDesc: "اسلام آباد اور راولپنڈی کا دیسی ذائقہ — بریانی، کڑاہی، باربی کیو، رول، چاٹ اور چائے۔ منٹوں میں آرڈر کریں۔",
   orderNow: "ابھی آرڈر کریں ←", findBranch: "شاخ تلاش کریں", featBadge: "مشہورِ زمانہ", sigSub: "وہ ڈش جہاں سے سب شروع ہوا — مشہور اور کم قیمت، نرم چاول پر دال۔ ہر شاخ پر پسندیدہ۔", browseCat: "زمرہ منتخب کریں", mostLoved: "سب سے پسندیدہ 🔥", seeFullMenu: "مکمل مینو دیکھیں ←", dishesWord: "ڈشز",
@@ -65,7 +65,7 @@ export const UR: Translation = {
   aboutStory: "شاہ جی فوڈز ایک مقبول دیسی ریستوران ہے جو روایتی اور دل کو بھانے والا پاکستانی اسٹریٹ فوڈ اور برصغیر کے کلاسک کھانے پیش کرتا ہے۔ جہاں سے سب شروع ہوا وہ ہماری مشہور اور کم قیمت دال چاول ہے — نرم چاول پر دال — جو آج بھی ہر شاخ پر سب سے پسندیدہ ہے۔",
   statBranches: "شاخیں", statDishes: "ڈشز", statCities: "شہر", knownFor: "ہماری پہچان",
   c1t: "دیسی سالن اور چاول", c1d: "دال چاول، بنوں پلاؤ، بریانی، کڑاہی اور ہانڈی۔", c2t: "کوئلوں کا باربی کیو", c2d: "تکہ، سیخ کباب، ملائی بوٹی اور تازہ تندوری نان۔", c3t: "چائے اور لسی", c3d: "میٹھی و نمکین لسی، ملک شیک اور اصل دیسی چائے۔", seeMenu: "مینو دیکھیں ←",
-  cartTitle: "آپ کی ٹوکری", emptyTitle: "آپ کی ٹوکری خالی ہے", emptyDesc: "شروع کرنے کے لیے دال چاول، کڑاہی یا پراٹھا رول شامل کریں۔", browseMenu: "مینو دیکھیں", subtotal: "ذیلی رقم", delivery: "ڈیلیوری", gst: "جی ایس ٹی (5%)", total: "کل رقم", free: "مفت", placeOrder: "آرڈر کریں · ",
+  cartTitle: "آپ کا دسترخوان", emptyTitle: "آپ کا دسترخوان ابھی خالی ہے", emptyDesc: "دال چاول، کڑاہی یا پراٹھا رول شامل کریں — چلیں دسترخوان سجائیں!", browseMenu: "مینو دیکھیں", subtotal: "ذیلی رقم", delivery: "ڈیلیوری", gst: "جی ایس ٹی (5%)", total: "کل رقم", free: "مفت", placeOrder: "آرڈر کریں · ",
   fullName: "پورا نام", phoneLbl: "فون نمبر", passwordLbl: "پاس ورڈ", haveAccount: "پہلے سے اکاؤنٹ ہے؟", newHere: "نئے ہیں؟", loginLink: "لاگ ان", createLink: "اکاؤنٹ بنائیں", createAccount: "اکاؤنٹ بنائیں", loginTitle: "لاگ ان",
   orderPlaced: "آرڈر موصول ہو گیا!", orderDescA: "", orderDescB: " سے آپ کا کھانا تیار ہو رہا ہے۔ متوقع ڈیلیوری 30–40 منٹ میں۔", backHome: "ہوم پر واپس",
   footTag: "دیسی ذائقہ، اسلام آباد اور راولپنڈی بھر میں۔", footCompany: "کمپنی", footHelp: "مدد", footFollow: "فالو کریں", footCompanyLinks: ["ہمارے بارے میں", "شاخیں", "کیریئر"], footHelpLinks: ["رابطہ", "آرڈر ٹریکنگ", "سوالات"],
