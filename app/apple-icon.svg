@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5E1A86" />
+      <stop offset=".55" stop-color="#8E1E7C" />
+      <stop offset="1" stop-color="#B71C66" />
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F2D98A" />
+      <stop offset="1" stop-color="#C79A3E" />
+    </linearGradient>
+  </defs>
+  <rect width="180" height="180" fill="url(#bg)" />
+  <text x="90" y="120" font-family="Georgia, 'Times New Roman', serif" font-size="86" font-weight="700" letter-spacing="-4" text-anchor="middle" fill="url(#gold)">SG</text>
+</svg>

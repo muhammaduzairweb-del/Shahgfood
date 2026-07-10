@@ -11,10 +11,16 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#C1272D",
     icons: [
       {
-        src: "/Shahglogo.png",
-        sizes: "386x358",
-        type: "image/png",
+        src: "/icon.svg",
+        sizes: "any",
+        type: "image/svg+xml",
         purpose: "any",
+      },
+      {
+        src: "/icon.svg",
+        sizes: "any",
+        type: "image/svg+xml",
+        purpose: "maskable",
       },
     ],
   };

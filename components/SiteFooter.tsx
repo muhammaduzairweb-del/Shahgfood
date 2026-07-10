@@ -61,6 +61,12 @@ export default function SiteFooter() {
             <a href={IG_URL} target="_blank" rel="noopener noreferrer" style={social}><IconInstagram size={22} />Instagram</a>
           </div>
           <Link href="/" className="num" style={{ ...colLink, marginTop: 10 }}>shahgfood.com</Link>
+          <button
+            onClick={() => window.dispatchEvent(new Event("pwa-install"))}
+            style={{ cursor: "pointer", marginTop: 12, display: "inline-flex", alignItems: "center", gap: 8, border: "1px solid rgba(255,255,255,.35)", background: "rgba(255,255,255,.1)", color: "#fff", fontWeight: 700, fontSize: 13, fontFamily: "inherit", padding: "9px 15px", borderRadius: 999 }}
+          >
+            📲 {ur ? "ایپ انسٹال کریں" : "Install app"}
+          </button>
         </div>
       </div>
       <div style={{ borderTop: "1px solid rgba(255,255,255,.1)", padding: isMobile ? "16px 20px 104px" : "16px 20px", display: "flex", flexWrap: "wrap", gap: "6px 18px", alignItems: "center", justifyContent: "center", fontSize: 12, color: "rgba(255,255,255,.4)" }}>

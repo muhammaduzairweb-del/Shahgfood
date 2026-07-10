@@ -76,10 +76,6 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
-  icons: {
-    icon: "/Shahglogo.png",
-    apple: "/Shahglogo.png",
-  },
   manifest: "/manifest.webmanifest",
 };
 
@@ -91,8 +87,7 @@ export const viewport: Viewport = {
 
 // Local-business structured data (JSON-LD) — helps Google identify & rank the real site
 const PHONE = "+923307862992";
-const jsonLd = {
-  "@context": "https://schema.org",
+const restaurant = {
   "@type": "Restaurant",
   "@id": `${SITE_URL}/#restaurant`,
   name: "Shah G Foods",
@@ -157,6 +152,32 @@ const jsonLd = {
     worstRating: "1",
   },
   sameAs: ["https://www.facebook.com/shah.g.foods.627153/", "https://www.instagram.com/shahgfoodsofficial/"],
+};
+
+// WebSite schema tells Google the site name → shows "Shah G Foods" (not the URL) in results
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: "Shah G Foods",
+      alternateName: ["Shah G Food", "Shah Gee Foods", "Shah G"],
+      inLanguage: "en-PK",
+      publisher: { "@id": `${SITE_URL}/#restaurant` },
+    },
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: "Shah G Foods",
+      alternateName: ["Shah G Food", "Shah Gee Foods"],
+      url: SITE_URL,
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/Shahglogo.png` },
+      sameAs: ["https://www.facebook.com/shah.g.foods.627153/", "https://www.instagram.com/shahgfoodsofficial/"],
+    },
+    restaurant,
+  ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
