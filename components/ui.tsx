@@ -1,13 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { dishImage, dishSlug, TILE, type Dish } from "@/lib/data";
+import { FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
+import { dishImage, dishSlug, TILE, ORDER_TEL, waOrderLink, type Dish } from "@/lib/data";
 import { mono } from "@/lib/cart";
 import type { Translation } from "@/lib/i18n";
 
 export const RED = "#C1272D";
+const WA_GREEN = "#25D366";
 
-export function DishCard({ d, ur, t, fmt, qty, onAdd, onDec, showDesc }: { d: Dish; ur: boolean; t: Translation; fmt: (n: number) => string; qty: number; onAdd: () => void; onDec: () => void; showDesc?: boolean }) {
+// Order buttons (marketplace: no cart — call or WhatsApp the vendor directly)
+function OrderButtons({ name, ur, compact }: { name: string; ur: boolean; t: Translation; compact?: boolean }) {
+  return (
+    <div style={{ display: "flex", gap: 6, flex: "none" }} onClick={(e) => e.stopPropagation()}>
+      <a href={waOrderLink(name)} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" style={{ display: "flex", alignItems: "center", justifyContent: "center", width: compact ? 34 : 38, height: compact ? 34 : 38, borderRadius: 11, background: WA_GREEN, color: "#fff", flex: "none" }}>
+        <FaWhatsapp size={compact ? 17 : 19} />
+      </a>
+      <a href={`tel:${ORDER_TEL}`} style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 7, background: RED, color: "#fff", fontWeight: 800, fontSize: compact ? 12.5 : 13.5, padding: compact ? "8px 14px" : "9px 17px", borderRadius: 11, whiteSpace: "nowrap" }}>
+        <FaPhoneAlt size={compact ? 11 : 12} /> {ur ? "کال کریں" : "Call"}
+      </a>
+    </div>
+  );
+}
+
+export function DishCard({ d, ur, t, fmt, showDesc }: { d: Dish; ur: boolean; t: Translation; fmt: (n: number) => string; qty?: number; onAdd?: () => void; onDec?: () => void; showDesc?: boolean }) {
   const img = dishImage(d);
   return (
     <div style={{ background: "#fff", border: "1px solid rgba(0,0,0,.05)", borderRadius: 20, overflow: "hidden", boxShadow: "0 14px 30px -24px rgba(60,30,10,.6)", display: "flex", flexDirection: "column" }}>
@@ -28,15 +44,7 @@ export function DishCard({ d, ur, t, fmt, qty, onAdd, onDec, showDesc }: { d: Di
         {showDesc && <div style={{ fontSize: 12, color: "#8A8072", marginTop: 5, lineHeight: 1.55, minHeight: 34 }}>{ur ? d.du : d.desc}</div>}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto", paddingTop: 14, gap: 8 }}>
           <span className="num" style={{ fontSize: 17, fontWeight: 800 }}>{d.group ? `${ur ? "" : "from "}${fmt(d.price)}` : fmt(d.price)}</span>
-          {qty > 0 ? (
-            <div style={{ display: "flex", alignItems: "center", gap: 12, background: RED, borderRadius: 12, padding: "6px 9px" }}>
-              <button onClick={onDec} style={{ cursor: "pointer", border: "none", background: "transparent", color: "#fff", fontSize: 19, fontWeight: 700, width: 20, lineHeight: 1 }}>−</button>
-              <span className="num" style={{ color: "#fff", fontWeight: 800, fontSize: 15, minWidth: 16, textAlign: "center" }}>{qty}</span>
-              <button onClick={onAdd} style={{ cursor: "pointer", border: "none", background: "transparent", color: "#fff", fontSize: 19, fontWeight: 700, width: 20, lineHeight: 1 }}>+</button>
-            </div>
-          ) : (
-            <button onClick={onAdd} style={{ cursor: "pointer", border: `1.5px solid ${RED}`, background: "#fff", color: RED, fontWeight: 800, fontSize: 13.5, fontFamily: "inherit", padding: "9px 18px", borderRadius: 12, whiteSpace: "nowrap" }}>{t.add}</button>
-          )}
+          <OrderButtons name={d.name} ur={ur} t={t} />
         </div>
       </div>
     </div>
@@ -44,7 +52,7 @@ export function DishCard({ d, ur, t, fmt, qty, onAdd, onDec, showDesc }: { d: Di
 }
 
 // Compact horizontal row — used on phones instead of the big card.
-export function DishRow({ d, ur, t, fmt, qty, onAdd, onDec }: { d: Dish; ur: boolean; t: Translation; fmt: (n: number) => string; qty: number; onAdd: () => void; onDec: () => void }) {
+export function DishRow({ d, ur, t, fmt }: { d: Dish; ur: boolean; t: Translation; fmt: (n: number) => string; qty?: number; onAdd?: () => void; onDec?: () => void }) {
   const img = dishImage(d);
   return (
     <div style={{ display: "flex", gap: 12, background: "#fff", borderRadius: 16, padding: 10, border: "1px solid rgba(0,0,0,.05)", boxShadow: "0 8px 20px -18px rgba(60,30,10,.6)" }}>
@@ -61,15 +69,7 @@ export function DishRow({ d, ur, t, fmt, qty, onAdd, onDec }: { d: Dish; ur: boo
         <div style={{ fontSize: 12, color: "#8A8072", marginTop: 3, lineHeight: 1.45, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{ur ? d.du : d.desc}</div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto", paddingTop: 8, gap: 8 }}>
           <span className="num" style={{ fontSize: 16, fontWeight: 800 }}>{d.group ? `${ur ? "" : "from "}${fmt(d.price)}` : fmt(d.price)}</span>
-          {qty > 0 ? (
-            <div style={{ display: "flex", alignItems: "center", gap: 11, background: RED, borderRadius: 11, padding: "5px 9px" }}>
-              <button onClick={onDec} style={{ cursor: "pointer", border: "none", background: "transparent", color: "#fff", fontSize: 18, fontWeight: 700, width: 18, lineHeight: 1 }}>−</button>
-              <span className="num" style={{ color: "#fff", fontWeight: 800, fontSize: 14, minWidth: 14, textAlign: "center" }}>{qty}</span>
-              <button onClick={onAdd} style={{ cursor: "pointer", border: "none", background: "transparent", color: "#fff", fontSize: 18, fontWeight: 700, width: 18, lineHeight: 1 }}>+</button>
-            </div>
-          ) : (
-            <button onClick={onAdd} style={{ cursor: "pointer", border: `1.5px solid ${RED}`, background: "#fff", color: RED, fontWeight: 800, fontSize: 13, fontFamily: "inherit", padding: "8px 16px", borderRadius: 11, whiteSpace: "nowrap" }}>{t.add}</button>
-          )}
+          <OrderButtons name={d.name} ur={ur} t={t} compact />
         </div>
       </div>
     </div>

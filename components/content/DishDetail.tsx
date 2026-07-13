@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { MENU, CATS, getDishBySlug, dishSlug, dishImage, dishVariants, TILE } from "@/lib/data";
+import { FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
+import { MENU, CATS, getDishBySlug, dishSlug, dishImage, dishVariants, ORDER_TEL, waOrderLink, TILE } from "@/lib/data";
 import { DICT } from "@/lib/i18n";
 import { dishKB } from "@/lib/kb";
 import { fmt as fmtBase, mono } from "@/lib/cart";
@@ -10,9 +11,10 @@ import { useWidth } from "@/components/hooks";
 
 const RED = "#C1272D";
 const CHARCOAL = "#16171B";
+const WA_GREEN = "#25D366";
 
 export default function DishDetail({ slug }: { slug: string }) {
-  const { lang, cart, addItem, decItem, setCartOpen } = useApp();
+  const { lang } = useApp();
   const t = DICT[lang];
   const ur = lang === "ur";
   const fmt = (n: number) => fmtBase(n, ur);
@@ -24,7 +26,6 @@ export default function DishDetail({ slug }: { slug: string }) {
   if (!d) return null;
 
   const cat = CATS.find((c) => c.key === d.cat);
-  const qty = cart[d.id] || 0;
   const img = dishImage(d);
   const variants = dishVariants(d);
   const kb = dishKB(d);
@@ -88,25 +89,17 @@ export default function DishDetail({ slug }: { slug: string }) {
             <span style={{ background: "#F5EEE1", color: "#5A5245", fontSize: 12.5, fontWeight: 700, padding: "6px 12px", borderRadius: 999 }}>⏱️ {ur ? kb.prepU : kb.prep}</span>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 6, flexWrap: "wrap" }}>
+          <div style={{ marginTop: 6 }}>
             <span className="num" style={{ fontSize: 30, fontWeight: 800, color: "#211812" }}>{fmt(d.price)}</span>
-            {qty > 0 ? (
-              <div style={{ display: "flex", alignItems: "center", gap: 14, background: RED, borderRadius: 13, padding: "9px 16px" }}>
-                <button onClick={() => decItem(d.id)} aria-label="-" style={{ cursor: "pointer", border: "none", background: "transparent", color: "#fff", fontSize: 20, lineHeight: 1 }}>−</button>
-                <span className="num" style={{ color: "#fff", fontWeight: 800, fontSize: 16, minWidth: 16, textAlign: "center" }}>{qty}</span>
-                <button onClick={() => addItem(d.id)} aria-label="+" style={{ cursor: "pointer", border: "none", background: "transparent", color: "#fff", fontSize: 20, lineHeight: 1 }}>+</button>
-              </div>
-            ) : (
-              <button onClick={() => addItem(d.id)} style={{ cursor: "pointer", border: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 15, padding: "13px 26px", borderRadius: 13, fontFamily: "inherit" }}>{t.add}</button>
-            )}
           </div>
 
-          <button
-            onClick={() => { if (qty === 0) addItem(d.id); setCartOpen(true); }}
-            style={{ cursor: "pointer", marginTop: 4, alignSelf: "flex-start", border: `1.5px solid ${RED}`, background: "transparent", color: RED, fontWeight: 800, fontSize: 14.5, padding: "12px 24px", borderRadius: 13, fontFamily: "inherit" }}
-          >
-            {ur ? "ابھی آرڈر کریں ←" : "Order now →"}
-          </button>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 6 }}>
+            <a href={`tel:${ORDER_TEL}`} style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: RED, color: "#fff", fontWeight: 800, fontSize: 15, padding: "13px 26px", borderRadius: 13 }}><FaPhoneAlt size={14} /> {ur ? "کال کر کے آرڈر کریں" : "Order via Call"}</a>
+            <a href={waOrderLink(d.name)} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: WA_GREEN, color: "#fff", fontWeight: 800, fontSize: 15, padding: "13px 22px", borderRadius: 13 }}>
+              <FaWhatsapp size={19} /> WhatsApp
+            </a>
+          </div>
+          <div style={{ fontSize: 12, color: "#B0A692", marginTop: 8 }}>{ur ? "شاہ جی فوڈز پر لسٹڈ · براہِ راست آرڈر کریں" : "Listed by Shah G Foods · order directly"}</div>
         </div>
       </div>
 

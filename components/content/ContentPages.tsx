@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { BRANCHES, MENU, SITE_IMAGES, type CategoryKey, TILE, branchSlug } from "@/lib/data";
+import { BRANCHES, SITE_IMAGES, type CategoryKey, TILE, branchSlug } from "@/lib/data";
 import { DICT } from "@/lib/i18n";
 import { EXTRA, PAGES } from "@/lib/i18n-extra";
 import { useApp } from "@/components/AppProvider";
@@ -26,33 +26,65 @@ function useLangPack() {
 
 /* ---------------- ABOUT ---------------- */
 export function AboutContent() {
-  const { ur, t, p } = useLangPack();
-  const sig = MENU[0];
+  const { ur } = useLangPack();
   const storyImgs = [SITE_IMAGES.aboutStory1, SITE_IMAGES.aboutStory2, SITE_IMAGES.aboutStory3];
+
+  const A = ur
+    ? {
+        badge: "ہماری کہانی · مارکیٹ پلیس",
+        headline: "شاہ جی آن لائن — پاکستان کا فوڈ مارکیٹ پلیس",
+        sub: "ہم بھوکے گاہکوں کو ملک کے بہترین مقامی کچن سے جوڑتے ہیں — اصل ذائقہ، ایک کلک پر۔",
+        intro: "شاہ جی آن لائن ایک سادہ سوچ سے شروع ہوا: ہر محلے کا بہترین کھانا ایک جگہ لے آنا۔ ہم خود کھانا نہیں پکاتے — ہم پاکستان بھر کے ریستورانوں اور ہوم کچن کے مینو لسٹ کرتے ہیں تاکہ آپ سیدھا اُن سے آرڈر کر سکیں، بغیر کسی درمیانی کمیشن کے۔ ہمارے پہلے فیچرڈ پارٹنر شاہ جی فوڈز ہیں۔",
+        blocks: [
+          { h: "گاہکوں کے لیے", p: "پسندیدہ ڈش تلاش کریں اور سیدھا کال یا واٹس ایپ پر آرڈر کریں۔ کوئی جھنجھٹ نہیں — صرف تازہ، اصل دیسی کھانا آپ کے علاقے کے بہترین کچن سے۔" },
+          { h: "ریستورانوں کے لیے", p: "اپنا مینو ہزاروں بھوکے گاہکوں کے سامنے لائیں۔ صفر کمیشن، صفر ڈیلیوری جھنجھٹ — بس ایک ماہانہ سلاٹ اور آرڈرز سیدھا آپ کے نمبر پر۔" },
+          { h: "ہمارا مشن", p: "عمدہ کھانا سب کی پہنچ میں۔ ہم ہر کچن کو، چھوٹا ہو یا بڑا، ڈیجیٹل طاقت دیتے ہیں تاکہ وہ بھاری فیس کے بغیر آن لائن بڑھ سکے۔" },
+        ],
+        quote: "”عمدہ کھانا ڈھونڈنا آسان ہونا چاہیے — اور اسے بیچنا اس سے بھی آسان۔“",
+        stats: [{ v: "10,000+", l: "روزانہ وزیٹرز" }, { v: "0%", l: "کمیشن" }, { v: "90+", l: "لسٹڈ ڈشز" }, { v: "🇵🇰", l: "پورے پاکستان میں" }],
+        hungryT: "بھوک لگی ہے؟", hungry: "مینو دیکھیں اور آرڈر کریں →",
+        ownerT: "ریستوران کے مالک ہیں؟", owner: "اپنا ریستوران لسٹ کریں →",
+      }
+    : {
+        badge: "OUR STORY · MARKETPLACE",
+        headline: "Shah G Online — Pakistan's food marketplace",
+        sub: "We connect hungry customers with the country's best local kitchens — authentic taste, one click away.",
+        intro: "Shah G Online began with a simple idea: bring every neighbourhood's best food into one place. We don't cook — we list the menus of restaurants and home kitchens across Pakistan so you can order directly from them, with zero middle-man commission. Our very first featured partner is Shah G Foods.",
+        blocks: [
+          { h: "For hungry customers", p: "Find a dish you love and order it straight from the kitchen by Call or WhatsApp. No fuss — just fresh, authentic desi food from the best kitchens serving your area." },
+          { h: "For restaurants", p: "Put your menu in front of thousands of hungry customers. Zero commission, zero delivery headache — just a simple monthly slot and orders straight to your own number." },
+          { h: "Our mission", p: "Great food should be easy to find — and easy to sell. We give every kitchen, big or small, the digital power to grow online without heavy fees." },
+        ],
+        quote: "“Great food should be easy to find — and even easier to sell.”",
+        stats: [{ v: "10,000+", l: "Daily visitors" }, { v: "0%", l: "Commission" }, { v: "90+", l: "Dishes listed" }, { v: "🇵🇰", l: "Nationwide" }],
+        hungryT: "Feeling hungry?", hungry: "Explore menus & order →",
+        ownerT: "Own a restaurant?", owner: "List your restaurant →",
+      };
 
   return (
     <div>
-      {/* HERO */}
+      {/* HERO — text one side, food-orbit animation on the other */}
       <section style={{ position: "relative", overflow: "hidden", background: "linear-gradient(160deg,#5E1A86 0%,#8E1E7C 50%,#B71C66 100%)", color: "#fff" }}>
         <div style={{ position: "absolute", inset: 0, opacity: 0.13, background: "radial-gradient(circle at 88% 16%, #F7D774 0 12px, transparent 13px),radial-gradient(circle at 12% 78%, #F7D774 0 9px, transparent 10px),radial-gradient(circle at 60% 92%, #F7D774 0 6px, transparent 7px)" }} />
-        <div style={{ maxWidth: 1000, margin: "0 auto", padding: "60px 20px 34px", position: "relative", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <div style={{ display: "inline-block", background: "rgba(224,160,32,.95)", color: "#211812", fontSize: 11.5, fontWeight: 800, padding: "7px 15px", borderRadius: 999, letterSpacing: ".6px" }}>{p.aboutBadge}</div>
-          <h1 style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: "clamp(32px,5vw,58px)", lineHeight: 1.06, marginTop: 18, maxWidth: 820, fontWeight: 400, letterSpacing: "-.5px" }}>{p.aboutHeadline}</h1>
-          <p style={{ fontSize: 16.5, color: "rgba(255,255,255,.9)", marginTop: 16, maxWidth: 620, lineHeight: 1.75 }}>{p.aboutSub}</p>
-        </div>
-        <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 20px", position: "relative", transform: "translateY(34px)" }}>
-          <ImageSlot src={SITE_IMAGES.aboutHero} alt="Shah G Foods — our kitchen" ratio="16 / 9" label={ur ? "ہیرو تصویر" : "About hero image"} />
+        <div style={{ maxWidth: 1000, margin: "0 auto", padding: "48px 20px 52px", position: "relative", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 34 }}>
+          <div style={{ flex: "1.2 1 340px", display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16 }}>
+            <div style={{ display: "inline-block", background: "rgba(224,160,32,.95)", color: "#211812", fontSize: 11.5, fontWeight: 800, padding: "7px 15px", borderRadius: 999, letterSpacing: ".6px" }}>{A.badge}</div>
+            <h1 style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: "clamp(30px,4.6vw,52px)", lineHeight: ur ? 1.5 : 1.08, margin: 0, fontWeight: 400, letterSpacing: ur ? "normal" : "-.5px" }}>{A.headline}</h1>
+            <p style={{ fontSize: 16.5, color: "rgba(255,255,255,.9)", margin: 0, maxWidth: 560, lineHeight: 1.75 }}>{A.sub}</p>
+          </div>
+          <div style={{ flex: "1 1 280px", minWidth: 260 }}>
+            <FoodOrbit center="🍽️" items={["🍛", "🍗", "🥘", "🫓", "🍢", "🥤", "🍰", "🫖"]} onDark speed={26} />
+          </div>
         </div>
       </section>
 
       <div style={{ maxWidth: 1000, margin: "0 auto", padding: "60px 20px 60px" }}>
-        {/* INTRO */}
-        <p style={{ fontSize: 18, lineHeight: 1.9, color: "#3D362D", maxWidth: 760, margin: "0 auto", textAlign: "center" }}>{p.aboutIntro}</p>
+        <p style={{ fontSize: 18, lineHeight: 1.9, color: "#3D362D", maxWidth: 760, margin: "0 auto", textAlign: "center" }}>{A.intro}</p>
 
-        {/* ALTERNATING STORY ROWS */}
+        {/* STORY ROWS */}
         <div style={{ display: "flex", flexDirection: "column", gap: 48, marginTop: 54 }}>
-          {p.aboutBlocks.map((b, i) => {
-            const imageRight = i % 2 === 0; // block 1 & 3: image on the right
+          {A.blocks.map((b, i) => {
+            const imageRight = i % 2 === 0;
             return (
               <div key={i} style={{ display: "flex", flexWrap: "wrap", gap: 32, alignItems: "center", flexDirection: imageRight ? "row" : "row-reverse" }}>
                 <div style={{ flex: "1 1 300px" }}>
@@ -61,7 +93,7 @@ export function AboutContent() {
                   <p style={{ fontSize: 15.5, lineHeight: 1.85, color: "#5A5245", margin: 0 }}>{b.p}</p>
                 </div>
                 <div style={{ flex: "1 1 320px", width: "100%" }}>
-                  <ImageSlot src={storyImgs[i]} alt={b.h} ratio="1 / 1" label={ur ? `کہانی تصویر ${i + 1}` : `Story image ${i + 1}`} />
+                  <ImageSlot src={storyImgs[i]} alt={b.h} ratio="1 / 1" label={ur ? `تصویر ${i + 1}` : `Image ${i + 1}`} />
                 </div>
               </div>
             );
@@ -70,13 +102,13 @@ export function AboutContent() {
 
         {/* QUOTE */}
         <div style={{ textAlign: "center", margin: "56px auto", maxWidth: 720 }}>
-          <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: "clamp(22px,3vw,32px)", fontStyle: "italic", color: "#211812", lineHeight: 1.4 }}>{p.aboutQuote}</div>
-          <div style={{ marginTop: 14, fontWeight: 800, color: RED, fontSize: 13, letterSpacing: 1 }}>— SHAH G FOODS</div>
+          <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: "clamp(22px,3vw,32px)", fontStyle: "italic", color: "#211812", lineHeight: 1.4 }}>{A.quote}</div>
+          <div style={{ marginTop: 14, fontWeight: 800, color: RED, fontSize: 13, letterSpacing: 1 }}>— SHAH G ONLINE</div>
         </div>
 
         {/* STATS */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))", gap: 14 }}>
-          {[{ v: "35+", l: t.statBranches }, { v: "92", l: t.statDishes }, { v: "2", l: t.statCities }, { v: "Rs.180", l: ur ? sig.urdu : sig.name }].map((s, i) => (
+          {A.stats.map((s, i) => (
             <div key={i} style={{ ...card, textAlign: "center" }}>
               <div className="num" style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 34, color: RED }}>{s.v}</div>
               <div style={{ fontSize: 12.5, color: "#8A8072", fontWeight: 600, marginTop: 4 }}>{s.l}</div>
@@ -84,20 +116,18 @@ export function AboutContent() {
           ))}
         </div>
 
-        {/* KNOWN FOR */}
-        <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 26, margin: "44px 0 14px", textAlign: "center" }}>{t.knownFor}</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 14 }}>
-          {[{ icon: "🍛", tt: t.c1t, dd: t.c1d }, { icon: "🔥", tt: t.c2t, dd: t.c2d }, { icon: "🥤", tt: t.c3t, dd: t.c3d }].map((c, i) => (
-            <div key={i} style={card}>
-              <div style={{ fontSize: 22 }}>{c.icon}</div>
-              <div style={{ fontWeight: 800, marginTop: 8 }}>{c.tt}</div>
-              <div style={{ fontSize: 13, color: "#8A8072", marginTop: 4, lineHeight: 1.6 }}>{c.dd}</div>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ textAlign: "center", marginTop: 40 }}>
-          <Link href="/" style={{ textDecoration: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 16, padding: "16px 36px", borderRadius: 14, boxShadow: "0 14px 28px -12px rgba(193,39,45,.6)" }}>{t.seeMenu}</Link>
+        {/* DUAL CTA */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 16, marginTop: 44 }}>
+          <div style={{ background: "#16171B", color: "#fff", borderRadius: 20, padding: "30px 28px", display: "flex", flexDirection: "column", gap: 12 }}>
+            <div style={{ fontSize: 30 }}>🍛</div>
+            <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 24 }}>{A.hungryT}</div>
+            <Link href="/restaurant/shah-g-foods/menu" style={{ alignSelf: "flex-start", textDecoration: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 15, padding: "13px 24px", borderRadius: 13, marginTop: 4 }}>{A.hungry}</Link>
+          </div>
+          <div style={{ background: "linear-gradient(160deg,#5E1A86,#B71C66)", color: "#fff", borderRadius: 20, padding: "30px 28px", display: "flex", flexDirection: "column", gap: 12 }}>
+            <div style={{ fontSize: 30 }}>🏪</div>
+            <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 24 }}>{A.ownerT}</div>
+            <Link href="/partner" style={{ alignSelf: "flex-start", textDecoration: "none", background: "#fff", color: "#5E1A86", fontWeight: 800, fontSize: 15, padding: "13px 24px", borderRadius: 13, marginTop: 4 }}>{A.owner}</Link>
+          </div>
         </div>
       </div>
     </div>
@@ -106,11 +136,11 @@ export function AboutContent() {
 
 /* ---------------- BRANCHES ---------------- */
 export function BranchesContent() {
-  const { t, p } = useLangPack();
+  const { ur, t, p } = useLangPack();
   const { branch, setBranch } = useApp();
   return (
     <>
-    <PageHero title={t.brTitle} subtitle={t.brDesc} image={SITE_IMAGES.aboutHero} />
+    <PageHero title={ur ? "شاہ جی فوڈز کی شاخیں" : "Shah G Foods Branches"} subtitle={t.brDesc} badge={ur ? "فیچرڈ ریستوران" : "FEATURED RESTAURANT"} image={SITE_IMAGES.aboutHero} />
     <div style={WRAP}>
       <div style={{ fontSize: 13, color: "#B0A692", marginBottom: 18 }}>{p.branchesNote}</div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(280px,1fr))", gap: 14 }}>

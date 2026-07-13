@@ -6,7 +6,6 @@ import { DICT } from "@/lib/i18n";
 import { useApp } from "@/components/AppProvider";
 import { useWidth } from "@/components/hooks";
 import { IconFacebook, IconInstagram } from "@/components/icons";
-import AppBadges from "@/components/AppBadges";
 
 const colLink: React.CSSProperties = { color: "rgba(255,255,255,.75)", textDecoration: "none", display: "block" };
 const social: React.CSSProperties = { color: "rgba(255,255,255,.85)", textDecoration: "none", display: "flex", alignItems: "center", gap: 9, fontSize: 13.5, fontWeight: 600 };
@@ -21,14 +20,13 @@ export default function SiteFooter() {
   const isMobile = useWidth() < 820;
 
   const company: [string, string][] = [
-    [t.footCompanyLinks[0], "/about"],
-    [t.footCompanyLinks[1], "/branches"],
-    [t.footCompanyLinks[2], "/careers"],
+    [ur ? "ہمارے بارے میں" : "About us", "/about"],
+    [ur ? "شاخیں" : "Branches", "/branches"],
+    [ur ? "ریستوران لسٹ کریں" : "List your restaurant", "/partner"],
   ];
   const help: [string, string][] = [
-    [t.footHelpLinks[0], "/contact"],
-    [t.footHelpLinks[1], "/track"],
-    [t.footHelpLinks[2], "/faqs"],
+    [ur ? "شکایت درج کریں" : "File a complaint", "/complaint"],
+    [ur ? "سوالات" : "FAQs", "/faqs"],
   ];
 
   return (
@@ -38,7 +36,6 @@ export default function SiteFooter() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={LOGO} alt="Shah G Foods" style={{ height: 74, width: "auto", objectFit: "contain", display: "block", filter: LOGO_FILTER }} />
           <div style={{ fontSize: 13, color: "rgba(255,255,255,.6)", marginTop: 12, lineHeight: 1.7 }}>{t.footTag}</div>
-          <AppBadges />
         </div>
 
         <div style={{ fontSize: 13, lineHeight: 2.1 }}>
@@ -53,7 +50,7 @@ export default function SiteFooter() {
           {help.map(([label, href]) => (
             <Link key={href} href={href} style={colLink}>{label}</Link>
           ))}
-          <Link href="/admin" style={{ ...colLink, color: "rgba(255,255,255,.5)" }}>Admin</Link>
+          <Link href="/partner" style={colLink}>{ur ? "ریستوران لسٹ کریں" : "List your restaurant"}</Link>
         </div>
 
         <div style={{ fontSize: 13, lineHeight: 2.1 }}>
@@ -66,10 +63,12 @@ export default function SiteFooter() {
         </div>
       </div>
       <div style={{ borderTop: "1px solid rgba(255,255,255,.1)", padding: isMobile ? "16px 20px 104px" : "16px 20px", display: "flex", flexWrap: "wrap", gap: "6px 18px", alignItems: "center", justifyContent: "center", fontSize: 12, color: "rgba(255,255,255,.4)" }}>
-        <span className="num">© 2026 Shah G Foods · shahgfood.com</span>
+        <span className="num">© 2026 Shah G Online · shahgfood.com</span>
         <span style={{ opacity: 0.4 }}>·</span>
-        <Link href="/privacy" style={{ color: "rgba(255,255,255,.55)", textDecoration: "none" }}>{ur ? "پرائیویسی پالیسی" : "Privacy Policy"}</Link>
-        <Link href="/terms" style={{ color: "rgba(255,255,255,.55)", textDecoration: "none" }}>{ur ? "شرائط و ضوابط" : "Terms & Conditions"}</Link>
+        <Link href="/privacy" style={{ color: "rgba(255,255,255,.55)", textDecoration: "none" }}>{ur ? "پرائیویسی" : "Privacy"}</Link>
+        <Link href="/terms" style={{ color: "rgba(255,255,255,.55)", textDecoration: "none" }}>{ur ? "شرائط و ضوابط" : "Terms"}</Link>
+        <Link href="/refund" style={{ color: "rgba(255,255,255,.55)", textDecoration: "none" }}>{ur ? "ری فنڈ" : "Refunds"}</Link>
+        <Link href="/shipping" style={{ color: "rgba(255,255,255,.55)", textDecoration: "none" }}>{ur ? "سروس پالیسی" : "Service Policy"}</Link>
       </div>
     </footer>
   );

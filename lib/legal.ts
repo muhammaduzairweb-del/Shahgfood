@@ -1,6 +1,6 @@
-// ===== Shah G Foods — legal copy (Privacy Policy & Terms) — bilingual =====
-// NOTE: This is a good-faith template written for a food-delivery business in
-// Pakistan. Have a qualified lawyer review it before you rely on it in production.
+// ===== Shah G Online — legal copy (Privacy, Terms, Refund, Service) — bilingual =====
+// Written for a digital FOOD MARKETPLACE / directory (SaaS listing platform).
+// NOTE: Good-faith template. Have a qualified lawyer review before you rely on it.
 
 import type { Lang } from "./i18n";
 
@@ -16,300 +16,124 @@ export interface LegalDoc {
   sections: LegalSection[];
 }
 
-const COMPANY = "Shah G Foods";
-const EMAIL = "hello@shahgfood.com";
-const PHONE = "+92 330 786 2992";
-const OFFICE = "F-10/4 Markaz, Islamabad, Pakistan";
-const UPDATED_EN = "Last updated: 5 July 2026";
-const UPDATED_UR = "آخری اپ ڈیٹ: 5 جولائی 2026";
+const COMPANY = "Shah G Online";
+const SITE = "shahgfood.com";
+const EMAIL = "business@shahgfood.com";
+const LOCATION = "Islamabad, Pakistan (online-only B2B service — no physical storefront)";
+const UPDATED_EN = "Last updated: 13 July 2026";
+const UPDATED_UR = "آخری اپ ڈیٹ: 13 جولائی 2026";
 
-// ---------------- PRIVACY POLICY ----------------
+/* ---------------- PRIVACY ---------------- */
 const PRIVACY_EN: LegalDoc = {
   badge: "LEGAL · PRIVACY",
   title: "Privacy Policy",
   updated: UPDATED_EN,
-  intro: `This Privacy Policy explains how ${COMPANY} ("we", "us", "our") collects, uses, shares and protects your personal information when you use our website, place an order, or interact with us. By using our services you agree to the practices described below.`,
+  intro: `This Privacy Policy explains how ${COMPANY} ("we", "us", "our") — an online food marketplace at ${SITE} — collects, uses, shares and protects your information. By using our website you agree to these practices.`,
   sections: [
-    {
-      h: "1. Information we collect",
-      body: [
-        "Account details you give us: your name, phone number, email address and password when you create an account.",
-        "Order details: your delivery address, the items you order, delivery notes and order history.",
-        "Payment details: for card payments, your card information is entered on, and processed by, a secure third-party payment provider. We do not store your full card number or CVC on our servers.",
-        "Location data: with your permission, your approximate location so we can connect you to your nearest branch and estimate delivery.",
-        "Technical data: device type, browser, IP address and basic usage information collected automatically to keep the site working and secure.",
-      ],
-    },
-    {
-      h: "2. How we use your information",
-      body: [
-        "To take, prepare, deliver and track your orders, and to show you live rider updates.",
-        "To manage your account, provide customer support, and respond to your questions or complaints.",
-        "To improve our menu, website, delivery and overall service.",
-        "To send you order updates and, only where you have agreed, occasional offers and promotions. You can opt out of marketing messages at any time.",
-        "To detect and prevent fraud, and to meet our legal and tax obligations.",
-      ],
-    },
-    {
-      h: "3. Payments",
-      body: [
-        "We accept Cash on Delivery and credit/debit cards (Visa, Mastercard). Card payments are handled by trusted payment processors under their own security standards. We receive confirmation of payment but not your full card details.",
-      ],
-    },
-    {
-      h: "4. Location information",
-      body: [
-        "We use your area or location only to find the nearest branch and to arrange delivery. You can decline location access and choose your area manually instead — the service will still work.",
-      ],
-    },
-    {
-      h: "5. Cookies and similar technologies",
-      body: [
-        "We use essential cookies and local storage to keep you signed in, remember your language and cart, and understand how the site is used so we can improve it. You can control cookies through your browser settings, though some features may not work without them.",
-      ],
-    },
-    {
-      h: "6. How we share information",
-      body: [
-        "With our branches and delivery riders, so they can prepare and deliver your order.",
-        "With service providers who help us run the business (for example payment processors, hosting and messaging providers), only as needed to provide the service.",
-        "Where required by law, regulation, or a valid request from a public authority.",
-        "We do not sell your personal information to anyone.",
-      ],
-    },
-    {
-      h: "7. Data retention",
-      body: [
-        "We keep your information for as long as your account is active or as needed to provide our services, resolve disputes, and meet legal, accounting or reporting requirements. When it is no longer needed, we delete or anonymise it.",
-      ],
-    },
-    {
-      h: "8. Security",
-      body: [
-        "We use reasonable technical and organisational measures to protect your information. No method of transmission or storage is completely secure, but we work to safeguard your data and to limit access to those who need it.",
-      ],
-    },
-    {
-      h: "9. Your rights",
-      body: [
-        "You may ask us to access, correct, update or delete your personal information, and you may withdraw consent for marketing at any time. To make a request, contact us using the details below and we will respond within a reasonable time.",
-      ],
-    },
-    {
-      h: "10. Children's privacy",
-      body: [
-        "Our services are intended for adults. We do not knowingly collect personal information from children. If you believe a child has provided us information, please contact us and we will remove it.",
-      ],
-    },
-    {
-      h: "11. Changes to this policy",
-      body: [
-        "We may update this Privacy Policy from time to time. We will post the updated version here with a new date. Continued use of our services after changes means you accept the updated policy.",
-      ],
-    },
-    {
-      h: "12. Contact us",
-      body: [
-        `If you have any questions about this policy or your information, contact us at ${EMAIL}, call ${PHONE}, or write to us at ${OFFICE}.`,
-      ],
-    },
+    { h: "1. Who we are", body: [`${COMPANY} is a digital marketplace that lists the menus of partner restaurants and home kitchens across Pakistan. We are an online-only service based in ${LOCATION}. We do not cook, sell, or deliver food ourselves — orders are placed directly with the listed restaurant.`] },
+    { h: "2. Information we collect", body: [
+      "From customers: nothing is required to browse. If you choose to order, you contact the restaurant directly by phone or WhatsApp — any details you share then go to that restaurant, not to us.",
+      "From restaurant partners: business name, owner name, phone, email, service areas, dish and pricing details, and a payment reference/receipt for your listing subscription.",
+      "Automatically: basic technical data (device, browser, IP, pages viewed) and cookies/local storage to keep the site working and to remember your language preference.",
+    ] },
+    { h: "3. How we use your information", body: [
+      "To display restaurant listings to customers in the relevant service areas.",
+      "To process and manage restaurant listing subscriptions and to contact partners about their account.",
+      "To improve, secure and operate the website.",
+      "To meet our legal, tax and regulatory obligations.",
+    ] },
+    { h: "4. Payments", body: [`Listing subscription payments are processed by our authorised payment service provider (PayFast, a State Bank of Pakistan–licensed PSO/PSP). We do not store your full card or bank details on our servers. Customer food payments are made directly to the restaurant and are outside our systems.`] },
+    { h: "5. How we share information", body: [
+      "With partner restaurants, only as needed to operate their listing.",
+      "With service providers (payment processor, hosting, email) strictly to run the service.",
+      "Where required by law, regulation or a valid request from a public authority.",
+      "We never sell your personal information.",
+    ] },
+    { h: "6. Cookies", body: ["We use essential cookies and local storage to remember your language, keep the site working, and understand usage so we can improve it. You can control cookies in your browser."] },
+    { h: "7. Data retention & security", body: ["We keep information only as long as needed to provide the service and meet legal requirements, then delete or anonymise it. We use reasonable technical and organisational measures to protect it, though no method is 100% secure."] },
+    { h: "8. Your rights", body: ["You may request access to, correction of, or deletion of your information, and withdraw marketing consent, by contacting us below."] },
+    { h: "9. Changes & contact", body: [`We may update this policy and will post the new version here. Questions? Email us at ${EMAIL}.`] },
   ],
 };
 
-// ---------------- TERMS & CONDITIONS ----------------
+/* ---------------- TERMS ---------------- */
 const TERMS_EN: LegalDoc = {
   badge: "LEGAL · TERMS",
   title: "Terms & Conditions",
   updated: UPDATED_EN,
-  intro: `These Terms & Conditions govern your use of the ${COMPANY} website and your orders with us. By using our website or placing an order, you agree to these terms. Please read them carefully.`,
+  intro: `These Terms govern your use of ${COMPANY} (${SITE}). By using the website — as a customer or a restaurant partner — you agree to them.`,
   sections: [
-    {
-      h: "1. Acceptance of terms",
-      body: [
-        "By accessing our website, creating an account or placing an order, you confirm that you accept these terms and our Privacy Policy. If you do not agree, please do not use our services.",
-      ],
-    },
-    {
-      h: "2. Eligibility",
-      body: [
-        "You must be at least 18 years old, or have the consent of a parent or guardian, and be able to enter into a binding contract, to place an order. You agree to provide accurate and complete information.",
-      ],
-    },
-    {
-      h: "3. Your account",
-      body: [
-        "You are responsible for keeping your account details and password secure, and for all activity that happens under your account. Please notify us immediately if you suspect any unauthorised use.",
-      ],
-    },
-    {
-      h: "4. Orders",
-      body: [
-        "When you place an order it is an offer to buy. An order is confirmed once we accept it. We may decline or cancel an order — for example if an item is unavailable, the delivery address is outside our area, or we suspect fraud — and where you have already paid, we will refund you.",
-        "Menu items, availability and images are indicative and may vary between branches.",
-      ],
-    },
-    {
-      h: "5. Prices and payment",
-      body: [
-        "All prices are in Pakistani Rupees (PKR). Applicable taxes, including GST, are shown at checkout. A delivery fee of Rs. 99 applies and delivery is free on orders of Rs. 1,500 or more, unless stated otherwise.",
-        "You can pay by Cash on Delivery or by credit/debit card. Prices and offers may change at any time before you place an order.",
-      ],
-    },
-    {
-      h: "6. Delivery",
-      body: [
-        "We deliver within our service areas in Islamabad and Rawalpindi. Delivery times (typically 30–40 minutes) are estimates and are not guaranteed, as they depend on distance, weather, traffic and demand.",
-        "Please make sure your address and phone number are correct and that someone is available to receive the order. We are not responsible for delays or failed deliveries caused by incorrect details or no one being available.",
-      ],
-    },
-    {
-      h: "7. Cancellations and refunds",
-      body: [
-        "You may cancel an order before the kitchen begins preparing it. Once preparation has started, an order generally cannot be cancelled.",
-        "If something is wrong with your order — for example it is incorrect, incomplete or of poor quality — please contact us promptly with your Order ID and we will make it right through a replacement or a refund. Refunds are made using your original payment method or as store credit, where applicable.",
-      ],
-    },
-    {
-      h: "8. Food quality and allergens",
-      body: [
-        "Our food is prepared fresh and is best enjoyed soon after delivery. Our dishes may contain or come into contact with common allergens such as dairy, gluten, nuts, eggs and soy. If you have an allergy or dietary requirement, please contact the branch before ordering.",
-      ],
-    },
-    {
-      h: "9. Promotions and offers",
-      body: [
-        "Promotions, discounts and vouchers may be subject to additional terms, minimum order values and expiry dates. We may change or withdraw an offer at any time. Offers cannot be exchanged for cash and may not be combined unless stated.",
-      ],
-    },
-    {
-      h: "10. Intellectual property",
-      body: [
-        `All content on this website — including the ${COMPANY} name, logo, text, images and design — is owned by or licensed to us and is protected by law. You may not copy, reproduce or use it without our written permission.`,
-      ],
-    },
-    {
-      h: "11. Acceptable use",
-      body: [
-        "You agree not to misuse the website, place fraudulent or fake orders, interfere with its operation, or use it for any unlawful purpose. We may suspend or close accounts that break these terms.",
-      ],
-    },
-    {
-      h: "12. Limitation of liability",
-      body: [
-        "To the extent permitted by law, we are not liable for indirect or consequential losses. Our total liability for any order is limited to the amount you paid for that order. Nothing in these terms limits liability that cannot be limited by law.",
-      ],
-    },
-    {
-      h: "13. Governing law",
-      body: [
-        "These terms are governed by the laws of Pakistan, and the courts of Islamabad shall have jurisdiction over any dispute arising from them.",
-      ],
-    },
-    {
-      h: "14. Changes to these terms",
-      body: [
-        "We may update these terms from time to time. The current version will always be posted here. Continued use of our services after changes means you accept the updated terms.",
-      ],
-    },
-    {
-      h: "15. Contact us",
-      body: [
-        `For any questions about these terms, contact us at ${EMAIL}, call ${PHONE}, or write to us at ${OFFICE}.`,
-      ],
-    },
+    { h: "1. Our role — a marketplace only", body: [`${COMPANY} is a digital marketplace and directory. We list menus of independent restaurants and home kitchens. We are not the seller, cook or courier of any food. Every order is a direct contract between you and the restaurant you contact. ${COMPANY} is not responsible for the preparation, quality, hygiene, pricing, availability or delivery of any food.`] },
+    { h: "2. Ordering", body: ["Customers order by contacting a listed restaurant directly via phone or WhatsApp. There is no cart, checkout or payment on this website for food. Prices, timings, delivery and availability are set by each restaurant and may change without notice."] },
+    { h: "3. Restaurant partners — listings", body: [
+      "By subscribing to a listing package you confirm you are authorised to represent the restaurant and that all information (name, menu, prices, areas, contact) is accurate and lawful.",
+      "You are solely responsible for fulfilling orders, food quality and safety, and for honouring the prices you list.",
+      "We may edit, suspend or remove a listing that is inaccurate, unlawful, or in breach of these terms.",
+    ] },
+    { h: "4. Listing fees & payment (B2B only)", body: [
+      `Listing packages are billed as published on the “List your restaurant” page (monthly or yearly). Fees are for the listing / advertising service only — ${COMPANY} charges 0% commission on your food sales.`,
+      `${COMPANY} operates a digital food marketplace and B2B restaurant directory platform. We provide online visibility, advertising and lead-generation services to restaurant owners by showcasing their signature menus on our high-traffic platform. Any online payment links or card payments we use are intended EXCLUSIVELY to collect fixed monthly digital slot rentals, subscription fees and software listing charges directly from our onboarding restaurant partners (B2B clients). No retail consumer-end food-delivery payments or cash-on-delivery transactions are processed through our payment links — they are strictly for corporate vendor subscription billing. ${COMPANY} is an IT / service provider, not a food seller.`,
+    ] },
+    { h: "5. Acceptable use", body: ["Do not misuse the website, submit false or fraudulent listings, scrape data, or use it for any unlawful purpose. We may suspend accounts that break these terms."] },
+    { h: "6. Intellectual property", body: [`The ${COMPANY} name, logo, design and content are owned by or licensed to us. Restaurant names, logos and dish images remain the property of the respective partners, used with permission for their listing.`] },
+    { h: "7. Limitation of liability", body: [`To the extent permitted by law, ${COMPANY} is not liable for any loss arising from food ordered through a listing, or for any dealings between customers and restaurants. Our total liability to a partner is limited to the listing fee paid for the current term.`] },
+    { h: "8. Governing law", body: ["These terms are governed by the laws of Pakistan, and the courts of Islamabad shall have jurisdiction over any dispute."] },
+    { h: "9. Changes & contact", body: [`We may update these terms; the current version is always posted here. Contact us at ${EMAIL}.`] },
   ],
 };
 
-// ---------------- URDU ----------------
+/* ---------------- REFUND ---------------- */
+const REFUND_EN: LegalDoc = {
+  badge: "LEGAL · REFUNDS",
+  title: "Return & Refund Policy",
+  updated: UPDATED_EN,
+  intro: `This policy explains refunds for ${COMPANY}. Because we are a marketplace, refunds work differently for food orders and for restaurant listing subscriptions.`,
+  sections: [
+    { h: "1. Food orders", body: [`${COMPANY} does not sell food and does not take payment for food. Any refund, replacement or complaint about an order is handled directly by the restaurant you ordered from, under their own policy. Please keep your order details and contact the restaurant directly.`] },
+    { h: "2. Restaurant listing subscriptions", body: [
+      "Listing fees are for a digital service that goes live after verification.",
+      "If your listing has not yet been activated, you may request a full refund within 3 days of payment.",
+      "Once your listing is live, the subscription is generally non-refundable for the current period, as the service is already being delivered. Yearly plans may be cancelled going forward; already-used months are not refunded.",
+      "If we are unable to activate your listing at all, you will receive a full refund.",
+    ] },
+    { h: "3. How to request a refund", body: [`Email us at ${EMAIL} with your payment reference. Approved refunds are returned to your original payment method (via our payment provider, PayFast) within 7–10 working days.`] },
+  ],
+};
+
+/* ---------------- SERVICE / SHIPPING ---------------- */
+const SERVICE_EN: LegalDoc = {
+  badge: "LEGAL · SERVICE",
+  title: "Service Delivery Policy",
+  updated: UPDATED_EN,
+  intro: `${COMPANY} provides a digital service (online restaurant listings). We do not ship physical goods, so this policy explains how our digital service is delivered.`,
+  sections: [
+    { h: "1. Digital service — no physical shipping", body: [`${COMPANY} is an online-only marketplace. We do not sell or ship any physical product. There are no shipping charges from us. Food delivery, when offered, is arranged directly between the customer and the restaurant.`] },
+    { h: "2. Restaurant listing activation", body: ["After a restaurant partner subscribes and payment is verified, we review the submitted details and activate the listing — normally within 24 hours (up to 2 business days at peak times). Activation is confirmed by email."] },
+    { h: "3. Availability", body: ["We aim to keep the website available at all times. Occasional downtime may occur for maintenance or reasons beyond our control."] },
+    { h: "4. Contact", body: [`For anything about our service, email us at ${EMAIL}. ${COMPANY} operates online from ${LOCATION}.`] },
+  ],
+};
+
+/* ---------------- URDU ---------------- */
 const PRIVACY_UR: LegalDoc = {
   badge: "قانونی · پرائیویسی",
   title: "پرائیویسی پالیسی",
   updated: UPDATED_UR,
-  intro: "یہ پرائیویسی پالیسی بیان کرتی ہے کہ شاہ جی فوڈز آپ کی ذاتی معلومات کیسے جمع، استعمال، شیئر اور محفوظ کرتا ہے جب آپ ہماری ویب سائٹ استعمال کرتے ہیں، آرڈر دیتے ہیں یا ہم سے رابطہ کرتے ہیں۔ ہماری خدمات استعمال کرنے سے آپ ذیل میں بیان کردہ طریقوں سے اتفاق کرتے ہیں۔",
+  intro: "یہ پالیسی بیان کرتی ہے کہ شاہ جی آن لائن (ایک آن لائن فوڈ مارکیٹ پلیس) آپ کی معلومات کیسے جمع، استعمال، شیئر اور محفوظ کرتا ہے۔ ویب سائٹ استعمال کرنے سے آپ اِن سے اتفاق کرتے ہیں۔",
   sections: [
-    {
-      h: "1. ہم کون سی معلومات جمع کرتے ہیں",
-      body: [
-        "اکاؤنٹ کی تفصیلات: اکاؤنٹ بناتے وقت آپ کا نام، فون نمبر، ای میل اور پاس ورڈ۔",
-        "آرڈر کی تفصیلات: آپ کا ڈیلیوری پتہ، آرڈر کی اشیاء، ڈیلیوری نوٹس اور آرڈر ہسٹری۔",
-        "ادائیگی کی تفصیلات: کارڈ کی ادائیگی محفوظ تھرڈ پارٹی پیمنٹ فراہم کنندہ کے ذریعے ہوتی ہے۔ ہم آپ کا مکمل کارڈ نمبر یا CVC اپنے سرور پر محفوظ نہیں کرتے۔",
-        "لوکیشن: آپ کی اجازت سے آپ کی تقریبی لوکیشن تاکہ ہم آپ کو قریب ترین شاخ سے جوڑ سکیں اور ڈیلیوری کا اندازہ لگا سکیں۔",
-        "تکنیکی معلومات: ڈیوائس، براؤزر، IP ایڈریس اور بنیادی استعمال کی معلومات جو خودکار طور پر جمع ہوتی ہیں۔",
-      ],
-    },
-    {
-      h: "2. ہم آپ کی معلومات کیسے استعمال کرتے ہیں",
-      body: [
-        "آپ کے آرڈر لینے، تیار کرنے، پہنچانے اور لائیو ٹریکنگ فراہم کرنے کے لیے۔",
-        "آپ کا اکاؤنٹ چلانے، کسٹمر سپورٹ دینے اور آپ کے سوالات یا شکایات کا جواب دینے کے لیے۔",
-        "اپنے مینو، ویب سائٹ اور مجموعی سروس کو بہتر بنانے کے لیے۔",
-        "آرڈر اپ ڈیٹس بھیجنے کے لیے، اور صرف آپ کی رضامندی سے کبھی کبھار پیشکشیں بھیجنے کے لیے۔ آپ کسی بھی وقت مارکیٹنگ پیغامات سے آپٹ آؤٹ کر سکتے ہیں۔",
-        "دھوکہ دہی کی روک تھام اور اپنی قانونی و ٹیکس ذمہ داریاں پوری کرنے کے لیے۔",
-      ],
-    },
-    {
-      h: "3. ادائیگیاں",
-      body: [
-        "ہم کیش آن ڈیلیوری اور کریڈٹ/ڈیبٹ کارڈ (ویزا، ماسٹر کارڈ) قبول کرتے ہیں۔ کارڈ کی ادائیگیاں معتبر پیمنٹ پروسیسرز کے اپنے سیکیورٹی معیارات کے تحت ہوتی ہیں۔ ہمیں ادائیگی کی تصدیق ملتی ہے، آپ کے مکمل کارڈ کی تفصیلات نہیں۔",
-      ],
-    },
-    {
-      h: "4. لوکیشن کی معلومات",
-      body: [
-        "ہم آپ کی لوکیشن صرف قریب ترین شاخ تلاش کرنے اور ڈیلیوری کے انتظام کے لیے استعمال کرتے ہیں۔ آپ لوکیشن سے انکار کر کے خود اپنا علاقہ منتخب کر سکتے ہیں — سروس پھر بھی کام کرے گی۔",
-      ],
-    },
-    {
-      h: "5. کوکیز اور متعلقہ ٹیکنالوجیز",
-      body: [
-        "ہم ضروری کوکیز اور لوکل اسٹوریج استعمال کرتے ہیں تاکہ آپ سائن اِن رہیں، آپ کی زبان اور ٹوکری یاد رہے، اور سائٹ کے استعمال کو سمجھ کر اسے بہتر بنایا جا سکے۔ آپ اپنے براؤزر سے کوکیز کنٹرول کر سکتے ہیں، مگر کچھ فیچرز کام نہ کریں۔",
-      ],
-    },
-    {
-      h: "6. ہم معلومات کیسے شیئر کرتے ہیں",
-      body: [
-        "اپنی شاخوں اور ڈیلیوری رائیڈرز کے ساتھ تاکہ آپ کا آرڈر تیار اور ڈیلیور ہو سکے۔",
-        "ان سروس فراہم کنندگان کے ساتھ جو ہماری مدد کرتے ہیں (مثلاً پیمنٹ، ہوسٹنگ) — صرف ضرورت کے مطابق۔",
-        "جہاں قانون، ضابطے یا کسی مجاز ادارے کی جائز درخواست پر لازم ہو۔",
-        "ہم آپ کی ذاتی معلومات کسی کو فروخت نہیں کرتے۔",
-      ],
-    },
-    {
-      h: "7. معلومات کی مدت",
-      body: [
-        "ہم آپ کی معلومات اُس وقت تک رکھتے ہیں جب تک آپ کا اکاؤنٹ فعال ہے یا خدمات، تنازعات کے حل اور قانونی تقاضوں کے لیے ضروری ہے۔ ضرورت ختم ہونے پر ہم اسے حذف یا غیر شناختی بنا دیتے ہیں۔",
-      ],
-    },
-    {
-      h: "8. سیکیورٹی",
-      body: [
-        "ہم آپ کی معلومات کے تحفظ کے لیے مناسب تکنیکی اور انتظامی اقدامات کرتے ہیں۔ کوئی بھی طریقہ مکمل طور پر محفوظ نہیں، مگر ہم آپ کے ڈیٹا کی حفاظت اور رسائی محدود رکھنے کی کوشش کرتے ہیں۔",
-      ],
-    },
-    {
-      h: "9. آپ کے حقوق",
-      body: [
-        "آپ اپنی معلومات دیکھنے، درست کرانے، اپ ڈیٹ یا حذف کرانے کی درخواست کر سکتے ہیں، اور کسی بھی وقت مارکیٹنگ کی رضامندی واپس لے سکتے ہیں۔ درخواست کے لیے نیچے دی گئی تفصیلات پر رابطہ کریں۔",
-      ],
-    },
-    {
-      h: "10. بچوں کی پرائیویسی",
-      body: [
-        "ہماری خدمات بالغ افراد کے لیے ہیں۔ ہم جان بوجھ کر بچوں سے معلومات جمع نہیں کرتے۔ اگر آپ کو لگے کہ کسی بچے نے معلومات دی ہیں تو ہم سے رابطہ کریں، ہم اسے ہٹا دیں گے۔",
-      ],
-    },
-    {
-      h: "11. اس پالیسی میں تبدیلیاں",
-      body: [
-        "ہم وقتاً فوقتاً یہ پالیسی اپ ڈیٹ کر سکتے ہیں۔ نئی تاریخ کے ساتھ اپ ڈیٹ شدہ نسخہ یہیں شائع کیا جائے گا۔ تبدیلی کے بعد خدمات کا استعمال جاری رکھنا اتفاق سمجھا جائے گا۔",
-      ],
-    },
-    {
-      h: "12. رابطہ کریں",
-      body: [
-        `اس پالیسی یا اپنی معلومات سے متعلق سوالات کے لیے ${EMAIL} پر ای میل کریں، ${PHONE} پر کال کریں، یا ${OFFICE} پر لکھیں۔`,
-      ],
-    },
+    { h: "1. ہم کون ہیں", body: ["شاہ جی آن لائن ایک ڈیجیٹل مارکیٹ پلیس ہے جو پاکستان بھر کے ریستورانوں اور ہوم کچن کے مینو لسٹ کرتا ہے۔ ہم صرف آن لائن سروس ہیں (کوئی فزیکل دکان نہیں)۔ ہم خود کھانا نہیں پکاتے، بیچتے یا ڈیلیور نہیں کرتے — آرڈر سیدھا ریستوران کو جاتا ہے۔"] },
+    { h: "2. ہم کیا جمع کرتے ہیں", body: [
+      "گاہکوں سے: براؤز کرنے کے لیے کچھ ضروری نہیں۔ آرڈر کے لیے آپ سیدھا ریستوران سے رابطہ کرتے ہیں، آپ کی تفصیلات اُسی کو جاتی ہیں۔",
+      "پارٹنر ریستورانوں سے: کاروبار کا نام، مالک، فون، ای میل، سروس ایریاز، ڈشز و قیمتیں اور لسٹنگ کی ادائیگی کی رسید۔",
+      "خودکار: بنیادی تکنیکی ڈیٹا (ڈیوائس، براؤزر، IP) اور کوکیز/لوکل اسٹوریج۔",
+    ] },
+    { h: "3. استعمال", body: ["لسٹنگ دکھانے، پارٹنر سبسکرپشن چلانے، ویب سائٹ بہتر و محفوظ رکھنے اور قانونی تقاضے پورے کرنے کے لیے۔"] },
+    { h: "4. ادائیگیاں", body: ["لسٹنگ کی ادائیگیاں ہمارے مجاز پیمنٹ پرووائیڈر (PayFast — اسٹیٹ بینک لائسنس یافتہ) کے ذریعے ہوتی ہیں۔ ہم آپ کے مکمل کارڈ/بینک تفصیلات محفوظ نہیں کرتے۔ کھانے کی ادائیگی سیدھا ریستوران کو ہوتی ہے۔"] },
+    { h: "5. شیئرنگ", body: ["پارٹنر ریستوران اور سروس فراہم کنندگان کے ساتھ صرف ضرورت کے مطابق، یا قانوناً لازم ہونے پر۔ ہم آپ کی معلومات کبھی فروخت نہیں کرتے۔"] },
+    { h: "6. کوکیز", body: ["ہم ضروری کوکیز اور لوکل اسٹوریج استعمال کرتے ہیں تاکہ زبان یاد رہے اور سائٹ بہتر ہو۔ آپ براؤزر سے کنٹرول کر سکتے ہیں۔"] },
+    { h: "7. حفاظت و مدت", body: ["معلومات صرف ضرورت اور قانونی تقاضوں تک رکھی جاتی ہیں، پھر حذف کر دی جاتی ہیں۔ ہم مناسب حفاظتی اقدامات کرتے ہیں۔"] },
+    { h: "8. آپ کے حقوق", body: ["آپ اپنی معلومات دیکھنے، درست یا حذف کرانے کی درخواست کر سکتے ہیں۔ نیچے رابطہ کریں۔"] },
+    { h: "9. رابطہ", body: [`سوالات کے لیے ${EMAIL} پر ای میل کریں۔`] },
   ],
 };
 
@@ -317,104 +141,58 @@ const TERMS_UR: LegalDoc = {
   badge: "قانونی · شرائط",
   title: "شرائط و ضوابط",
   updated: UPDATED_UR,
-  intro: "یہ شرائط و ضوابط شاہ جی فوڈز کی ویب سائٹ کے استعمال اور آپ کے آرڈرز پر لاگو ہوتی ہیں۔ ویب سائٹ استعمال کرنے یا آرڈر دینے سے آپ ان شرائط سے اتفاق کرتے ہیں۔ براہ کرم انہیں غور سے پڑھیں۔",
+  intro: "یہ شرائط شاہ جی آن لائن کے استعمال پر لاگو ہوتی ہیں۔ گاہک یا پارٹنر کی حیثیت سے ویب سائٹ استعمال کرنے پر آپ اِن سے اتفاق کرتے ہیں۔",
   sections: [
-    {
-      h: "1. شرائط کی قبولیت",
-      body: [
-        "ہماری ویب سائٹ تک رسائی، اکاؤنٹ بنانے یا آرڈر دینے سے آپ ان شرائط اور ہماری پرائیویسی پالیسی سے اتفاق کرتے ہیں۔ اگر آپ متفق نہیں تو براہ کرم خدمات استعمال نہ کریں۔",
-      ],
-    },
-    {
-      h: "2. اہلیت",
-      body: [
-        "آرڈر دینے کے لیے آپ کی عمر کم از کم 18 سال ہونی چاہیے، یا والدین/سرپرست کی اجازت ہو، اور آپ درست و مکمل معلومات فراہم کرنے کے پابند ہیں۔",
-      ],
-    },
-    {
-      h: "3. آپ کا اکاؤنٹ",
-      body: [
-        "اپنے اکاؤنٹ اور پاس ورڈ کی حفاظت اور اکاؤنٹ کے تحت ہونے والی تمام سرگرمی کے آپ ذمہ دار ہیں۔ کسی بھی غیر مجاز استعمال کا شبہ ہو تو فوراً ہمیں مطلع کریں۔",
-      ],
-    },
-    {
-      h: "4. آرڈرز",
-      body: [
-        "آرڈر دینا خریداری کی پیشکش ہے۔ آرڈر ہماری قبولیت پر مکمل ہوتا ہے۔ ہم آرڈر مسترد یا منسوخ کر سکتے ہیں (مثلاً کوئی چیز دستیاب نہ ہو، پتہ ہمارے علاقے سے باہر ہو، یا دھوکہ دہی کا شبہ ہو)، اور ادائیگی کی صورت میں رقم واپس کر دی جائے گی۔",
-        "مینو کی اشیاء، دستیابی اور تصاویر تخمینی ہیں اور شاخوں میں فرق ہو سکتا ہے۔",
-      ],
-    },
-    {
-      h: "5. قیمتیں اور ادائیگی",
-      body: [
-        "تمام قیمتیں پاکستانی روپے میں ہیں۔ قابلِ اطلاق ٹیکس بشمول جی ایس ٹی چیک آؤٹ پر ظاہر ہوتے ہیں۔ 99 روپے ڈیلیوری فیس لاگو ہے اور 1,500 روپے یا اس سے زائد کے آرڈر پر ڈیلیوری مفت ہے، جب تک الگ نہ بتایا جائے۔",
-        "آپ کیش آن ڈیلیوری یا کارڈ سے ادائیگی کر سکتے ہیں۔ آرڈر دینے سے پہلے قیمتیں اور پیشکشیں تبدیل ہو سکتی ہیں۔",
-      ],
-    },
-    {
-      h: "6. ڈیلیوری",
-      body: [
-        "ہم اسلام آباد اور راولپنڈی کے اپنے سروس ایریاز میں ڈیلیور کرتے ہیں۔ ڈیلیوری کا وقت (عموماً 30–40 منٹ) تخمینی ہے اور فاصلے، موسم، ٹریفک اور رش پر منحصر ہے، اس کی ضمانت نہیں۔",
-        "براہ کرم اپنا پتہ اور فون نمبر درست رکھیں اور کوئی وصول کنندہ موجود ہو۔ غلط تفصیلات یا کسی کی عدم موجودگی سے ہونے والی تاخیر کے ہم ذمہ دار نہیں۔",
-      ],
-    },
-    {
-      h: "7. منسوخی اور رقم کی واپسی",
-      body: [
-        "کچن کے تیاری شروع کرنے سے پہلے آپ آرڈر منسوخ کر سکتے ہیں۔ تیاری شروع ہونے کے بعد عموماً آرڈر منسوخ نہیں ہو سکتا۔",
-        "اگر آرڈر میں کوئی مسئلہ ہو (غلط، نامکمل یا ناقص) تو اپنے آرڈر آئی ڈی کے ساتھ فوراً رابطہ کریں؛ ہم متبادل یا رقم کی واپسی کے ذریعے اسے درست کریں گے۔ رقم اصل طریقۂ ادائیگی یا اسٹور کریڈٹ میں واپس ہوگی۔",
-      ],
-    },
-    {
-      h: "8. کھانے کا معیار اور الرجینز",
-      body: [
-        "ہمارا کھانا تازہ تیار ہوتا ہے اور ڈیلیوری کے فوراً بعد بہترین ہوتا ہے۔ ہمارے کھانوں میں دودھ، گلوٹن، گری دار میوے، انڈے اور سویا جیسے عام الرجینز ہو سکتے ہیں۔ الرجی یا خوراکی تقاضے کی صورت میں آرڈر سے پہلے شاخ سے رابطہ کریں۔",
-      ],
-    },
-    {
-      h: "9. پیشکشیں اور آفرز",
-      body: [
-        "پیشکشوں، رعایتوں اور واؤچرز پر اضافی شرائط، کم از کم آرڈر اور میعاد لاگو ہو سکتی ہے۔ ہم کسی بھی وقت آفر تبدیل یا واپس لے سکتے ہیں۔ آفرز نقد میں تبدیل نہیں ہو سکتیں اور بتائے بغیر یکجا نہیں کی جا سکتیں۔",
-      ],
-    },
-    {
-      h: "10. دانشورانہ املاک",
-      body: [
-        "اس ویب سائٹ کا تمام مواد — بشمول شاہ جی فوڈز کا نام، لوگو، متن، تصاویر اور ڈیزائن — ہماری ملکیت یا لائسنس یافتہ اور قانون سے محفوظ ہے۔ ہماری تحریری اجازت کے بغیر اسے نقل یا استعمال نہ کریں۔",
-      ],
-    },
-    {
-      h: "11. مناسب استعمال",
-      body: [
-        "آپ ویب سائٹ کے غلط استعمال، جعلی آرڈرز، اس کے کام میں مداخلت یا کسی غیر قانونی مقصد سے استعمال نہ کرنے پر متفق ہیں۔ ان شرائط کی خلاف ورزی پر ہم اکاؤنٹ معطل یا بند کر سکتے ہیں۔",
-      ],
-    },
-    {
-      h: "12. ذمہ داری کی حد",
-      body: [
-        "قانون کی اجازت کی حد تک، ہم بالواسطہ یا ثانوی نقصانات کے ذمہ دار نہیں۔ کسی بھی آرڈر کے لیے ہماری کل ذمہ داری اُس آرڈر کی ادا کردہ رقم تک محدود ہے۔ ان شرائط میں کوئی چیز اُس ذمہ داری کو محدود نہیں کرتی جسے قانوناً محدود نہیں کیا جا سکتا۔",
-      ],
-    },
-    {
-      h: "13. قابلِ اطلاق قانون",
-      body: [
-        "یہ شرائط پاکستان کے قوانین کے تابع ہیں، اور ان سے پیدا ہونے والے کسی تنازع پر اسلام آباد کی عدالتوں کو دائرہ اختیار حاصل ہوگا۔",
-      ],
-    },
-    {
-      h: "14. شرائط میں تبدیلیاں",
-      body: [
-        "ہم وقتاً فوقتاً یہ شرائط اپ ڈیٹ کر سکتے ہیں۔ موجودہ نسخہ ہمیشہ یہیں دستیاب ہوگا۔ تبدیلی کے بعد خدمات کا استعمال جاری رکھنا اتفاق سمجھا جائے گا۔",
-      ],
-    },
-    {
-      h: "15. رابطہ کریں",
-      body: [
-        `ان شرائط سے متعلق سوالات کے لیے ${EMAIL} پر ای میل کریں، ${PHONE} پر کال کریں، یا ${OFFICE} پر لکھیں۔`,
-      ],
-    },
+    { h: "1. ہمارا کردار — صرف مارکیٹ پلیس", body: ["شاہ جی آن لائن ایک ڈیجیٹل مارکیٹ پلیس ہے جو خودمختار ریستورانوں کے مینو لسٹ کرتا ہے۔ ہم کھانے کے بیچنے والے، پکانے والے یا ڈیلیور کرنے والے نہیں۔ ہر آرڈر آپ اور ریستوران کے درمیان براہِ راست معاہدہ ہے۔ کھانے کے معیار، صفائی، قیمت یا ڈیلیوری کے ہم ذمہ دار نہیں۔"] },
+    { h: "2. آرڈرنگ", body: ["گاہک لسٹڈ ریستوران سے سیدھا فون یا واٹس ایپ پر رابطہ کر کے آرڈر کرتے ہیں۔ اس سائٹ پر کھانے کی کوئی کارٹ، چیک آؤٹ یا ادائیگی نہیں۔ قیمتیں و اوقات ہر ریستوران خود مقرر کرتا ہے۔"] },
+    { h: "3. پارٹنر ریستوران — لسٹنگ", body: [
+      "لسٹنگ پیکج لے کر آپ تصدیق کرتے ہیں کہ آپ ریستوران کے مجاز نمائندہ ہیں اور تمام معلومات درست و قانونی ہیں۔",
+      "آرڈر پورا کرنے، کھانے کے معیار و حفاظت اور قیمتوں کے آپ خود ذمہ دار ہیں۔",
+      "غلط یا خلافِ قانون لسٹنگ ہم ایڈٹ، معطل یا ہٹا سکتے ہیں۔",
+    ] },
+    { h: "4. لسٹنگ فیس (صرف B2B)", body: [
+      "لسٹنگ پیکج ”اپنا ریستوران لسٹ کریں“ صفحے کے مطابق بل ہوتے ہیں۔ فیس صرف لسٹنگ/ایڈورٹائزنگ سروس کے لیے ہے — کھانے کی سیلز پر 0% کمیشن۔",
+      "شاہ جی آن لائن ایک ڈیجیٹل فوڈ مارکیٹ پلیس اور B2B ریستوران ڈائریکٹری پلیٹ فارم ہے۔ ہم ریستوران مالکان کو آن لائن وزیبلٹی، ایڈورٹائزنگ اور لیڈ جنریشن فراہم کرتے ہیں۔ ہمارے آن لائن پیمنٹ لنکس صرف پارٹنر ریستورانوں (B2B کلائنٹس) سے ماہانہ ڈیجیٹل سلاٹ رینٹل، سبسکرپشن اور سافٹ ویئر لسٹنگ فیس وصول کرنے کے لیے ہیں۔ کوئی ریٹیل کنزیومر فوڈ ڈیلیوری یا کیش آن ڈیلیوری ادائیگی ان لنکس سے پروسیس نہیں ہوتی — یہ صرف کارپوریٹ وینڈر سبسکرپشن بلنگ کے لیے ہیں۔ شاہ جی آن لائن ایک IT/سروس فراہم کنندہ ہے، کھانے کا بیچنے والا نہیں۔",
+    ] },
+    { h: "5. مناسب استعمال", body: ["جعلی لسٹنگ، ڈیٹا اسکریپنگ یا غیر قانونی استعمال ممنوع ہے۔ خلاف ورزی پر اکاؤنٹ معطل ہو سکتا ہے۔"] },
+    { h: "6. دانشورانہ املاک", body: ["شاہ جی آن لائن کا نام، لوگو اور ڈیزائن ہماری ملکیت ہیں۔ ریستوران کے نام و تصاویر اُن کی اپنی ملکیت ہیں، اجازت سے استعمال۔"] },
+    { h: "7. ذمہ داری کی حد", body: ["قانون کی حد تک، لسٹنگ کے ذریعے آرڈر کیے کھانے یا گاہک و ریستوران کے لین دین کے ہم ذمہ دار نہیں۔ پارٹنر کے لیے ہماری کل ذمہ داری موجودہ مدت کی ادا شدہ فیس تک محدود ہے۔"] },
+    { h: "8. قابلِ اطلاق قانون", body: ["یہ شرائط پاکستان کے قوانین کے تابع ہیں، اور اسلام آباد کی عدالتوں کو دائرہ اختیار حاصل ہوگا۔"] },
+    { h: "9. رابطہ", body: [`${EMAIL}`] },
+  ],
+};
+
+const REFUND_UR: LegalDoc = {
+  badge: "قانونی · ری فنڈ",
+  title: "ریٹرن اور ری فنڈ پالیسی",
+  updated: UPDATED_UR,
+  intro: "یہ پالیسی شاہ جی آن لائن کے ری فنڈ بیان کرتی ہے۔ چونکہ ہم مارکیٹ پلیس ہیں، کھانے کے آرڈر اور لسٹنگ سبسکرپشن کے ری فنڈ مختلف ہیں۔",
+  sections: [
+    { h: "1. کھانے کے آرڈر", body: ["شاہ جی آن لائن کھانا نہیں بیچتا اور نہ ادائیگی لیتا ہے۔ آرڈر سے متعلق ری فنڈ یا شکایت متعلقہ ریستوران اپنی پالیسی کے تحت خود دیکھتا ہے۔ براہ کرم سیدھا ریستوران سے رابطہ کریں۔"] },
+    { h: "2. لسٹنگ سبسکرپشن", body: [
+      "لسٹنگ فیس ایک ڈیجیٹل سروس کے لیے ہے جو تصدیق کے بعد لائیو ہوتی ہے۔",
+      "اگر لسٹنگ ابھی فعال نہیں ہوئی تو ادائیگی کے 3 دن کے اندر مکمل ری فنڈ کی درخواست کر سکتے ہیں۔",
+      "لائیو ہونے کے بعد موجودہ مدت کے لیے سبسکرپشن عموماً نان ری فنڈ ایبل ہے۔ سالانہ پلان آگے کے لیے منسوخ ہو سکتا ہے۔",
+      "اگر ہم لسٹنگ فعال ہی نہ کر سکیں تو مکمل ری فنڈ ملے گا۔",
+    ] },
+    { h: "3. ری فنڈ کیسے مانگیں", body: [`${EMAIL} پر ادائیگی کے حوالے کے ساتھ رابطہ کریں۔ منظور شدہ ری فنڈ 7–10 کاروباری دنوں میں اصل طریقے پر واپس ہوتا ہے۔`] },
+  ],
+};
+
+const SERVICE_UR: LegalDoc = {
+  badge: "قانونی · سروس",
+  title: "سروس ڈیلیوری پالیسی",
+  updated: UPDATED_UR,
+  intro: "شاہ جی آن لائن ایک ڈیجیٹل سروس (آن لائن لسٹنگ) فراہم کرتا ہے۔ ہم کوئی فزیکل چیز شپ نہیں کرتے، یہ پالیسی بتاتی ہے کہ ہماری ڈیجیٹل سروس کیسے فراہم ہوتی ہے۔",
+  sections: [
+    { h: "1. ڈیجیٹل سروس — کوئی شپنگ نہیں", body: ["شاہ جی آن لائن صرف آن لائن مارکیٹ پلیس ہے۔ ہم کوئی فزیکل پروڈکٹ نہیں بیچتے یا شپ کرتے، اس لیے ہماری طرف سے کوئی شپنگ چارج نہیں۔ کھانے کی ڈیلیوری گاہک اور ریستوران کے درمیان طے ہوتی ہے۔"] },
+    { h: "2. لسٹنگ فعال ہونا", body: ["پارٹنر کی سبسکرپشن اور ادائیگی کی تصدیق کے بعد ہم تفصیلات دیکھ کر لسٹنگ فعال کرتے ہیں — عموماً 24 گھنٹے میں۔ تصدیق ای میل پر ہوتی ہے۔"] },
+    { h: "3. دستیابی", body: ["ہم ویب سائٹ کو ہر وقت دستیاب رکھنے کی کوشش کرتے ہیں۔ کبھی کبھار مینٹیننس کے لیے بندش ہو سکتی ہے۔"] },
+    { h: "4. رابطہ", body: [`${EMAIL}`] },
   ],
 };
 
 export const PRIVACY: Record<Lang, LegalDoc> = { en: PRIVACY_EN, ur: PRIVACY_UR };
 export const TERMS: Record<Lang, LegalDoc> = { en: TERMS_EN, ur: TERMS_UR };
+export const REFUND: Record<Lang, LegalDoc> = { en: REFUND_EN, ur: REFUND_UR };
+export const SERVICE: Record<Lang, LegalDoc> = { en: SERVICE_EN, ur: SERVICE_UR };

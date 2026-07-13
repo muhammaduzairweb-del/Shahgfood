@@ -2,6 +2,9 @@
 
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import type { Lang } from "@/lib/i18n";
+import { cityFromCoords, type City } from "@/lib/data";
+
+export type LocStatus = "idle" | "locating" | "ready" | "denied" | "unavailable" | "outside";
 
 export interface AppUser {
   name: string;
@@ -21,6 +24,10 @@ interface AppState {
   setArea: (a: string) => void;
   located: boolean;
   setLocated: (v: boolean) => void;
+  city: City | "";
+  setCity: (c: City | "") => void;
+  locStatus: LocStatus;
+  detectLocation: () => void;
   user: AppUser | null;
   login: (u: AppUser) => void;
   logout: () => void;
@@ -44,6 +51,7 @@ interface Persisted {
   branch: string;
   area: string;
   located: boolean;
+  city: City | "";
   user: AppUser | null;
   cart: Cart;
 }
@@ -53,6 +61,7 @@ const DEFAULTS: Persisted = {
   branch: "F-10 Markaz",
   area: "",
   located: false,
+  city: "",
   user: null,
   cart: {},
 };
@@ -61,6 +70,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<Persisted>(DEFAULTS);
   const [cartOpen, setCartOpen] = useState(false);
   const [hydrated, setHydrated] = useState(false);
+  const [locStatus, setLocStatus] = useState<LocStatus>("idle");
 
   useEffect(() => {
     try {
@@ -105,6 +115,28 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   );
   const clearCart = useCallback(() => persist({ cart: {} }), [persist]);
 
+  const detectLocation = useCallback(() => {
+    if (typeof navigator === "undefined" || !navigator.geolocation) {
+      setLocStatus("unavailable");
+      return;
+    }
+    setLocStatus("locating");
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const c = cityFromCoords(pos.coords.latitude, pos.coords.longitude);
+        if (c) {
+          persist({ city: c, located: true });
+          setLocStatus("ready");
+        } else {
+          // Outside our current service region — keep whatever city was set.
+          setLocStatus("outside");
+        }
+      },
+      (err) => setLocStatus(err.code === err.PERMISSION_DENIED ? "denied" : "unavailable"),
+      { enableHighAccuracy: false, timeout: 8000, maximumAge: 10 * 60 * 1000 }
+    );
+  }, [persist]);
+
   const cartCount = Object.values(state.cart).reduce((a, b) => a + b, 0);
 
   const value: AppState = {
@@ -117,6 +149,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setArea: (a) => persist({ area: a }),
     located: state.located,
     setLocated: (v) => persist({ located: v }),
+    city: state.city,
+    setCity: (c) => { persist({ city: c, located: !!c }); setLocStatus(c ? "ready" : "idle"); },
+    locStatus,
+    detectLocation,
     user: state.user,
     login: (u) => persist({ user: u }),
     logout: () => persist({ user: null }),

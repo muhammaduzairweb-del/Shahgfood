@@ -1,0 +1,258 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { useApp } from "@/components/AppProvider";
+import SuccessModal from "@/components/SuccessModal";
+
+const RED = "#C1272D";
+const PURPLE = "#5E1A86";
+const CHARCOAL = "#16171B";
+
+interface Pkg { id: string; name: string; monthly: number; dishes: string; max: number; featured?: boolean; popular?: boolean; perks: string[] }
+const PACKAGES: Pkg[] = [
+  { id: "starter", name: "Starter", monthly: 15000, dishes: "5 signature dishes", max: 5, perks: ["List up to 5 signature dishes", "0% commission on every sale", "Direct call & WhatsApp orders", "Shown only in your covered areas", "Zero setup or IT cost"] },
+  { id: "growth", name: "Growth", monthly: 35000, dishes: "15 dishes", max: 15, popular: true, perks: ["List up to 15 dishes", "0% commission on every sale", "Priority placement in your areas", "Direct call & WhatsApp orders", "Zero setup or IT cost"] },
+  { id: "premium", name: "Super Premium", monthly: 80000, dishes: "Featured on homepage", max: 30, featured: true, perks: ["★ Featured on the Shah G Online homepage", "List up to 30 dishes / full menu", "Top placement across the whole site", "Direct call & WhatsApp orders", "Dedicated priority support"] },
+];
+const yearly = (m: number) => Math.round(m * 12 * 0.8);
+
+const DISH_TYPES = [
+  { v: "fixed", label: "Single price" },
+  { v: "halffull", label: "Half / Full (karahi, salan)" },
+  { v: "pieces", label: "By pieces (kebab, tikka)" },
+  { v: "weight", label: "By weight / kg (pulao, degh)" },
+  { v: "size", label: "By size (pizza S/M/L)" },
+];
+const typePlaceholder: Record<string, string> = {
+  fixed: "e.g. Rs 250",
+  halffull: "e.g. Half Rs 800 · Full Rs 1500",
+  pieces: "e.g. 6 pcs Rs 720 · 12 pcs Rs 1320",
+  weight: "e.g. 1 kg Rs 1600 · 1/2 kg Rs 850",
+  size: "e.g. Small 900 · Medium 1400 · Large 1900",
+};
+const typeLabel = (v: string) => DISH_TYPES.find((t) => t.v === v)?.label ?? v;
+
+export default function PartnerContent() {
+  const { lang } = useApp();
+  const ur = lang === "ur";
+
+  const [sel, setSel] = useState<Pkg | null>(null);
+  const [term, setTerm] = useState<"yearly" | "monthly">("yearly");
+  const [toast, setToast] = useState(false);
+  const [f, setF] = useState({ restaurant: "", owner: "", email: "", phone: "", areas: "" });
+  const [dishes, setDishes] = useState([{ name: "", type: "fixed", details: "" }]);
+  const [state, setState] = useState<"idle" | "sending" | "error">("idle");
+  const [modal, setModal] = useState(false);
+  const [err, setErr] = useState("");
+  const formRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("sg-pkg");
+    if (saved) { const p = PACKAGES.find((x) => x.id === saved); if (p) setSel(p); }
+  }, []);
+
+  const choose = (p: Pkg) => {
+    setSel(p);
+    localStorage.setItem("sg-pkg", p.id);
+    setDishes((d) => d.slice(0, p.max));
+    setToast(true);
+    setTimeout(() => setToast(false), 5000);
+    setTimeout(() => formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 60);
+  };
+
+  const amount = sel ? (term === "yearly" ? yearly(sel.monthly) : sel.monthly) : 0;
+  const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setF({ ...f, [k]: e.target.value });
+  const setDish = (i: number, k: "name" | "type" | "details", v: string) => setDishes((arr) => arr.map((d, j) => (j === i ? { ...d, [k]: v } : d)));
+  const addDish = () => sel && dishes.length < sel.max && setDishes((a) => [...a, { name: "", type: "fixed", details: "" }]);
+  const rmDish = (i: number) => setDishes((a) => a.filter((_, j) => j !== i));
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!sel) return;
+    setErr("");
+    setState("sending");
+    const dishesText = dishes.filter((d) => d.name.trim()).map((d, i) => `${i + 1}. ${d.name} [${typeLabel(d.type)}] — ${d.details}`).join("\n");
+    const fd = new FormData();
+    fd.append("restaurant", f.restaurant);
+    fd.append("owner", f.owner);
+    fd.append("email", f.email);
+    fd.append("phone", f.phone);
+    fd.append("areas", f.areas);
+    fd.append("package", `${sel.name} · ${sel.dishes}`);
+    fd.append("term", term === "yearly" ? "Yearly (20% off)" : "Monthly");
+    fd.append("amount", `Rs ${amount.toLocaleString()}`);
+    fd.append("dishes", dishesText);
+    fd.append("lang", lang);
+    try {
+      const res = await fetch("/api/partner", { method: "POST", body: fd });
+      const j = await res.json();
+      if (j.ok) { setModal(true); setState("idle"); setF({ restaurant: "", owner: "", email: "", phone: "", areas: "" }); setDishes([{ name: "", type: "fixed", details: "" }]); }
+      else { setState("error"); setErr(j.error || "Failed to send."); }
+    } catch {
+      setState("error");
+      setErr(ur ? "بھیجنے میں مسئلہ ہوا۔ دوبارہ کوشش کریں۔" : "Something went wrong. Please try again.");
+    }
+  };
+
+  const input: React.CSSProperties = { width: "100%", border: "1.5px solid #E0D6C4", background: "#fff", borderRadius: 12, padding: 12, fontSize: 15, fontFamily: "inherit", outline: "none", marginTop: 6 };
+  const lbl: React.CSSProperties = { fontSize: 12.5, fontWeight: 800, color: "#5A5245" };
+
+  return (
+    <>
+      {/* toast — PayFast coming soon */}
+      {toast && (
+        <div style={{ position: "fixed", top: 84, left: "50%", transform: "translateX(-50%)", zIndex: 80, width: "min(430px, calc(100% - 28px))", background: "#211812", color: "#fff", borderRadius: 14, boxShadow: "0 24px 50px -16px rgba(0,0,0,.5)", padding: "13px 16px", display: "flex", alignItems: "center", gap: 11, animation: "rise .3s ease" }}>
+          <span style={{ fontSize: 20 }}>💳</span>
+          <span style={{ fontSize: 13.5, lineHeight: 1.5 }}>{ur ? "آن لائن ادائیگی (PayFast) بہت جلد! ابھی نیچے اپنی تفصیلات بھریں — ہماری ٹیم آپ سے رابطہ کر کے ادائیگی مکمل کرائے گی۔" : "Online payment (PayFast) is coming very soon! For now, submit your details below and our team will reach out to complete your listing."}</span>
+        </div>
+      )}
+
+      {/* HERO */}
+      <section style={{ position: "relative", overflow: "hidden", background: `linear-gradient(115deg,${PURPLE} 0%,#8E1E7C 55%,#B71C66 100%)`, color: "#fff" }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto", padding: "56px 20px 62px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
+          <div style={{ background: "rgba(224,160,32,.95)", color: "#211812", fontSize: 11.5, fontWeight: 800, padding: "7px 15px", borderRadius: 999, letterSpacing: ".6px" }}>{ur ? "پارٹنر پروگرام" : "PARTNER PROGRAM"}</div>
+          <h1 style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: "clamp(32px,5vw,54px)", lineHeight: 1.08, margin: 0, maxWidth: 820, fontWeight: 400 }}>{ur ? "اپنا ریستوران شاہ جی آن لائن پر لسٹ کریں" : "List your restaurant on Shah G Online"}</h1>
+          <p style={{ fontSize: 16.5, color: "rgba(255,255,255,.9)", margin: 0, maxWidth: 640, lineHeight: 1.75 }}>{ur ? "روزانہ 10,000+ بھوکے گاہک شاہ جی آن لائن پر کھانا تلاش کرتے ہیں۔ صفر کمیشن، صفر ڈیلیوری جھنجھٹ — صرف براہِ راست کال اور واٹس ایپ آرڈرز۔" : "10,000+ hungry customers browse Shah G Online every day. Zero commission, zero delivery headache — just direct call & WhatsApp orders straight to your kitchen."}</p>
+          <a href="#packages" style={{ textDecoration: "none", background: "#fff", color: RED, fontWeight: 800, fontSize: 16, padding: "15px 30px", borderRadius: 14, marginTop: 4 }}>{ur ? "پیکجز دیکھیں →" : "See packages →"}</a>
+        </div>
+      </section>
+
+      <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 20px" }}>
+        {/* STATS */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))", gap: 14, margin: "-34px 0 0", position: "relative", zIndex: 2 }}>
+          {[{ v: "10,000+", l: ur ? "روزانہ وزیٹرز" : "Daily visitors" }, { v: "0%", l: ur ? "کمیشن" : "Commission" }, { v: "24 hrs", l: ur ? "لائیو ہونے کا وقت" : "To go live" }, { v: "🇵🇰", l: ur ? "پورے پاکستان میں" : "Nationwide" }].map((s, i) => (
+            <div key={i} style={{ background: "#fff", border: "1px solid #EAE1D2", borderRadius: 16, padding: "18px 16px", textAlign: "center", boxShadow: "0 16px 32px -26px rgba(60,30,10,.6)" }}>
+              <div className="num" style={{ fontSize: 24, fontWeight: 800, color: RED }}>{s.v}</div>
+              <div style={{ fontSize: 12.5, color: "#8A8072", marginTop: 3 }}>{s.l}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* FEATURED PARTNER */}
+        <div style={{ marginTop: 40 }}>
+          <div style={{ fontSize: 12.5, fontWeight: 800, color: RED, letterSpacing: ".6px", marginBottom: 12 }}>{ur ? "ہمارا بانی پارٹنر" : "OUR FOUNDING PARTNER"}</div>
+          <div style={{ background: CHARCOAL, borderRadius: 24, overflow: "hidden", display: "flex", flexWrap: "wrap", color: "#fff" }}>
+            <div style={{ flex: "1 1 300px", minHeight: 220, position: "relative" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/Shahgfoods__Feature.jpg" alt="Shah G Foods — founding partner" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+              <div style={{ position: "absolute", top: 14, insetInlineStart: 14, background: "#E0A020", color: "#211812", fontSize: 11, fontWeight: 800, padding: "5px 12px", borderRadius: 999 }}>★ {ur ? "ٹاپ پارٹنر" : "TOP PARTNER"}</div>
+            </div>
+            <div style={{ flex: "1.1 1 320px", padding: "32px 34px", display: "flex", flexDirection: "column", justifyContent: "center", gap: 12 }}>
+              <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 30 }}>Shah G Foods</div>
+              <div style={{ color: "rgba(255,255,255,.75)", fontSize: 15, lineHeight: 1.7 }}>{ur ? "شاہ جی آن لائن کا پہلا فیچرڈ پارٹنر — مکمل مینو تمام شاخوں کے ساتھ لسٹڈ۔" : "The first featured partner on Shah G Online — full menu listed across all branches."}</div>
+              <Link href="/restaurant/shah-g-foods/menu" style={{ alignSelf: "flex-start", textDecoration: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 15, padding: "12px 24px", borderRadius: 12, marginTop: 4 }}>{ur ? "شاہ جی کا مینو دیکھیں →" : "View Shah G's menu →"}</Link>
+            </div>
+          </div>
+        </div>
+
+        {/* PACKAGES */}
+        <div id="packages" style={{ marginTop: 48, scrollMarginTop: 84 }}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 30 }}>{ur ? "اپنا پیکج منتخب کریں" : "Choose your package"}</div>
+            <p style={{ fontSize: 14.5, color: "#8A8072", margin: "8px 0 18px" }}>{ur ? "سالانہ پلان پر 20% رعایت — ایک بار ادائیگی، پورا سال لسٹنگ۔" : "Save 20% on the yearly plan — pay once, stay listed all year."}</p>
+            <div style={{ display: "inline-flex", background: "#fff", border: "1px solid #EAE1D2", borderRadius: 999, padding: 4, gap: 4 }}>
+              <button onClick={() => setTerm("yearly")} style={{ cursor: "pointer", border: "none", borderRadius: 999, padding: "8px 18px", fontWeight: 800, fontSize: 13.5, fontFamily: "inherit", background: term === "yearly" ? RED : "transparent", color: term === "yearly" ? "#fff" : "#5A5245" }}>{ur ? "سالانہ · 20% رعایت" : "Yearly · save 20%"}</button>
+              <button onClick={() => setTerm("monthly")} style={{ cursor: "pointer", border: "none", borderRadius: 999, padding: "8px 18px", fontWeight: 800, fontSize: 13.5, fontFamily: "inherit", background: term === "monthly" ? RED : "transparent", color: term === "monthly" ? "#fff" : "#5A5245" }}>{ur ? "ماہانہ" : "Monthly"}</button>
+            </div>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(270px,1fr))", gap: 18, marginTop: 26 }}>
+            {PACKAGES.map((p) => {
+              const price = term === "yearly" ? yearly(p.monthly) : p.monthly;
+              const active = sel?.id === p.id;
+              return (
+                <div key={p.id} style={{ position: "relative", background: p.featured ? `linear-gradient(160deg,${PURPLE},#B71C66)` : "#fff", color: p.featured ? "#fff" : "#211812", border: `2px solid ${active ? RED : p.featured ? "transparent" : "#EAE1D2"}`, borderRadius: 22, padding: "28px 24px", display: "flex", flexDirection: "column", gap: 12, boxShadow: p.featured ? "0 24px 50px -26px rgba(94,26,134,.7)" : "0 16px 34px -28px rgba(60,30,10,.6)" }}>
+                  {p.popular && <div style={{ position: "absolute", top: -12, insetInlineStart: 22, background: "#E0A020", color: "#211812", fontSize: 11, fontWeight: 800, padding: "4px 12px", borderRadius: 999 }}>{ur ? "مقبول" : "MOST POPULAR"}</div>}
+                  {p.featured && <div style={{ position: "absolute", top: -12, insetInlineStart: 22, background: "#F7D774", color: "#211812", fontSize: 11, fontWeight: 800, padding: "4px 12px", borderRadius: 999 }}>★ {ur ? "ہوم پیج فیچرڈ" : "HOMEPAGE FEATURED"}</div>}
+                  <div style={{ fontSize: 19, fontWeight: 800 }}>{p.name}</div>
+                  <div style={{ fontSize: 13, opacity: 0.8 }}>{p.dishes}</div>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+                    <span className="num" style={{ fontSize: 34, fontWeight: 800 }}>Rs {price.toLocaleString()}</span>
+                    <span style={{ fontSize: 13, opacity: 0.8 }}>/ {term === "yearly" ? (ur ? "سال" : "yr") : ur ? "ماہ" : "mo"}</span>
+                  </div>
+                  {term === "yearly" && <div style={{ fontSize: 11.5, color: p.featured ? "#F7D774" : "#2E9E4F", fontWeight: 700, marginTop: -6 }}>{ur ? `20% بچت (Rs ${(p.monthly * 12 - yearly(p.monthly)).toLocaleString()})` : `You save Rs ${(p.monthly * 12 - yearly(p.monthly)).toLocaleString()}`}</div>}
+                  <div style={{ display: "flex", flexDirection: "column", gap: 9, marginTop: 4 }}>
+                    {p.perks.map((pk, i) => (
+                      <div key={i} style={{ display: "flex", gap: 9, fontSize: 13.5, alignItems: "flex-start" }}><span style={{ color: p.featured ? "#F7D774" : "#2E9E4F", fontWeight: 900, flex: "none" }}>✓</span><span style={{ color: p.featured ? "rgba(255,255,255,.92)" : "#4A4238" }}>{pk}</span></div>
+                    ))}
+                  </div>
+                  <button onClick={() => choose(p)} style={{ cursor: "pointer", marginTop: 8, border: "none", background: active ? "#2E9E4F" : p.featured ? "#fff" : RED, color: active ? "#fff" : p.featured ? PURPLE : "#fff", fontWeight: 800, fontSize: 15, fontFamily: "inherit", padding: 13, borderRadius: 13 }}>{active ? (ur ? "✓ منتخب" : "✓ Selected") : ur ? "یہ پیکج منتخب کریں" : "Select this plan"}</button>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* FORM (after a package is selected) */}
+        {sel && (
+          <div ref={formRef} style={{ scrollMarginTop: 84, margin: "44px 0 20px", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 20 }}>
+            {/* what happens next */}
+            <div style={{ background: `linear-gradient(160deg,${PURPLE},#B71C66)`, color: "#fff", borderRadius: 22, padding: "30px 28px", display: "flex", flexDirection: "column", gap: 14 }}>
+              <div style={{ fontSize: 12.5, fontWeight: 800, letterSpacing: ".5px", opacity: 0.85 }}>{sel.name} · {term === "yearly" ? (ur ? "سالانہ" : "Yearly") : ur ? "ماہانہ" : "Monthly"}</div>
+              <div className="num" style={{ fontSize: 40, fontWeight: 800 }}>Rs {amount.toLocaleString()}<span style={{ fontSize: 15, opacity: 0.8 }}> / {term === "yearly" ? (ur ? "سال" : "yr") : ur ? "ماہ" : "mo"}</span></div>
+              <div style={{ background: "rgba(255,255,255,.12)", borderRadius: 12, padding: "12px 14px", fontSize: 13, lineHeight: 1.6 }}>💳 {ur ? "آن لائن ادائیگی (PayFast) بہت جلد شامل کی جا رہی ہے۔ ابھی اپنی تفصیلات بھیجیں — ہماری ٹیم رابطہ کر کے ادائیگی مکمل کرائے گی۔" : "Secure online payment via PayFast is being added shortly. Submit your details now — our team will contact you to complete the payment."}</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 9, marginTop: 2, fontSize: 13.5 }}>
+                {[ur ? "تفصیلات بھیجیں" : "Submit your details", ur ? "ٹیم رابطہ کر کے ادائیگی کرائے گی" : "Team contacts you to pay", ur ? "24 گھنٹے میں لائیو" : "Live within 24 hours"].map((s, i) => (
+                  <div key={i} style={{ display: "flex", gap: 9 }}><span style={{ fontWeight: 800 }}>{i + 1}.</span><span style={{ opacity: 0.92 }}>{s}</span></div>
+                ))}
+              </div>
+            </div>
+
+            {/* form */}
+            <div style={{ background: "#fff", border: "1px solid #EAE1D2", borderRadius: 22, padding: "28px 26px" }}>
+              {(
+                <form onSubmit={submit}>
+                  <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 23, marginBottom: 2 }}>{ur ? "اپنی تفصیلات بھریں" : "Your restaurant details"}</div>
+                  <div style={{ fontSize: 12.5, color: "#8A8072", marginBottom: 14 }}>{sel.name} · {ur ? `زیادہ سے زیادہ ${sel.max} ڈشز` : `up to ${sel.max} dishes`}</div>
+
+                  <div style={{ marginBottom: 11 }}><div style={lbl}>{ur ? "ریستوران کا نام" : "Restaurant name"} *</div><input required value={f.restaurant} onChange={set("restaurant")} placeholder={ur ? "مثلاً کریم کڑاہی" : "e.g. Kareem Karahi"} style={input} /></div>
+                  <div style={{ display: "flex", gap: 11, marginBottom: 11, flexWrap: "wrap" }}>
+                    <div style={{ flex: "1 1 130px" }}><div style={lbl}>{ur ? "مالک" : "Owner"} *</div><input required value={f.owner} onChange={set("owner")} placeholder={ur ? "آپ کا نام" : "Your name"} style={input} /></div>
+                    <div style={{ flex: "1 1 130px" }}><div style={lbl}>{ur ? "فون / واٹس ایپ" : "Phone / WhatsApp"} *</div><input required value={f.phone} onChange={set("phone")} placeholder="03XX XXXXXXX" style={input} /></div>
+                  </div>
+                  <div style={{ marginBottom: 4 }}><div style={lbl}>{ur ? "آپ کی ای میل (فعال)" : "Your email (active)"} *</div><input required type="email" value={f.email} onChange={set("email")} placeholder="you@example.com" style={input} /></div>
+                  <div style={{ fontSize: 11.5, color: "#B07A15", background: "#FCF7EE", borderRadius: 8, padding: "8px 11px", margin: "8px 0 12px", lineHeight: 1.5 }}>ℹ️ {ur ? "ایک فعال ای میل دیں — شاہ جی آن لائن اپنی سرکاری ای میل سے آپ سے رابطہ کرے گا، اور آپ کو ابھی تصدیقی ای میل بھی جائے گی۔" : "Use an active email — Shah G Online contacts you from its official email, and you'll get an instant confirmation email too."}</div>
+
+                  <div style={{ marginBottom: 14 }}><div style={lbl}>{ur ? "آپ کن علاقوں میں ڈیلیور کرتے ہیں؟" : "Which areas do you serve / deliver to?"} *</div><input required value={f.areas} onChange={set("areas")} placeholder={ur ? "مثلاً F-10، F-11، بلیو ایریا" : "e.g. F-10, F-11, Blue Area, G-9"} style={input} /><div style={{ fontSize: 11, color: "#B0A692", marginTop: 4 }}>{ur ? "آپ کی لسٹنگ صرف انہی علاقوں کے گاہکوں کو دکھائی دے گی۔" : "Your listing will only show to customers in these areas."}</div></div>
+
+                  {/* dishes */}
+                  <div style={lbl}>{ur ? "آپ کی ڈشز اور قیمتیں" : "Your dishes & prices"} *</div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10, margin: "8px 0 6px" }}>
+                    {dishes.map((d, i) => (
+                      <div key={i} style={{ background: "#F7F3EB", borderRadius: 12, padding: 12 }}>
+                        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                          <input value={d.name} onChange={(e) => setDish(i, "name", e.target.value)} placeholder={ur ? `ڈش ${i + 1} کا نام` : `Dish ${i + 1} name`} style={{ ...input, marginTop: 0, flex: 1 }} />
+                          {dishes.length > 1 && <button type="button" onClick={() => rmDish(i)} aria-label="remove" style={{ cursor: "pointer", border: "none", background: "#EFE0DE", color: RED, width: 34, height: 34, borderRadius: 9, fontSize: 16, flex: "none" }}>×</button>}
+                        </div>
+                        <div style={{ display: "flex", gap: 8, marginTop: 8, flexWrap: "wrap" }}>
+                          <select value={d.type} onChange={(e) => setDish(i, "type", e.target.value)} style={{ ...input, marginTop: 0, flex: "1 1 150px", cursor: "pointer" }}>
+                            {DISH_TYPES.map((t) => <option key={t.v} value={t.v}>{t.label}</option>)}
+                          </select>
+                          <input value={d.details} onChange={(e) => setDish(i, "details", e.target.value)} placeholder={typePlaceholder[d.type]} style={{ ...input, marginTop: 0, flex: "2 1 200px" }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  {sel && dishes.length < sel.max && <button type="button" onClick={addDish} style={{ cursor: "pointer", border: `1.5px dashed ${RED}`, background: "transparent", color: RED, fontWeight: 800, fontSize: 13.5, fontFamily: "inherit", padding: "9px 16px", borderRadius: 11, marginBottom: 14 }}>+ {ur ? "ڈش شامل کریں" : "Add dish"} ({dishes.length}/{sel.max})</button>}
+
+                  {err && <div style={{ fontSize: 13, color: "#9A3B2E", marginBottom: 12 }}>{err}</div>}
+                  <button type="submit" disabled={state === "sending"} style={{ cursor: state === "sending" ? "not-allowed" : "pointer", width: "100%", border: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 16, fontFamily: "inherit", padding: 15, borderRadius: 14 }}>{state === "sending" ? (ur ? "بھیجا جا رہا ہے…" : "Sending…") : ur ? "تفصیلات بھیجیں" : "Submit my details"}</button>
+                  <div style={{ fontSize: 11.5, color: "#B0A692", marginTop: 10, textAlign: "center" }}>{ur ? "ادائیگی کے لیے ہماری ٹیم رابطہ کرے گی۔" : "Our team will contact you to arrange payment."}</div>
+                </form>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <SuccessModal
+        open={modal}
+        ur={ur}
+        title={ur ? "درخواست موصول ہو گئی! 🎉" : "Request received! 🎉"}
+        message={ur ? "شکریہ! ہم نے آپ کو تصدیقی ای میل بھیج دی ہے۔ ہماری ٹیم جلد رابطہ کر کے ادائیگی مکمل کرائے گی۔" : "Thank you! We've emailed you a confirmation. Our team will contact you shortly to complete your listing."}
+        onClose={() => setModal(false)}
+      />
+    </>
+  );
+}

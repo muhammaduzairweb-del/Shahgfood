@@ -28,3 +28,6 @@ next-env.d.ts
 
 # local editor / claude settings
 .claude/
+
+# env (contains secrets — never commit)
+.env

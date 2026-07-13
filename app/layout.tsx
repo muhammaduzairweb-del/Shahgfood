@@ -3,7 +3,6 @@ import "leaflet/dist/leaflet.css";
 import "./globals.css";
 import { AppProvider } from "@/components/AppProvider";
 import Overlays from "@/components/Overlays";
-import DevBanner from "@/components/DevBanner";
 import { BRANCHES, branchSlug } from "@/lib/data";
 
 const SITE_URL = "https://shahgfood.com";
@@ -197,7 +196,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body suppressHydrationWarning>
         <AppProvider>
-          <DevBanner />
           {children}
           <Overlays />
         </AppProvider>

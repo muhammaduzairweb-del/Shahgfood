@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useApp } from "@/components/AppProvider";
 import PageHero from "@/components/PageHero";
-import { PRIVACY, TERMS, type LegalDoc } from "@/lib/legal";
+import { PRIVACY, TERMS, REFUND, SERVICE, type LegalDoc } from "@/lib/legal";
 
 const RED = "#C1272D";
 
@@ -45,4 +45,16 @@ export function TermsContent() {
   const { lang } = useApp();
   const ur = lang === "ur";
   return <LegalDocView doc={TERMS[lang]} backLabel={ur ? "← اسٹور پر واپس" : "← Back to store"} />;
+}
+
+export function RefundContent() {
+  const { lang } = useApp();
+  const ur = lang === "ur";
+  return <LegalDocView doc={REFUND[lang]} backLabel={ur ? "← اسٹور پر واپس" : "← Back to store"} />;
+}
+
+export function ServiceContent() {
+  const { lang } = useApp();
+  const ur = lang === "ur";
+  return <LegalDocView doc={SERVICE[lang]} backLabel={ur ? "← اسٹور پر واپس" : "← Back to store"} />;
 }

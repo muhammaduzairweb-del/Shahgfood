@@ -6,19 +6,12 @@ import { BRANCHES, LOGO, LOGO_FILTER } from "@/lib/data";
 import { DICT } from "@/lib/i18n";
 import { useApp } from "@/components/AppProvider";
 import { useWidth, useHideOnScroll } from "@/components/hooks";
-import { IconHome, IconMenu, IconPin, IconInfo, IconBag } from "@/components/icons";
+import { IconHome, IconMenu, IconInfo, IconBag } from "@/components/icons";
 
 const PURPLE = "#8E1E7C";
 
-const NAV: [string, "home" | "menu" | "branches" | "about"][] = [
-  ["/", "home"],
-  ["/menu", "menu"],
-  ["/branches", "branches"],
-  ["/about", "about"],
-];
-
 export default function Navbar() {
-  const { lang, setLang, branch, setLocated, cartCount, setCartOpen, user } = useApp();
+  const { lang, setLang, branch, setLocated } = useApp();
   const t = DICT[lang];
   const ur = lang === "ur";
   const pathname = usePathname();
@@ -26,11 +19,19 @@ export default function Navbar() {
   const isMobile = w < 820;
   const selBranch = BRANCHES.find((b) => b.name === branch) || BRANCHES[0];
 
+  const MENU_PATH = "/restaurant/shah-g-foods/menu";
+  const NAV: [string, string][] = [
+    ["/", t.home],
+    [MENU_PATH, t.menu],
+    ["/partner", ur ? "پارٹنر" : "Partner"],
+    ["/about", t.about],
+  ];
+
   // mobile "liquid glass" dock — icons only; the droplet slides to the active tab
   const M_TABS: { href: string; Icon: (p: { size?: number; color?: string; strokeWidth?: number }) => React.ReactElement; match: (p: string) => boolean }[] = [
     { href: "/", Icon: IconHome, match: (p) => p === "/" },
-    { href: "/menu", Icon: IconMenu, match: (p) => p.startsWith("/menu") },
-    { href: "/branches", Icon: IconPin, match: (p) => p.startsWith("/branches") },
+    { href: MENU_PATH, Icon: IconMenu, match: (p) => p.startsWith("/menu") || p.startsWith("/restaurant") },
+    { href: "/partner", Icon: IconBag, match: (p) => p.startsWith("/partner") },
     { href: "/about", Icon: IconInfo, match: (p) => p.startsWith("/about") },
   ];
   const M_TAB_W = 64;
@@ -65,7 +66,7 @@ export default function Navbar() {
             <div style={{ marginInlineStart: "auto", display: "flex", alignItems: "center", gap: 12 }}>
               {!isMobile && (
                 <nav style={{ display: "flex", gap: 4 }}>
-                  {NAV.map(([href, key]) => {
+                  {NAV.map(([href, label]) => {
                     const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
                     return (
                       <Link
@@ -73,7 +74,7 @@ export default function Navbar() {
                         href={href}
                         style={{ textDecoration: "none", fontWeight: 700, fontSize: 13.5, padding: "8px 15px", borderRadius: 999, color: active ? PURPLE : "rgba(255,255,255,.92)", background: active ? "#fff" : "transparent", boxShadow: active ? "0 4px 14px -5px rgba(0,0,0,.4)" : "none", transition: "background .25s ease, color .25s ease" }}
                       >
-                        {t[key]}
+                        {label}
                       </Link>
                     );
                   })}
@@ -85,21 +86,9 @@ export default function Navbar() {
                 <div onClick={() => setLang("ur")} className="urdu" style={{ cursor: "pointer", padding: "0 11px", height: 26, display: "flex", alignItems: "center", fontWeight: 700, fontSize: 12.5, lineHeight: 1, borderRadius: 999, background: ur ? "#fff" : "transparent", color: ur ? PURPLE : "rgba(255,255,255,.85)" }}>اردو</div>
               </div>
 
-              <button onClick={() => setCartOpen(true)} aria-label={t.cart} style={{ cursor: "pointer", position: "relative", border: "none", background: "rgba(255,255,255,.16)", width: 42, height: 42, borderRadius: 13, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff" }}>
-                <IconBag size={20} strokeWidth={2} />
-                <span className="num" style={{ position: "absolute", top: -6, insetInlineEnd: -6, background: "#fff", color: "#C01A6B", fontSize: 11, fontWeight: 800, minWidth: 20, height: 20, borderRadius: 999, display: "flex", alignItems: "center", justifyContent: "center", padding: "0 5px", boxShadow: "0 2px 6px rgba(0,0,0,.25)" }}>{cartCount}</span>
-              </button>
 
-              <Link href="/login" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,.16)", borderRadius: 999, padding: isMobile ? "5px 6px" : "5px 14px 5px 6px", color: "#fff" }}>
-                <span style={{ width: 30, height: 30, borderRadius: "50%", background: "rgba(255,255,255,.22)", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#FCE3B4"><circle cx="12" cy="8" r="4.2" /><path d="M4 20.5c0-4.4 3.6-7.5 8-7.5s8 3.1 8 7.5z" /></svg>
-                </span>
-                {!isMobile && (
-                  <>
-                    <span style={{ fontWeight: 800, fontSize: 13.5, maxWidth: 120, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{user ? user.name : t.login}</span>
-                    <span style={{ fontSize: 11, opacity: 0.85 }}>▾</span>
-                  </>
-                )}
+              <Link href="/partner" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 7, background: "#fff", color: PURPLE, fontWeight: 800, fontSize: isMobile ? 12.5 : 13.5, borderRadius: 999, padding: isMobile ? "9px 13px" : "9px 18px", whiteSpace: "nowrap" }}>
+                🏪 {isMobile ? (ur ? "لسٹ" : "List") : (ur ? "ریستوران لسٹ کریں" : "List Restaurant")}
               </Link>
             </div>
           </div>

@@ -105,7 +105,7 @@ export default function MenuContent() {
 
   return (
     <>
-      <PageHero title={t.menuTitle} subtitle={t.menuSub} image={encodeURI("/chicken Biryani.jpg")} />
+      <PageHero title={ur ? "شاہ جی فوڈز مینو" : "Shah G Foods Menu"} subtitle={t.menuSub} image={encodeURI("/chicken Biryani.jpg")} badge={ur ? "فیچرڈ ریستوران" : "FEATURED RESTAURANT"} />
 
       {/* search — normal width, scrolls away */}
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 20px 4px" }}>

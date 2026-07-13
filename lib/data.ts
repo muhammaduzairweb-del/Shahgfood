@@ -416,6 +416,18 @@ export function getDishBySlug(slug: string): Dish | undefined {
   return MENU.find((d) => dishSlug(d.name) === slug);
 }
 
+// ===== Marketplace: order-via-call (no delivery / no cart) =====
+// Every dish is listed by a vendor. For now the flagship vendor is Shah G Foods.
+export const ORDER_PHONE = "+92 330 786 2992"; // display
+export const ORDER_TEL = "+923307862992"; // tel: link
+export const ORDER_WA = "923307862992"; // wa.me number
+
+/** WhatsApp order link with a pre-filled message for a given dish. */
+export function waOrderLink(dishName: string): string {
+  const msg = `Assalam-o-Alaikum! 🍛\nMain Shah G Online (shahgfood.com) par listed aap ka "${dishName}" order karna chahta/chahti hoon.\nMehrbani karke rate aur total bill bata dein — shukriya!`;
+  return `https://wa.me/${ORDER_WA}?text=${encodeURIComponent(msg)}`;
+}
+
 /** Great-circle distance in km between two lat/lng points (for the "near me" finder). */
 export function distanceKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
   const R = 6371;
@@ -423,6 +435,71 @@ export function distanceKm(lat1: number, lng1: number, lat2: number, lng2: numbe
   const dLng = ((lng2 - lng1) * Math.PI) / 180;
   const a = Math.sin(dLat / 2) ** 2 + Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+// ===== Multi-vendor directory (area-based filtering) =====
+export type City = "Islamabad" | "Rawalpindi";
+
+/** The cities the platform currently operates in (used by the location picker). */
+export const CITIES: City[] = ["Islamabad", "Rawalpindi"];
+
+export interface Restaurant {
+  slug: string;
+  name: string;
+  nameUr: string;
+  cuisine: string;
+  cuisineUr: string;
+  rating: number;
+  reviews: number;
+  image: string;
+  featured?: boolean;
+  /** Cities this restaurant serves. A customer outside these will NOT see it. */
+  coverageCities: City[];
+  /** Optional finer-grained areas/sectors for future sector-level filtering. */
+  coverageAreas?: string[];
+  menuPath: string;
+}
+
+/**
+ * Listed restaurants. New paying vendors get appended here with their own
+ * `coverageCities` so customers only ever see kitchens that serve their area.
+ */
+export const RESTAURANTS: Restaurant[] = [
+  {
+    slug: "shah-g-foods",
+    name: "Shah G Foods",
+    nameUr: "شاہ جی فوڈز",
+    cuisine: "Desi · BBQ · Karahi · Breakfast",
+    cuisineUr: "دیسی · باربی کیو · کڑاہی · ناشتہ",
+    rating: 4.8,
+    reviews: 15000,
+    image: "/Shahgfoods__Feature.jpg",
+    featured: true,
+    coverageCities: ["Islamabad", "Rawalpindi"],
+    menuPath: "/restaurant/shah-g-foods/menu",
+  },
+];
+
+/**
+ * Best-effort city from GPS coordinates: pick the nearest known branch and use
+ * its city. Returns null if the nearest branch is implausibly far (>60 km), i.e.
+ * the user is outside our current service region.
+ */
+export function cityFromCoords(lat: number, lng: number): City | null {
+  let best: Branch | null = null;
+  let bestD = Infinity;
+  for (const b of BRANCHES) {
+    const d = distanceKm(lat, lng, b.lat, b.lng);
+    if (d < bestD) { bestD = d; best = b; }
+  }
+  if (!best || bestD > 60) return null;
+  return best.city;
+}
+
+/** Restaurants that serve the given city. A null city means "unknown" → show all. */
+export function restaurantsForCity(city: City | null | ""): Restaurant[] {
+  if (!city) return RESTAURANTS;
+  return RESTAURANTS.filter((r) => r.coverageCities.includes(city));
 }
 
 export const HOURS = "8:00 AM – 2:00 AM";

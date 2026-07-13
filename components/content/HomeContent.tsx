@@ -12,6 +12,7 @@ import { useApp } from "@/components/AppProvider";
 import { useWidth } from "@/components/hooks";
 import { DishCard, DishRow, RED } from "@/components/ui";
 import { CategoryIcon, IconStar, IconScooter, IconPin, IconMenu } from "@/components/icons";
+import RestaurantsNearYou from "@/components/RestaurantsNearYou";
 import type { CategoryKey, Review } from "@/lib/data";
 
 const CHARCOAL = "#16171B"; // sampled from the Daal Chawal photo background
@@ -129,7 +130,8 @@ export default function HomeContent() {
         )}
         <div style={{ width: "100%", maxWidth: 900, margin: "0 auto", padding: isPhone ? "40px 20px 44px" : "52px 20px 56px", position: "relative", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
           {!ur && <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(224,160,32,.95)", color: "#211812", fontSize: 11.5, fontWeight: 800, padding: "7px 15px", borderRadius: 999, letterSpacing: ".7px", marginBottom: 16 }}>{t.badge}</div>}
-          <h1 style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: ur ? "clamp(26px,4.2vw,44px)" : "clamp(34px,5.4vw,60px)", lineHeight: ur ? 1.5 : 1.06, marginTop: 0, maxWidth: 800, fontWeight: 400, letterSpacing: ur ? "normal" : "-.5px" }}>{t.heroTitle}</h1>
+          <h1 style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: ur ? "clamp(26px,4.2vw,44px)" : "clamp(32px,5vw,54px)", lineHeight: ur ? 1.5 : 1.08, marginTop: 0, maxWidth: 820, fontWeight: 400, letterSpacing: ur ? "normal" : "-.5px" }}>{t.heroTitle}</h1>
+          <p style={{ fontSize: 15.5, color: "rgba(255,255,255,.9)", margin: "12px 0 0", maxWidth: 600, lineHeight: 1.7 }}>{t.heroDesc}</p>
 
           <div style={{ position: "relative", width: "min(620px,100%)", marginTop: 26 }}>
             <div className="ai-search" style={{ borderRadius: 18, boxShadow: "0 24px 44px -22px rgba(0,0,0,.55)" }}>
@@ -162,8 +164,8 @@ export default function HomeContent() {
           </div>
 
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginTop: 18 }}>
-            <Link href="/menu" style={{ textDecoration: "none", background: "#fff", color: RED, fontWeight: 800, fontSize: 16, padding: "15px 30px", borderRadius: 14, boxShadow: "0 16px 32px -14px rgba(0,0,0,.5)" }}>{t.orderNow}</Link>
-            <Link href="/branches" style={{ textDecoration: "none", border: "1.5px solid rgba(255,255,255,.55)", background: "rgba(255,255,255,.08)", color: "#fff", fontWeight: 700, fontSize: 16, padding: "15px 28px", borderRadius: 14 }}>{t.findBranch}</Link>
+            <Link href="/restaurant/shah-g-foods/menu" style={{ textDecoration: "none", background: "#fff", color: RED, fontWeight: 800, fontSize: 16, padding: "15px 30px", borderRadius: 14, boxShadow: "0 16px 32px -14px rgba(0,0,0,.5)" }}>{ur ? "مینو دیکھیں →" : "Explore menus →"}</Link>
+            <Link href="/partner" style={{ textDecoration: "none", border: "1.5px solid rgba(255,255,255,.55)", background: "rgba(255,255,255,.08)", color: "#fff", fontWeight: 700, fontSize: 16, padding: "15px 28px", borderRadius: 14 }}>{ur ? "اپنا ریستوران لسٹ کریں" : "List your restaurant"}</Link>
           </div>
 
           {/* trust row with real icons */}
@@ -177,6 +179,9 @@ export default function HomeContent() {
       </section>
 
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "26px 20px 40px" }}>
+        {/* RESTAURANTS NEAR YOU — location-aware directory */}
+        <RestaurantsNearYou />
+
         {/* SIGNATURE */}
         <div style={{ background: CHARCOAL, borderRadius: 26, overflow: "hidden", display: "flex", flexWrap: "wrap", color: "#fff", boxShadow: "0 24px 50px -30px rgba(0,0,0,.7)" }}>
           <div style={{ flex: "1 1 360px", minHeight: isPhone ? 190 : 320, background: CHARCOAL, position: "relative", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -198,15 +203,15 @@ export default function HomeContent() {
           </div>
         </div>
 
-        {/* CATEGORIES */}
+        {/* CATEGORIES — single-line scroller */}
         <div style={{ marginTop: 36 }}>
           <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 23, marginBottom: 15 }}>{t.browseCat}</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(160px,1fr))", gap: 14 }}>
+          <div className="no-bar" style={{ display: "flex", gap: 12, overflowX: "auto", paddingBottom: 4 }}>
             {CATS.filter((c) => c.key !== "all").map((c) => (
-              <Link key={c.key} href={`/menu?cat=${c.key}`} style={{ textDecoration: "none", color: "inherit", background: "#fff", border: "1px solid #EAE1D2", borderRadius: 18, padding: 18, display: "flex", alignItems: "center", gap: 13 }}>
-                <div style={{ width: 48, height: 48, borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", background: "#FCF2F1", flex: "none" }}><CategoryIcon cat={c.key as CategoryKey} size={24} color={RED} strokeWidth={1.9} /></div>
+              <Link key={c.key} href={`/menu?cat=${c.key}`} style={{ flex: "none", minWidth: 158, textDecoration: "none", color: "inherit", background: "#fff", border: "1px solid #EAE1D2", borderRadius: 18, padding: "15px 16px", display: "flex", alignItems: "center", gap: 12 }}>
+                <div style={{ width: 46, height: 46, borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", background: "#FCF2F1", flex: "none" }}><CategoryIcon cat={c.key as CategoryKey} size={23} color={RED} strokeWidth={1.9} /></div>
                 <div>
-                  <div style={{ fontSize: 14.5, fontWeight: 800, lineHeight: 1.25 }}>{ur ? c.su : c.short}</div>
+                  <div style={{ fontSize: 14.5, fontWeight: 800, lineHeight: 1.25, whiteSpace: "nowrap" }}>{ur ? c.su : c.short}</div>
                   <div className="num" style={{ fontSize: 11.5, color: "#8A8072", marginTop: 3 }}>{MENU.filter((d) => d.cat === c.key).length} {t.dishesWord}</div>
                 </div>
               </Link>
