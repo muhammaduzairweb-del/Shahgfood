@@ -10,7 +10,7 @@ import { IconFacebook, IconInstagram } from "@/components/icons";
 const colLink: React.CSSProperties = { color: "rgba(255,255,255,.75)", textDecoration: "none", display: "block" };
 const social: React.CSSProperties = { color: "rgba(255,255,255,.85)", textDecoration: "none", display: "flex", alignItems: "center", gap: 9, fontSize: 13.5, fontWeight: 600 };
 
-const FB_URL = "https://www.facebook.com/shah.g.foods.627153/";
+const FB_URL = "https://www.facebook.com/profile.php?id=61592033124593";
 const IG_URL = "https://www.instagram.com/shahgfoodsofficial/";
 
 export default function SiteFooter() {
@@ -21,6 +21,10 @@ export default function SiteFooter() {
 
   const company: [string, string][] = [
     [ur ? "ہمارے بارے میں" : "About us", "/about"],
+    [ur ? "یہ کیسے کام کرتا ہے" : "How it works", "/how-it-works"],
+    [ur ? "ہمارا مشن" : "Our mission", "/mission"],
+    [ur ? "شاہ جی آن لائن ہی کیوں؟" : "Why Shah G Online", "/why-shah-g-online"],
+    [ur ? "کامیابی کی کہانیاں" : "Success stories", "/success-stories"],
     [ur ? "شاخیں" : "Branches", "/branches"],
     [ur ? "ریستوران لسٹ کریں" : "List your restaurant", "/partner"],
   ];

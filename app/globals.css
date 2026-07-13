@@ -108,6 +108,23 @@ textarea:focus {
   100% { transform: translateY(240px) rotate(320deg); opacity: 0; }
 }
 
+/* page-load skeleton shimmer */
+@keyframes shimmer {
+  to { background-position: -200% 0; }
+}
+.sk {
+  background: linear-gradient(90deg, #ece4d4 25%, #f8f3e9 37%, #ece4d4 63%);
+  background-size: 200% 100%;
+  animation: shimmer 1.25s ease infinite;
+  border-radius: 12px;
+}
+.sk--dark {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.14) 25%, rgba(255, 255, 255, 0.26) 37%, rgba(255, 255, 255, 0.14) 63%);
+  background-size: 200% 100%;
+  animation: shimmer 1.25s ease infinite;
+  border-radius: 12px;
+}
+
 /* food-orbit animation (about page & section panels) */
 @keyframes orbitSpin {
   to { transform: rotate(360deg); }

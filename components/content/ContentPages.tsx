@@ -8,8 +8,8 @@ import { DICT } from "@/lib/i18n";
 import { EXTRA, PAGES } from "@/lib/i18n-extra";
 import { useApp } from "@/components/AppProvider";
 import { ORDER_STATUSES, getOrder, type Order } from "@/lib/orders";
-import ImageSlot from "@/components/ImageSlot";
 import PageHero from "@/components/PageHero";
+import FoodOrbit from "@/components/FoodOrbit";
 
 const TrackingMap = dynamic(() => import("@/components/TrackingMap"), { ssr: false });
 
@@ -27,35 +27,40 @@ function useLangPack() {
 /* ---------------- ABOUT ---------------- */
 export function AboutContent() {
   const { ur } = useLangPack();
-  const storyImgs = [SITE_IMAGES.aboutStory1, SITE_IMAGES.aboutStory2, SITE_IMAGES.aboutStory3];
+  // animated panels per story block (replaced the old static photos)
+  const orbits = [
+    { center: "🍛", items: ["📱", "🍕", "🍗", "🥤", "🫓", "⭐"] },
+    { center: "🏪", items: ["📈", "💰", "🧾", "⭐", "📣", "🤝"] },
+    { center: "🇵🇰", items: ["🍛", "🏪", "🚀", "❤️", "🌟", "🤝"] },
+  ];
 
   const A = ur
     ? {
         badge: "ہماری کہانی · مارکیٹ پلیس",
-        headline: "شاہ جی آن لائن — پاکستان کا فوڈ مارکیٹ پلیس",
-        sub: "ہم بھوکے گاہکوں کو ملک کے بہترین مقامی کچن سے جوڑتے ہیں — اصل ذائقہ، ایک کلک پر۔",
-        intro: "شاہ جی آن لائن ایک سادہ سوچ سے شروع ہوا: ہر محلے کا بہترین کھانا ایک جگہ لے آنا۔ ہم خود کھانا نہیں پکاتے — ہم پاکستان بھر کے ریستورانوں اور ہوم کچن کے مینو لسٹ کرتے ہیں تاکہ آپ سیدھا اُن سے آرڈر کر سکیں، بغیر کسی درمیانی کمیشن کے۔ ہمارے پہلے فیچرڈ پارٹنر شاہ جی فوڈز ہیں۔",
+        headline: "شاہ جی آن لائن، پاکستان کا فوڈ مارکیٹ پلیس",
+        sub: "ہم بھوکے گاہکوں کو ملک کے بہترین مقامی کچن سے جوڑتے ہیں۔ اصل ذائقہ، ایک کلک پر۔",
+        intro: "شاہ جی آن لائن ایک سادہ سوچ سے شروع ہوا: ہر محلے کا بہترین کھانا ایک جگہ لے آنا۔ ہم خود کھانا نہیں پکاتے۔ ہم پاکستان بھر کے ریستورانوں اور ہوم کچن کے مینو لسٹ کرتے ہیں تاکہ آپ سیدھا اُن سے آرڈر کر سکیں، بغیر کسی درمیانی کمیشن کے۔ ہمارے پہلے فیچرڈ پارٹنر شاہ جی فوڈز ہیں۔",
         blocks: [
-          { h: "گاہکوں کے لیے", p: "پسندیدہ ڈش تلاش کریں اور سیدھا کال یا واٹس ایپ پر آرڈر کریں۔ کوئی جھنجھٹ نہیں — صرف تازہ، اصل دیسی کھانا آپ کے علاقے کے بہترین کچن سے۔" },
-          { h: "ریستورانوں کے لیے", p: "اپنا مینو ہزاروں بھوکے گاہکوں کے سامنے لائیں۔ صفر کمیشن، صفر ڈیلیوری جھنجھٹ — بس ایک ماہانہ سلاٹ اور آرڈرز سیدھا آپ کے نمبر پر۔" },
+          { h: "گاہکوں کے لیے", p: "پسندیدہ ڈش تلاش کریں اور سیدھا کال یا واٹس ایپ پر آرڈر کریں۔ کوئی جھنجھٹ نہیں، صرف تازہ، اصل دیسی کھانا آپ کے علاقے کے بہترین کچن سے۔" },
+          { h: "ریستورانوں کے لیے", p: "اپنا مینو ہزاروں بھوکے گاہکوں کے سامنے لائیں۔ صفر کمیشن، صفر ڈیلیوری جھنجھٹ، بس ایک ماہانہ سلاٹ اور آرڈرز سیدھا آپ کے نمبر پر۔" },
           { h: "ہمارا مشن", p: "عمدہ کھانا سب کی پہنچ میں۔ ہم ہر کچن کو، چھوٹا ہو یا بڑا، ڈیجیٹل طاقت دیتے ہیں تاکہ وہ بھاری فیس کے بغیر آن لائن بڑھ سکے۔" },
         ],
-        quote: "”عمدہ کھانا ڈھونڈنا آسان ہونا چاہیے — اور اسے بیچنا اس سے بھی آسان۔“",
+        quote: "”عمدہ کھانا ڈھونڈنا آسان ہونا چاہیے، اور اسے بیچنا اس سے بھی آسان۔“",
         stats: [{ v: "10,000+", l: "روزانہ وزیٹرز" }, { v: "0%", l: "کمیشن" }, { v: "90+", l: "لسٹڈ ڈشز" }, { v: "🇵🇰", l: "پورے پاکستان میں" }],
         hungryT: "بھوک لگی ہے؟", hungry: "مینو دیکھیں اور آرڈر کریں →",
         ownerT: "ریستوران کے مالک ہیں؟", owner: "اپنا ریستوران لسٹ کریں →",
       }
     : {
         badge: "OUR STORY · MARKETPLACE",
-        headline: "Shah G Online — Pakistan's food marketplace",
-        sub: "We connect hungry customers with the country's best local kitchens — authentic taste, one click away.",
-        intro: "Shah G Online began with a simple idea: bring every neighbourhood's best food into one place. We don't cook — we list the menus of restaurants and home kitchens across Pakistan so you can order directly from them, with zero middle-man commission. Our very first featured partner is Shah G Foods.",
+        headline: "Shah G Online, Pakistan's food marketplace",
+        sub: "We connect hungry customers with the country's best local kitchens. Authentic taste, one click away.",
+        intro: "Shah G Online began with a simple idea: bring every neighbourhood's best food into one place. We don't cook. We list the menus of restaurants and home kitchens across Pakistan so you can order directly from them, with zero middle-man commission. Our very first featured partner is Shah G Foods.",
         blocks: [
-          { h: "For hungry customers", p: "Find a dish you love and order it straight from the kitchen by Call or WhatsApp. No fuss — just fresh, authentic desi food from the best kitchens serving your area." },
-          { h: "For restaurants", p: "Put your menu in front of thousands of hungry customers. Zero commission, zero delivery headache — just a simple monthly slot and orders straight to your own number." },
-          { h: "Our mission", p: "Great food should be easy to find — and easy to sell. We give every kitchen, big or small, the digital power to grow online without heavy fees." },
+          { h: "For hungry customers", p: "Find a dish you love and order it straight from the kitchen by Call or WhatsApp. No fuss, just fresh, authentic desi food from the best kitchens serving your area." },
+          { h: "For restaurants", p: "Put your menu in front of thousands of hungry customers. Zero commission, zero delivery headache, just a simple monthly slot and orders straight to your own number." },
+          { h: "Our mission", p: "Great food should be easy to find, and easy to sell. We give every kitchen, big or small, the digital power to grow online without heavy fees." },
         ],
-        quote: "“Great food should be easy to find — and even easier to sell.”",
+        quote: "“Great food should be easy to find, and even easier to sell.”",
         stats: [{ v: "10,000+", l: "Daily visitors" }, { v: "0%", l: "Commission" }, { v: "90+", l: "Dishes listed" }, { v: "🇵🇰", l: "Nationwide" }],
         hungryT: "Feeling hungry?", hungry: "Explore menus & order →",
         ownerT: "Own a restaurant?", owner: "List your restaurant →",
@@ -63,7 +68,7 @@ export function AboutContent() {
 
   return (
     <div>
-      {/* HERO — text one side, food-orbit animation on the other */}
+      {/* HERO, text one side, food-orbit animation on the other */}
       <section style={{ position: "relative", overflow: "hidden", background: "linear-gradient(160deg,#5E1A86 0%,#8E1E7C 50%,#B71C66 100%)", color: "#fff" }}>
         <div style={{ position: "absolute", inset: 0, opacity: 0.13, background: "radial-gradient(circle at 88% 16%, #F7D774 0 12px, transparent 13px),radial-gradient(circle at 12% 78%, #F7D774 0 9px, transparent 10px),radial-gradient(circle at 60% 92%, #F7D774 0 6px, transparent 7px)" }} />
         <div style={{ maxWidth: 1000, margin: "0 auto", padding: "48px 20px 52px", position: "relative", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 34 }}>
@@ -92,8 +97,8 @@ export function AboutContent() {
                   <h2 style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: "clamp(22px,3vw,30px)", fontWeight: 400, margin: "0 0 12px", lineHeight: 1.15 }}>{b.h}</h2>
                   <p style={{ fontSize: 15.5, lineHeight: 1.85, color: "#5A5245", margin: 0 }}>{b.p}</p>
                 </div>
-                <div style={{ flex: "1 1 320px", width: "100%" }}>
-                  <ImageSlot src={storyImgs[i]} alt={b.h} ratio="1 / 1" label={ur ? `تصویر ${i + 1}` : `Image ${i + 1}`} />
+                <div style={{ flex: "1 1 320px", width: "100%", background: "linear-gradient(160deg,#FCF6EC,#F6EDDD)", border: "1px solid #EFE5D3", borderRadius: 22, padding: "18px 0" }}>
+                  <FoodOrbit center={orbits[i].center} items={orbits[i].items} speed={20 + i * 4} />
                 </div>
               </div>
             );

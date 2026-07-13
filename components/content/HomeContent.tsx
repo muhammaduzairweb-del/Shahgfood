@@ -11,7 +11,7 @@ import { fmt as fmtBase, mono } from "@/lib/cart";
 import { useApp } from "@/components/AppProvider";
 import { useWidth } from "@/components/hooks";
 import { DishCard, DishRow, RED } from "@/components/ui";
-import { CategoryIcon, IconStar, IconScooter, IconPin, IconMenu } from "@/components/icons";
+import { CategoryIcon, IconStar } from "@/components/icons";
 import RestaurantsNearYou from "@/components/RestaurantsNearYou";
 import type { CategoryKey, Review } from "@/lib/data";
 
@@ -168,13 +168,6 @@ export default function HomeContent() {
             <Link href="/partner" style={{ textDecoration: "none", border: "1.5px solid rgba(255,255,255,.55)", background: "rgba(255,255,255,.08)", color: "#fff", fontWeight: 700, fontSize: 16, padding: "15px 28px", borderRadius: 14 }}>{ur ? "اپنا ریستوران لسٹ کریں" : "List your restaurant"}</Link>
           </div>
 
-          {/* trust row with real icons */}
-          <div style={{ display: "flex", gap: 22, flexWrap: "wrap", justifyContent: "center", alignItems: "center", marginTop: 24, color: "rgba(255,255,255,.92)", fontSize: 13.5, fontWeight: 700 }}>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconStar size={16} color="#F7D774" /><span className="num">4.8 / 5</span></span>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconScooter size={17} color="#F7D774" strokeWidth={2} /><span className="num">30–40 min</span></span>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconPin size={16} color="#F7D774" strokeWidth={2.2} />35+ {t.branches}</span>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconMenu size={16} color="#F7D774" strokeWidth={2.2} /><span className="num">92</span> {t.dishesWord}</span>
-          </div>
         </div>
       </section>
 

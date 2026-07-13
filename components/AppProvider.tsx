@@ -3,6 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import type { Lang } from "@/lib/i18n";
 import { cityFromCoords, type City } from "@/lib/data";
+import { getPrecisePosition, reverseGeocode } from "@/lib/geo";
 
 export type LocStatus = "idle" | "locating" | "ready" | "denied" | "unavailable" | "outside";
 
@@ -121,21 +122,35 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       return;
     }
     setLocStatus("locating");
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const c = cityFromCoords(pos.coords.latitude, pos.coords.longitude);
-        if (c) {
-          persist({ city: c, located: true });
-          setLocStatus("ready");
-        } else {
-          // Outside our current service region — keep whatever city was set.
-          setLocStatus("outside");
-        }
-      },
-      (err) => setLocStatus(err.code === err.PERMISSION_DENIED ? "denied" : "unavailable"),
-      { enableHighAccuracy: false, timeout: 8000, maximumAge: 10 * 60 * 1000 }
-    );
-  }, [persist]);
+    (async () => {
+      let pos: GeolocationPosition;
+      try {
+        // live watch: waits for the GPS to warm up instead of taking the
+        // browser's first coarse Wi-Fi/IP guess
+        pos = await getPrecisePosition(50, 15000);
+      } catch (e) {
+        const err = e as GeolocationPositionError;
+        setLocStatus(err && err.code === 1 ? "denied" : "unavailable");
+        return;
+      }
+      const { latitude, longitude } = pos.coords;
+      const c = cityFromCoords(latitude, longitude);
+      // exact street-level address (house number, street, sector)
+      let label = "";
+      try {
+        const r = await reverseGeocode(latitude, longitude, state.lang);
+        label = r.label;
+      } catch { /* GPS worked but geocoding didn't — city alone is still useful */ }
+      if (c) {
+        persist({ city: c, located: true, ...(label ? { area: label } : {}) });
+        setLocStatus("ready");
+      } else {
+        // Outside our current service region — keep whatever city was set.
+        if (label) persist({ area: label });
+        setLocStatus("outside");
+      }
+    })();
+  }, [persist, state.lang]);
 
   const cartCount = Object.values(state.cart).reduce((a, b) => a + b, 0);
 
@@ -150,7 +165,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     located: state.located,
     setLocated: (v) => persist({ located: v }),
     city: state.city,
-    setCity: (c) => { persist({ city: c, located: !!c }); setLocStatus(c ? "ready" : "idle"); },
+    // manual city change invalidates any previously detected street address
+    setCity: (c) => { persist((p) => ({ city: c, located: !!c, area: p.city === c ? p.area : "" })); setLocStatus(c ? "ready" : "idle"); },
     locStatus,
     detectLocation,
     user: state.user,

@@ -1,4 +1,4 @@
-// ===== Shah G Foods — bilingual copy (English / Urdu) =====
+// ===== Shah G Foods, bilingual copy (English / Urdu) =====
 
 export type Lang = "en" | "ur";
 
@@ -29,19 +29,19 @@ export interface Translation {
 
 export const EN: Translation = {
   home: "Home", menu: "Menu", branches: "Branches", about: "About", deliverTo: "DELIVER TO", login: "Log in", cart: "Dastarkhwan", add: "Add +", searchPh: "Search dishes…",
-  badge: "SHAH G ONLINE · FOOD MARKETPLACE", heroTitle: "Shah G Online — Pakistan's Premium Food Hub", heroTagline: "Where it all began.",
-  heroDesc: "Order directly from Pakistan's finest kitchens and desi food masters — legendary Daal Chawal, karahi, biryani, BBQ and so much more.",
-  orderNow: "Order now →", findBranch: "Find a branch", featBadge: "THE LEGEND", sigSub: "The dish that started it all — legendary, budget-friendly lentils served over fluffy rice. Loved at every branch.", browseCat: "Browse by category", mostLoved: "Most loved 🔥", seeFullMenu: "See full menu →", dishesWord: "dishes",
+  badge: "SHAH G ONLINE · FOOD MARKETPLACE", heroTitle: "Shah G Online, Pakistan's Premium Food Hub", heroTagline: "Where it all began.",
+  heroDesc: "Order directly from Pakistan's finest kitchens and desi food masters: legendary Daal Chawal, karahi, biryani, BBQ and so much more.",
+  orderNow: "Order now →", findBranch: "Find a branch", featBadge: "THE LEGEND", sigSub: "The dish that started it all, legendary, budget-friendly lentils served over fluffy rice. Loved at every branch.", browseCat: "Browse by category", mostLoved: "Most loved 🔥", seeFullMenu: "See full menu →", dishesWord: "dishes",
   menuTitle: "Order Now", menuSub: "Full menu · 92 dishes", brTitle: "Our Branches", brDesc: "35+ branches across Islamabad & Rawalpindi. Pick your nearest one.",
   mapTitle: "Branch locations", selectedLabel: "DELIVERING FROM", openNow: "Open now", hoursText: "8:00 AM – 2:00 AM",
   aboutH: "From one plate of Daal Chawal to 35+ branches.",
-  aboutStory: "Shah G Foods is a much-loved desi restaurant serving traditional, comforting Pakistani street food and mainland subcontinental classics. The dish that started it all is our legendary, budget-friendly Daal Chawal — lentils served over fluffy rice — still a favourite across every branch.",
+  aboutStory: "Shah G Foods is a much-loved desi restaurant serving traditional, comforting Pakistani street food and mainland subcontinental classics. The dish that started it all is our legendary, budget-friendly Daal Chawal, lentils served over fluffy rice, still a favourite across every branch.",
   statBranches: "Branches", statDishes: "Dishes", statCities: "Cities", knownFor: "What we're known for",
   c1t: "Desi curries & rice", c1d: "Daal Chawal, Bannu Pulao, Biryani, Karahi & Handi.", c2t: "Charcoal BBQ", c2d: "Tikka, seekh kebab, malai boti & fresh tandoori naan.", c3t: "Chai & lassi", c3d: "Sweet & salty lassi, milkshakes and proper desi chai.", seeMenu: "See the menu →",
-  cartTitle: "Your Dastarkhwan", emptyTitle: "Your dastarkhwan is empty", emptyDesc: "Add some daal chawal, karahi or a paratha roll — let's fill it up!", browseMenu: "Browse menu", subtotal: "Subtotal", delivery: "Delivery", gst: "GST (5%)", total: "Total", free: "Free", placeOrder: "Place order · ",
+  cartTitle: "Your Dastarkhwan", emptyTitle: "Your dastarkhwan is empty", emptyDesc: "Add some daal chawal, karahi or a paratha roll, let's fill it up!", browseMenu: "Browse menu", subtotal: "Subtotal", delivery: "Delivery", gst: "GST (5%)", total: "Total", free: "Free", placeOrder: "Place order · ",
   fullName: "FULL NAME", phoneLbl: "PHONE NUMBER", passwordLbl: "PASSWORD", haveAccount: "Already have an account?", newHere: "New here?", loginLink: "Log in", createLink: "Create account", createAccount: "Create account", loginTitle: "Log in",
   orderPlaced: "Order placed!", orderDescA: "Your food from ", orderDescB: " is being prepared. Estimated delivery in 30–40 mins.", backHome: "Back to home",
-  footTag: "Pakistan's food marketplace — order from the best local kitchens, or list your own.", footCompany: "Company", footHelp: "Help", footFollow: "Follow", footCompanyLinks: ["About us", "Branches", "Careers"], footHelpLinks: ["Contact", "Order tracking", "FAQs"],
+  footTag: "Pakistan's food marketplace. Order from the best local kitchens, or list your own.", footCompany: "Company", footHelp: "Help", footFollow: "Follow", footCompanyLinks: ["About us", "Branches", "Careers"], footHelpLinks: ["Contact", "Order tracking", "FAQs"],
   checkout: "Checkout", stepAddress: "Address", stepPayment: "Payment", stepTrack: "Track", deliveryDetails: "Delivery details",
   lblName: "Full name", lblPhone: "Phone number", lblAddress: "Complete address", lblCity: "City", lblNotes: "Delivery notes (optional)",
   phName: "e.g. Ali Khan", phPhone: "03XX XXXXXXX", phAddress: "House #, street, sector / area", phNotes: "Ring the bell, call on arrival…",
@@ -56,19 +56,19 @@ export const EN: Translation = {
 
 export const UR: Translation = {
   home: "ہوم", menu: "مینو", branches: "شاخیں", about: "تعارف", deliverTo: "ڈیلیوری", login: "لاگ ان", cart: "دسترخوان", add: "شامل کریں", searchPh: "کھانے تلاش کریں…",
-  badge: "شاہ جی آن لائن · فوڈ مارکیٹ پلیس", heroTitle: "شاہ جی آن لائن — پاکستان کا پریمیم فوڈ حب", heroTagline: "جہاں سے سب شروع ہوا۔",
-  heroDesc: "پاکستان کے بہترین کچن اور دیسی فوڈ ماہرین سے براہِ راست آرڈر کریں — دال چاول، کڑاہی، بریانی، باربی کیو اور بہت کچھ۔",
-  orderNow: "ابھی آرڈر کریں ←", findBranch: "شاخ تلاش کریں", featBadge: "مشہورِ زمانہ", sigSub: "وہ ڈش جہاں سے سب شروع ہوا — مشہور اور کم قیمت، نرم چاول پر دال۔ ہر شاخ پر پسندیدہ۔", browseCat: "زمرہ منتخب کریں", mostLoved: "سب سے پسندیدہ 🔥", seeFullMenu: "مکمل مینو دیکھیں ←", dishesWord: "ڈشز",
+  badge: "شاہ جی آن لائن · فوڈ مارکیٹ پلیس", heroTitle: "شاہ جی آن لائن، پاکستان کا پریمیم فوڈ حب", heroTagline: "جہاں سے سب شروع ہوا۔",
+  heroDesc: "پاکستان کے بہترین کچن اور دیسی فوڈ ماہرین سے براہِ راست آرڈر کریں۔ دال چاول، کڑاہی، بریانی، باربی کیو اور بہت کچھ۔",
+  orderNow: "ابھی آرڈر کریں ←", findBranch: "شاخ تلاش کریں", featBadge: "مشہورِ زمانہ", sigSub: "وہ ڈش جہاں سے سب شروع ہوا، مشہور اور کم قیمت، نرم چاول پر دال۔ ہر شاخ پر پسندیدہ۔", browseCat: "زمرہ منتخب کریں", mostLoved: "سب سے پسندیدہ 🔥", seeFullMenu: "مکمل مینو دیکھیں ←", dishesWord: "ڈشز",
   menuTitle: "ابھی آرڈر کریں", menuSub: "مکمل مینو · 92 ڈشز", brTitle: "ہماری شاخیں", brDesc: "اسلام آباد اور راولپنڈی میں 35+ شاخیں۔ اپنی قریب ترین شاخ منتخب کریں۔",
   mapTitle: "شاخوں کے مقامات", selectedLabel: "ڈیلیوری یہاں سے", openNow: "ابھی کھلا ہے", hoursText: "صبح 8 – رات 2",
   aboutH: "دال چاول کی ایک پلیٹ سے 35+ شاخوں تک۔",
-  aboutStory: "شاہ جی فوڈز ایک مقبول دیسی ریستوران ہے جو روایتی اور دل کو بھانے والا پاکستانی اسٹریٹ فوڈ اور برصغیر کے کلاسک کھانے پیش کرتا ہے۔ جہاں سے سب شروع ہوا وہ ہماری مشہور اور کم قیمت دال چاول ہے — نرم چاول پر دال — جو آج بھی ہر شاخ پر سب سے پسندیدہ ہے۔",
+  aboutStory: "شاہ جی فوڈز ایک مقبول دیسی ریستوران ہے جو روایتی اور دل کو بھانے والا پاکستانی اسٹریٹ فوڈ اور برصغیر کے کلاسک کھانے پیش کرتا ہے۔ جہاں سے سب شروع ہوا وہ ہماری مشہور اور کم قیمت دال چاول ہے، نرم چاول پر دال، جو آج بھی ہر شاخ پر سب سے پسندیدہ ہے۔",
   statBranches: "شاخیں", statDishes: "ڈشز", statCities: "شہر", knownFor: "ہماری پہچان",
   c1t: "دیسی سالن اور چاول", c1d: "دال چاول، بنوں پلاؤ، بریانی، کڑاہی اور ہانڈی۔", c2t: "کوئلوں کا باربی کیو", c2d: "تکہ، سیخ کباب، ملائی بوٹی اور تازہ تندوری نان۔", c3t: "چائے اور لسی", c3d: "میٹھی و نمکین لسی، ملک شیک اور اصل دیسی چائے۔", seeMenu: "مینو دیکھیں ←",
-  cartTitle: "آپ کا دسترخوان", emptyTitle: "آپ کا دسترخوان ابھی خالی ہے", emptyDesc: "دال چاول، کڑاہی یا پراٹھا رول شامل کریں — چلیں دسترخوان سجائیں!", browseMenu: "مینو دیکھیں", subtotal: "ذیلی رقم", delivery: "ڈیلیوری", gst: "جی ایس ٹی (5%)", total: "کل رقم", free: "مفت", placeOrder: "آرڈر کریں · ",
+  cartTitle: "آپ کا دسترخوان", emptyTitle: "آپ کا دسترخوان ابھی خالی ہے", emptyDesc: "دال چاول، کڑاہی یا پراٹھا رول شامل کریں، چلیں دسترخوان سجائیں!", browseMenu: "مینو دیکھیں", subtotal: "ذیلی رقم", delivery: "ڈیلیوری", gst: "جی ایس ٹی (5%)", total: "کل رقم", free: "مفت", placeOrder: "آرڈر کریں · ",
   fullName: "پورا نام", phoneLbl: "فون نمبر", passwordLbl: "پاس ورڈ", haveAccount: "پہلے سے اکاؤنٹ ہے؟", newHere: "نئے ہیں؟", loginLink: "لاگ ان", createLink: "اکاؤنٹ بنائیں", createAccount: "اکاؤنٹ بنائیں", loginTitle: "لاگ ان",
   orderPlaced: "آرڈر موصول ہو گیا!", orderDescA: "", orderDescB: " سے آپ کا کھانا تیار ہو رہا ہے۔ متوقع ڈیلیوری 30–40 منٹ میں۔", backHome: "ہوم پر واپس",
-  footTag: "پاکستان کا فوڈ مارکیٹ پلیس — بہترین مقامی کچن سے آرڈر کریں یا اپنا ریستوران لسٹ کریں۔", footCompany: "کمپنی", footHelp: "مدد", footFollow: "فالو کریں", footCompanyLinks: ["ہمارے بارے میں", "شاخیں", "کیریئر"], footHelpLinks: ["رابطہ", "آرڈر ٹریکنگ", "سوالات"],
+  footTag: "پاکستان کا فوڈ مارکیٹ پلیس۔ بہترین مقامی کچن سے آرڈر کریں یا اپنا ریستوران لسٹ کریں۔", footCompany: "کمپنی", footHelp: "مدد", footFollow: "فالو کریں", footCompanyLinks: ["ہمارے بارے میں", "شاخیں", "کیریئر"], footHelpLinks: ["رابطہ", "آرڈر ٹریکنگ", "سوالات"],
   checkout: "چیک آؤٹ", stepAddress: "پتہ", stepPayment: "ادائیگی", stepTrack: "ٹریک", deliveryDetails: "ڈیلیوری کی تفصیلات",
   lblName: "پورا نام", lblPhone: "فون نمبر", lblAddress: "مکمل پتہ", lblCity: "شہر", lblNotes: "ڈیلیوری نوٹس (اختیاری)",
   phName: "مثلاً علی خان", phPhone: "03XX XXXXXXX", phAddress: "مکان نمبر، گلی، سیکٹر / علاقہ", phNotes: "گھنٹی بجائیں، پہنچ کر کال کریں…",

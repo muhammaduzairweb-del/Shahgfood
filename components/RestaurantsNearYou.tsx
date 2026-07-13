@@ -14,18 +14,21 @@ const CHARCOAL = "#16171B";
  * never see kitchens they can't order from. Falls back to a manual city picker.
  */
 export default function RestaurantsNearYou() {
-  const { lang, city, setCity, locStatus, detectLocation, hydrated } = useApp();
+  const { lang, city, setCity, locStatus, detectLocation, hydrated, area, located, setLocated } = useApp();
   const ur = lang === "ur";
 
-  // Try to detect the visitor's location once, on first load, if we don't know it yet.
+  // Auto-detect only after the first-visit modal is done (skipped/confirmed) —
+  // while the modal is open, IT owns the location flow.
   useEffect(() => {
-    if (hydrated && !city && locStatus === "idle") detectLocation();
-  }, [hydrated, city, locStatus, detectLocation]);
+    if (hydrated && located && !city && locStatus === "idle") detectLocation();
+  }, [hydrated, located, city, locStatus, detectLocation]);
 
   const list = restaurantsForCity(city);
 
   const label = (() => {
-    if (locStatus === "locating") return ur ? "آپ کا مقام تلاش کیا جا رہا ہے…" : "Finding your location…";
+    if (locStatus === "locating") return ur ? "آپ کا مقام تلاش کیا جا رہا ہے…" : "Finding your exact location…";
+    // exact street-level address from GPS (house, street, sector) beats a bare city name
+    if (area && city) return area;
     if (city) return ur ? `${cityUr(city)} میں دستیاب` : `Serving ${city}`;
     if (locStatus === "denied") return ur ? "مقام کی اجازت نہیں ملی — شہر منتخب کریں" : "Location off — pick your city";
     if (locStatus === "outside") return ur ? "فی الحال آپ کے علاقے میں سروس نہیں — شہر منتخب کریں" : "Not in your area yet — pick a city";
@@ -77,6 +80,18 @@ export default function RestaurantsNearYou() {
           }}
         >
           {locStatus === "locating" ? (ur ? "…" : "…") : ur ? "میرا مقام" : "Use my location"}
+        </button>
+
+        <button
+          onClick={() => setLocated(false)}
+          title={ur ? "نقشے پر منتخب کریں" : "Pick your exact spot on the map"}
+          style={{
+            fontFamily: "inherit", fontSize: 13.5, fontWeight: 800, color: "#5A5245",
+            background: "#fff", border: "1px solid #EAE1D2", borderRadius: 11, padding: "10px 15px",
+            cursor: "pointer", whiteSpace: "nowrap",
+          }}
+        >
+          🗺️ {ur ? "نقشے پر چنیں" : "Pick on map"}
         </button>
       </div>
 

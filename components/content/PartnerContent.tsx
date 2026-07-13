@@ -139,8 +139,25 @@ export default function PartnerContent() {
               <div style={{ position: "absolute", top: 14, insetInlineStart: 14, background: "#E0A020", color: "#211812", fontSize: 11, fontWeight: 800, padding: "5px 12px", borderRadius: 999 }}>★ {ur ? "ٹاپ پارٹنر" : "TOP PARTNER"}</div>
             </div>
             <div style={{ flex: "1.1 1 320px", padding: "32px 34px", display: "flex", flexDirection: "column", justifyContent: "center", gap: 12 }}>
-              <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 30 }}>Shah G Foods</div>
-              <div style={{ color: "rgba(255,255,255,.75)", fontSize: 15, lineHeight: 1.7 }}>{ur ? "شاہ جی آن لائن کا پہلا فیچرڈ پارٹنر — مکمل مینو تمام شاخوں کے ساتھ لسٹڈ۔" : "The first featured partner on Shah G Online — full menu listed across all branches."}</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+                <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 30 }}>Shah G Foods</div>
+                <span style={{ background: "linear-gradient(120deg,#F7D774,#E0A020)", color: "#211812", fontSize: 11, fontWeight: 800, padding: "5px 12px", borderRadius: 999, letterSpacing: ".4px" }}>{ur ? "پہلا پارٹنر" : "FIRST PARTNER"}</span>
+              </div>
+              <div style={{ color: "rgba(255,255,255,.75)", fontSize: 15, lineHeight: 1.7 }}>
+                {ur
+                  ? "شاہ جی فوڈز ہمارا سب سے پہلا پارٹنر ہے — 90+ ڈشز لسٹڈ اور پورے سال کے لیے سب سے بڑا سپر پریمیم پیکج۔ شاہ جی آن لائن کا پہلا فیچرڈ پارٹنر — مکمل مینو تمام شاخوں کے ساتھ لسٹڈ۔"
+                  : "Shah G Foods is our very first partner — more than 90 items listed on the top Super Premium package for the whole year. The first featured partner on Shah G Online — full menu listed across all branches."}
+              </div>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                {[
+                  ur ? "🍛 90+ ڈشز لسٹڈ" : "🍛 90+ dishes listed",
+                  ur ? "👑 سپر پریمیم · سالانہ" : "👑 Super Premium · Yearly",
+                  ur ? "🏠 ہوم پیج فیچرڈ" : "🏠 Homepage featured",
+                  ur ? "📍 تمام شاخیں" : "📍 All branches",
+                ].map((chip, i) => (
+                  <span key={i} style={{ background: "rgba(255,255,255,.1)", border: "1px solid rgba(255,255,255,.18)", color: "rgba(255,255,255,.92)", fontSize: 12.5, fontWeight: 700, padding: "6px 12px", borderRadius: 999 }}>{chip}</span>
+                ))}
+              </div>
               <Link href="/restaurant/shah-g-foods/menu" style={{ alignSelf: "flex-start", textDecoration: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 15, padding: "12px 24px", borderRadius: 12, marginTop: 4 }}>{ur ? "شاہ جی کا مینو دیکھیں →" : "View Shah G's menu →"}</Link>
             </div>
           </div>
@@ -218,6 +235,10 @@ export default function PartnerContent() {
 
                   {/* dishes */}
                   <div style={lbl}>{ur ? "آپ کی ڈشز اور قیمتیں" : "Your dishes & prices"} *</div>
+                  <div style={{ display: "flex", gap: 9, alignItems: "flex-start", background: "#F4F0FB", border: "1px solid #E3DAF3", borderRadius: 12, padding: "11px 13px", fontSize: 13, lineHeight: 1.6, color: "#4A3E63", margin: "8px 0 4px" }}>
+                    <span style={{ fontSize: 16, flex: "none" }}>📸</span>
+                    <span>{ur ? "ڈشز کی تصاویر ہماری ٹیم خود لگائے گی تاکہ برانڈ کی یکسانیت برقرار رہے — آپ کو تصاویر بھیجنے کی ضرورت نہیں۔" : "Dish images will be placed by our team for brand consistency — you don't need to send any photos."}</span>
+                  </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 10, margin: "8px 0 6px" }}>
                     {dishes.map((d, i) => (
                       <div key={i} style={{ background: "#F7F3EB", borderRadius: 12, padding: 12 }}>

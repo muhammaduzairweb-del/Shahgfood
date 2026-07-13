@@ -150,7 +150,7 @@ const restaurant = {
     bestRating: "5",
     worstRating: "1",
   },
-  sameAs: ["https://www.facebook.com/shah.g.foods.627153/", "https://www.instagram.com/shahgfoodsofficial/"],
+  sameAs: ["https://www.facebook.com/profile.php?id=61592033124593", "https://www.instagram.com/shahgfoodsofficial/"],
 };
 
 // WebSite schema tells Google the site name → shows "Shah G Foods" (not the URL) in results
@@ -173,7 +173,7 @@ const jsonLd = {
       alternateName: ["Shah G Food", "Shah Gee Foods"],
       url: SITE_URL,
       logo: { "@type": "ImageObject", url: `${SITE_URL}/Shahglogo.png` },
-      sameAs: ["https://www.facebook.com/shah.g.foods.627153/", "https://www.instagram.com/shahgfoodsofficial/"],
+      sameAs: ["https://www.facebook.com/profile.php?id=61592033124593", "https://www.instagram.com/shahgfoodsofficial/"],
     },
     restaurant,
   ],
