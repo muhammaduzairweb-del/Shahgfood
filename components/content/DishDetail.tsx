@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
+import { FaUtensils, FaClock } from "react-icons/fa";
 import { MENU, CATS, getDishBySlug, dishSlug, dishImage, dishVariants, ORDER_TEL, waOrderLink, TILE } from "@/lib/data";
 import { DICT } from "@/lib/i18n";
 import { dishKB } from "@/lib/kb";
@@ -14,7 +15,7 @@ const CHARCOAL = "#16171B";
 const WA_GREEN = "#25D366";
 
 export default function DishDetail({ slug }: { slug: string }) {
-  const { lang } = useApp();
+  const { lang, area } = useApp();
   const t = DICT[lang];
   const ur = lang === "ur";
   const fmt = (n: number) => fmtBase(n, ur);
@@ -85,8 +86,8 @@ export default function DishDetail({ slug }: { slug: string }) {
 
           {/* quick facts */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 2 }}>
-            <span style={{ background: "#F5EEE1", color: "#5A5245", fontSize: 12.5, fontWeight: 700, padding: "6px 12px", borderRadius: 999 }}>🍽️ {ur ? `${servesU} کے لیے` : `Serves ${serves}`}</span>
-            <span style={{ background: "#F5EEE1", color: "#5A5245", fontSize: 12.5, fontWeight: 700, padding: "6px 12px", borderRadius: 999 }}>⏱️ {ur ? kb.prepU : kb.prep}</span>
+            <span style={{ background: "#F5EEE1", color: "#5A5245", fontSize: 12.5, fontWeight: 700, padding: "6px 12px", borderRadius: 999 }}><FaUtensils size={11} style={{ verticalAlign: "-1px", marginInlineEnd: 5 }} />{ur ? `${servesU} کے لیے` : `Serves ${serves}`}</span>
+            <span style={{ background: "#F5EEE1", color: "#5A5245", fontSize: 12.5, fontWeight: 700, padding: "6px 12px", borderRadius: 999 }}><FaClock size={11} style={{ verticalAlign: "-1px", marginInlineEnd: 5 }} />{ur ? kb.prepU : kb.prep}</span>
           </div>
 
           <div style={{ marginTop: 6 }}>
@@ -95,7 +96,7 @@ export default function DishDetail({ slug }: { slug: string }) {
 
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 6 }}>
             <a href={`tel:${ORDER_TEL}`} style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: RED, color: "#fff", fontWeight: 800, fontSize: 15, padding: "13px 26px", borderRadius: 13 }}><FaPhoneAlt size={14} /> {ur ? "کال کر کے آرڈر کریں" : "Order via Call"}</a>
-            <a href={waOrderLink(d.name)} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: WA_GREEN, color: "#fff", fontWeight: 800, fontSize: 15, padding: "13px 22px", borderRadius: 13 }}>
+            <a href={waOrderLink(d.name, area)} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: WA_GREEN, color: "#fff", fontWeight: 800, fontSize: 15, padding: "13px 22px", borderRadius: 13 }}>
               <FaWhatsapp size={19} /> WhatsApp
             </a>
           </div>
@@ -117,11 +118,11 @@ export default function DishDetail({ slug }: { slug: string }) {
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <div style={{ background: "#FCF7EE", borderRadius: 14, padding: "13px 16px" }}>
-              <div style={{ fontSize: 12, fontWeight: 800, color: "#B07A15", letterSpacing: ".4px" }}>⏱️ {ur ? "تیاری کا وقت" : "PREP TIME"}</div>
+              <div style={{ fontSize: 12, fontWeight: 800, color: "#B07A15", letterSpacing: ".4px" }}><FaClock size={11} style={{ verticalAlign: "-1px", marginInlineEnd: 5 }} />{ur ? "تیاری کا وقت" : "PREP TIME"}</div>
               <div style={{ fontSize: 15, fontWeight: 700, marginTop: 4, color: "#211812" }}>{ur ? kb.prepU : kb.prep}</div>
             </div>
             <div style={{ background: "#FCF7EE", borderRadius: 14, padding: "13px 16px" }}>
-              <div style={{ fontSize: 12, fontWeight: 800, color: "#B07A15", letterSpacing: ".4px" }}>🍽️ {ur ? "کتنے افراد کے لیے" : "SERVES"}</div>
+              <div style={{ fontSize: 12, fontWeight: 800, color: "#B07A15", letterSpacing: ".4px" }}><FaUtensils size={11} style={{ verticalAlign: "-1px", marginInlineEnd: 5 }} />{ur ? "کتنے افراد کے لیے" : "SERVES"}</div>
               <div style={{ fontSize: 15, fontWeight: 700, marginTop: 4, color: "#211812" }}>{ur ? servesU : serves}</div>
             </div>
           </div>

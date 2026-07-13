@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { FaCreditCard, FaGlobeAsia, FaUtensils, FaCrown, FaHome, FaMapMarkerAlt, FaCamera, FaInfoCircle } from "react-icons/fa";
 import { useApp } from "@/components/AppProvider";
 import SuccessModal from "@/components/SuccessModal";
 
@@ -72,7 +73,7 @@ export default function PartnerContent() {
     if (!sel) return;
     setErr("");
     setState("sending");
-    const dishesText = dishes.filter((d) => d.name.trim()).map((d, i) => `${i + 1}. ${d.name} [${typeLabel(d.type)}] — ${d.details}`).join("\n");
+    const dishesText = dishes.filter((d) => d.name.trim()).map((d, i) => `${i + 1}. ${d.name} [${typeLabel(d.type)}], ${d.details}`).join("\n");
     const fd = new FormData();
     fd.append("restaurant", f.restaurant);
     fd.append("owner", f.owner);
@@ -100,11 +101,11 @@ export default function PartnerContent() {
 
   return (
     <>
-      {/* toast — PayFast coming soon */}
+      {/* toast, PayFast coming soon */}
       {toast && (
         <div style={{ position: "fixed", top: 84, left: "50%", transform: "translateX(-50%)", zIndex: 80, width: "min(430px, calc(100% - 28px))", background: "#211812", color: "#fff", borderRadius: 14, boxShadow: "0 24px 50px -16px rgba(0,0,0,.5)", padding: "13px 16px", display: "flex", alignItems: "center", gap: 11, animation: "rise .3s ease" }}>
-          <span style={{ fontSize: 20 }}>💳</span>
-          <span style={{ fontSize: 13.5, lineHeight: 1.5 }}>{ur ? "آن لائن ادائیگی (PayFast) بہت جلد! ابھی نیچے اپنی تفصیلات بھریں — ہماری ٹیم آپ سے رابطہ کر کے ادائیگی مکمل کرائے گی۔" : "Online payment (PayFast) is coming very soon! For now, submit your details below and our team will reach out to complete your listing."}</span>
+          <span style={{ display: "flex" }}><FaCreditCard size={18} color="#F7D774" /></span>
+          <span style={{ fontSize: 13.5, lineHeight: 1.5 }}>{ur ? "آن لائن ادائیگی (PayFast) بہت جلد! ابھی نیچے اپنی تفصیلات بھریں، ہماری ٹیم آپ سے رابطہ کر کے ادائیگی مکمل کرائے گی۔" : "Online payment (PayFast) is coming very soon! For now, submit your details below and our team will reach out to complete your listing."}</span>
         </div>
       )}
 
@@ -113,7 +114,7 @@ export default function PartnerContent() {
         <div style={{ maxWidth: 1000, margin: "0 auto", padding: "56px 20px 62px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
           <div style={{ background: "rgba(224,160,32,.95)", color: "#211812", fontSize: 11.5, fontWeight: 800, padding: "7px 15px", borderRadius: 999, letterSpacing: ".6px" }}>{ur ? "پارٹنر پروگرام" : "PARTNER PROGRAM"}</div>
           <h1 style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: "clamp(32px,5vw,54px)", lineHeight: 1.08, margin: 0, maxWidth: 820, fontWeight: 400 }}>{ur ? "اپنا ریستوران شاہ جی آن لائن پر لسٹ کریں" : "List your restaurant on Shah G Online"}</h1>
-          <p style={{ fontSize: 16.5, color: "rgba(255,255,255,.9)", margin: 0, maxWidth: 640, lineHeight: 1.75 }}>{ur ? "روزانہ 10,000+ بھوکے گاہک شاہ جی آن لائن پر کھانا تلاش کرتے ہیں۔ صفر کمیشن، صفر ڈیلیوری جھنجھٹ — صرف براہِ راست کال اور واٹس ایپ آرڈرز۔" : "10,000+ hungry customers browse Shah G Online every day. Zero commission, zero delivery headache — just direct call & WhatsApp orders straight to your kitchen."}</p>
+          <p style={{ fontSize: 16.5, color: "rgba(255,255,255,.9)", margin: 0, maxWidth: 640, lineHeight: 1.75 }}>{ur ? "روزانہ 10,000+ بھوکے گاہک شاہ جی آن لائن پر کھانا تلاش کرتے ہیں۔ صفر کمیشن، صفر ڈیلیوری جھنجھٹ، صرف براہِ راست کال اور واٹس ایپ آرڈرز۔" : "10,000+ hungry customers browse Shah G Online every day. Zero commission, zero delivery headache, just direct call & WhatsApp orders straight to your kitchen."}</p>
           <a href="#packages" style={{ textDecoration: "none", background: "#fff", color: RED, fontWeight: 800, fontSize: 16, padding: "15px 30px", borderRadius: 14, marginTop: 4 }}>{ur ? "پیکجز دیکھیں →" : "See packages →"}</a>
         </div>
       </section>
@@ -121,7 +122,7 @@ export default function PartnerContent() {
       <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 20px" }}>
         {/* STATS */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))", gap: 14, margin: "-34px 0 0", position: "relative", zIndex: 2 }}>
-          {[{ v: "10,000+", l: ur ? "روزانہ وزیٹرز" : "Daily visitors" }, { v: "0%", l: ur ? "کمیشن" : "Commission" }, { v: "24 hrs", l: ur ? "لائیو ہونے کا وقت" : "To go live" }, { v: "🇵🇰", l: ur ? "پورے پاکستان میں" : "Nationwide" }].map((s, i) => (
+          {[{ v: "10,000+", l: ur ? "روزانہ وزیٹرز" : "Daily visitors" }, { v: "0%", l: ur ? "کمیشن" : "Commission" }, { v: "24 hrs", l: ur ? "لائیو ہونے کا وقت" : "To go live" }, { v: <FaGlobeAsia size={24} color={RED} style={{ verticalAlign: "-3px" }} />, l: ur ? "پورے پاکستان میں" : "Nationwide" }].map((s, i) => (
             <div key={i} style={{ background: "#fff", border: "1px solid #EAE1D2", borderRadius: 16, padding: "18px 16px", textAlign: "center", boxShadow: "0 16px 32px -26px rgba(60,30,10,.6)" }}>
               <div className="num" style={{ fontSize: 24, fontWeight: 800, color: RED }}>{s.v}</div>
               <div style={{ fontSize: 12.5, color: "#8A8072", marginTop: 3 }}>{s.l}</div>
@@ -135,7 +136,7 @@ export default function PartnerContent() {
           <div style={{ background: CHARCOAL, borderRadius: 24, overflow: "hidden", display: "flex", flexWrap: "wrap", color: "#fff" }}>
             <div style={{ flex: "1 1 300px", minHeight: 220, position: "relative" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/Shahgfoods__Feature.jpg" alt="Shah G Foods — founding partner" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+              <img src="/Shahgfoods__Feature.jpg" alt="Shah G Foods, founding partner" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
               <div style={{ position: "absolute", top: 14, insetInlineStart: 14, background: "#E0A020", color: "#211812", fontSize: 11, fontWeight: 800, padding: "5px 12px", borderRadius: 999 }}>★ {ur ? "ٹاپ پارٹنر" : "TOP PARTNER"}</div>
             </div>
             <div style={{ flex: "1.1 1 320px", padding: "32px 34px", display: "flex", flexDirection: "column", justifyContent: "center", gap: 12 }}>
@@ -145,17 +146,17 @@ export default function PartnerContent() {
               </div>
               <div style={{ color: "rgba(255,255,255,.75)", fontSize: 15, lineHeight: 1.7 }}>
                 {ur
-                  ? "شاہ جی فوڈز ہمارا سب سے پہلا پارٹنر ہے — 90+ ڈشز لسٹڈ اور پورے سال کے لیے سب سے بڑا سپر پریمیم پیکج۔ شاہ جی آن لائن کا پہلا فیچرڈ پارٹنر — مکمل مینو تمام شاخوں کے ساتھ لسٹڈ۔"
-                  : "Shah G Foods is our very first partner — more than 90 items listed on the top Super Premium package for the whole year. The first featured partner on Shah G Online — full menu listed across all branches."}
+                  ? "شاہ جی فوڈز ہمارا سب سے پہلا پارٹنر ہے، 90+ ڈشز لسٹڈ اور پورے سال کے لیے سب سے بڑا سپر پریمیم پیکج۔ شاہ جی آن لائن کا پہلا فیچرڈ پارٹنر، مکمل مینو تمام شاخوں کے ساتھ لسٹڈ۔"
+                  : "Shah G Foods is our very first partner, more than 90 items listed on the top Super Premium package for the whole year. The first featured partner on Shah G Online, full menu listed across all branches."}
               </div>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                {[
-                  ur ? "🍛 90+ ڈشز لسٹڈ" : "🍛 90+ dishes listed",
-                  ur ? "👑 سپر پریمیم · سالانہ" : "👑 Super Premium · Yearly",
-                  ur ? "🏠 ہوم پیج فیچرڈ" : "🏠 Homepage featured",
-                  ur ? "📍 تمام شاخیں" : "📍 All branches",
-                ].map((chip, i) => (
-                  <span key={i} style={{ background: "rgba(255,255,255,.1)", border: "1px solid rgba(255,255,255,.18)", color: "rgba(255,255,255,.92)", fontSize: 12.5, fontWeight: 700, padding: "6px 12px", borderRadius: 999 }}>{chip}</span>
+                {([
+                  [<FaUtensils key="u" size={12} />, ur ? "90+ ڈشز لسٹڈ" : "90+ dishes listed"],
+                  [<FaCrown key="c" size={12} />, ur ? "سپر پریمیم · سالانہ" : "Super Premium · Yearly"],
+                  [<FaHome key="h" size={12} />, ur ? "ہوم پیج فیچرڈ" : "Homepage featured"],
+                  [<FaMapMarkerAlt key="m" size={12} />, ur ? "تمام شاخیں" : "All branches"],
+                ] as [React.ReactNode, string][]).map(([ic, chip], i) => (
+                  <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "rgba(255,255,255,.1)", border: "1px solid rgba(255,255,255,.18)", color: "rgba(255,255,255,.92)", fontSize: 12.5, fontWeight: 700, padding: "6px 12px", borderRadius: 999 }}>{ic}{chip}</span>
                 ))}
               </div>
               <Link href="/restaurant/shah-g-foods/menu" style={{ alignSelf: "flex-start", textDecoration: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 15, padding: "12px 24px", borderRadius: 12, marginTop: 4 }}>{ur ? "شاہ جی کا مینو دیکھیں →" : "View Shah G's menu →"}</Link>
@@ -167,7 +168,7 @@ export default function PartnerContent() {
         <div id="packages" style={{ marginTop: 48, scrollMarginTop: 84 }}>
           <div style={{ textAlign: "center" }}>
             <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 30 }}>{ur ? "اپنا پیکج منتخب کریں" : "Choose your package"}</div>
-            <p style={{ fontSize: 14.5, color: "#8A8072", margin: "8px 0 18px" }}>{ur ? "سالانہ پلان پر 20% رعایت — ایک بار ادائیگی، پورا سال لسٹنگ۔" : "Save 20% on the yearly plan — pay once, stay listed all year."}</p>
+            <p style={{ fontSize: 14.5, color: "#8A8072", margin: "8px 0 18px" }}>{ur ? "سالانہ پلان پر 20% رعایت، ایک بار ادائیگی، پورا سال لسٹنگ۔" : "Save 20% on the yearly plan, pay once, stay listed all year."}</p>
             <div style={{ display: "inline-flex", background: "#fff", border: "1px solid #EAE1D2", borderRadius: 999, padding: 4, gap: 4 }}>
               <button onClick={() => setTerm("yearly")} style={{ cursor: "pointer", border: "none", borderRadius: 999, padding: "8px 18px", fontWeight: 800, fontSize: 13.5, fontFamily: "inherit", background: term === "yearly" ? RED : "transparent", color: term === "yearly" ? "#fff" : "#5A5245" }}>{ur ? "سالانہ · 20% رعایت" : "Yearly · save 20%"}</button>
               <button onClick={() => setTerm("monthly")} style={{ cursor: "pointer", border: "none", borderRadius: 999, padding: "8px 18px", fontWeight: 800, fontSize: 13.5, fontFamily: "inherit", background: term === "monthly" ? RED : "transparent", color: term === "monthly" ? "#fff" : "#5A5245" }}>{ur ? "ماہانہ" : "Monthly"}</button>
@@ -208,7 +209,7 @@ export default function PartnerContent() {
             <div style={{ background: `linear-gradient(160deg,${PURPLE},#B71C66)`, color: "#fff", borderRadius: 22, padding: "30px 28px", display: "flex", flexDirection: "column", gap: 14 }}>
               <div style={{ fontSize: 12.5, fontWeight: 800, letterSpacing: ".5px", opacity: 0.85 }}>{sel.name} · {term === "yearly" ? (ur ? "سالانہ" : "Yearly") : ur ? "ماہانہ" : "Monthly"}</div>
               <div className="num" style={{ fontSize: 40, fontWeight: 800 }}>Rs {amount.toLocaleString()}<span style={{ fontSize: 15, opacity: 0.8 }}> / {term === "yearly" ? (ur ? "سال" : "yr") : ur ? "ماہ" : "mo"}</span></div>
-              <div style={{ background: "rgba(255,255,255,.12)", borderRadius: 12, padding: "12px 14px", fontSize: 13, lineHeight: 1.6 }}>💳 {ur ? "آن لائن ادائیگی (PayFast) بہت جلد شامل کی جا رہی ہے۔ ابھی اپنی تفصیلات بھیجیں — ہماری ٹیم رابطہ کر کے ادائیگی مکمل کرائے گی۔" : "Secure online payment via PayFast is being added shortly. Submit your details now — our team will contact you to complete the payment."}</div>
+              <div style={{ background: "rgba(255,255,255,.12)", borderRadius: 12, padding: "12px 14px", fontSize: 13, lineHeight: 1.6, display: "flex", gap: 9, alignItems: "flex-start" }}><FaCreditCard size={15} color="#F7D774" style={{ flex: "none", marginTop: 2 }} /> {ur ? "آن لائن ادائیگی (PayFast) بہت جلد شامل کی جا رہی ہے۔ ابھی اپنی تفصیلات بھیجیں، ہماری ٹیم رابطہ کر کے ادائیگی مکمل کرائے گی۔" : "Secure online payment via PayFast is being added shortly. Submit your details now, our team will contact you to complete the payment."}</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 9, marginTop: 2, fontSize: 13.5 }}>
                 {[ur ? "تفصیلات بھیجیں" : "Submit your details", ur ? "ٹیم رابطہ کر کے ادائیگی کرائے گی" : "Team contacts you to pay", ur ? "24 گھنٹے میں لائیو" : "Live within 24 hours"].map((s, i) => (
                   <div key={i} style={{ display: "flex", gap: 9 }}><span style={{ fontWeight: 800 }}>{i + 1}.</span><span style={{ opacity: 0.92 }}>{s}</span></div>
@@ -229,15 +230,15 @@ export default function PartnerContent() {
                     <div style={{ flex: "1 1 130px" }}><div style={lbl}>{ur ? "فون / واٹس ایپ" : "Phone / WhatsApp"} *</div><input required value={f.phone} onChange={set("phone")} placeholder="03XX XXXXXXX" style={input} /></div>
                   </div>
                   <div style={{ marginBottom: 4 }}><div style={lbl}>{ur ? "آپ کی ای میل (فعال)" : "Your email (active)"} *</div><input required type="email" value={f.email} onChange={set("email")} placeholder="you@example.com" style={input} /></div>
-                  <div style={{ fontSize: 11.5, color: "#B07A15", background: "#FCF7EE", borderRadius: 8, padding: "8px 11px", margin: "8px 0 12px", lineHeight: 1.5 }}>ℹ️ {ur ? "ایک فعال ای میل دیں — شاہ جی آن لائن اپنی سرکاری ای میل سے آپ سے رابطہ کرے گا، اور آپ کو ابھی تصدیقی ای میل بھی جائے گی۔" : "Use an active email — Shah G Online contacts you from its official email, and you'll get an instant confirmation email too."}</div>
+                  <div style={{ fontSize: 11.5, color: "#B07A15", background: "#FCF7EE", borderRadius: 8, padding: "8px 11px", margin: "8px 0 12px", lineHeight: 1.5, display: "flex", gap: 7, alignItems: "flex-start" }}><FaInfoCircle size={13} color="#B07A15" style={{ flex: "none", marginTop: 2 }} /> <span>{ur ? "ایک فعال ای میل دیں، شاہ جی آن لائن اپنی سرکاری ای میل سے آپ سے رابطہ کرے گا، اور آپ کو ابھی تصدیقی ای میل بھی جائے گی۔" : "Use an active email. Shah G Online contacts you from its official email, and you'll get an instant confirmation email too."}</span></div>
 
                   <div style={{ marginBottom: 14 }}><div style={lbl}>{ur ? "آپ کن علاقوں میں ڈیلیور کرتے ہیں؟" : "Which areas do you serve / deliver to?"} *</div><input required value={f.areas} onChange={set("areas")} placeholder={ur ? "مثلاً F-10، F-11، بلیو ایریا" : "e.g. F-10, F-11, Blue Area, G-9"} style={input} /><div style={{ fontSize: 11, color: "#B0A692", marginTop: 4 }}>{ur ? "آپ کی لسٹنگ صرف انہی علاقوں کے گاہکوں کو دکھائی دے گی۔" : "Your listing will only show to customers in these areas."}</div></div>
 
                   {/* dishes */}
                   <div style={lbl}>{ur ? "آپ کی ڈشز اور قیمتیں" : "Your dishes & prices"} *</div>
                   <div style={{ display: "flex", gap: 9, alignItems: "flex-start", background: "#F4F0FB", border: "1px solid #E3DAF3", borderRadius: 12, padding: "11px 13px", fontSize: 13, lineHeight: 1.6, color: "#4A3E63", margin: "8px 0 4px" }}>
-                    <span style={{ fontSize: 16, flex: "none" }}>📸</span>
-                    <span>{ur ? "ڈشز کی تصاویر ہماری ٹیم خود لگائے گی تاکہ برانڈ کی یکسانیت برقرار رہے — آپ کو تصاویر بھیجنے کی ضرورت نہیں۔" : "Dish images will be placed by our team for brand consistency — you don't need to send any photos."}</span>
+                    <span style={{ flex: "none", display: "flex", marginTop: 1 }}><FaCamera size={15} color="#4A3E63" /></span>
+                    <span>{ur ? "ڈشز کی تصاویر ہماری ٹیم خود لگائے گی تاکہ برانڈ کی یکسانیت برقرار رہے، آپ کو تصاویر بھیجنے کی ضرورت نہیں۔" : "Dish images will be placed by our team for brand consistency, you don't need to send any photos."}</span>
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 10, margin: "8px 0 6px" }}>
                     {dishes.map((d, i) => (
@@ -270,7 +271,7 @@ export default function PartnerContent() {
       <SuccessModal
         open={modal}
         ur={ur}
-        title={ur ? "درخواست موصول ہو گئی! 🎉" : "Request received! 🎉"}
+        title={ur ? "درخواست موصول ہو گئی!" : "Request received!"}
         message={ur ? "شکریہ! ہم نے آپ کو تصدیقی ای میل بھیج دی ہے۔ ہماری ٹیم جلد رابطہ کر کے ادائیگی مکمل کرائے گی۔" : "Thank you! We've emailed you a confirmation. Our team will contact you shortly to complete your listing."}
         onClose={() => setModal(false)}
       />

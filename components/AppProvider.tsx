@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import type { Lang } from "@/lib/i18n";
-import { cityFromCoords, type City } from "@/lib/data";
+import { cityFromCoords, matchCoverage, type CityChoice } from "@/lib/data";
 import { getPrecisePosition, reverseGeocode } from "@/lib/geo";
 
 export type LocStatus = "idle" | "locating" | "ready" | "denied" | "unavailable" | "outside";
@@ -25,8 +25,8 @@ interface AppState {
   setArea: (a: string) => void;
   located: boolean;
   setLocated: (v: boolean) => void;
-  city: City | "";
-  setCity: (c: City | "") => void;
+  city: CityChoice;
+  setCity: (c: CityChoice) => void;
   locStatus: LocStatus;
   detectLocation: () => void;
   user: AppUser | null;
@@ -52,7 +52,7 @@ interface Persisted {
   branch: string;
   area: string;
   located: boolean;
-  city: City | "";
+  city: CityChoice;
   user: AppUser | null;
   cart: Cart;
 }
@@ -134,21 +134,21 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         return;
       }
       const { latitude, longitude } = pos.coords;
-      const c = cityFromCoords(latitude, longitude);
       // exact street-level address (house number, street, sector)
       let label = "";
+      let c: ReturnType<typeof matchCoverage> = null;
       try {
         const r = await reverseGeocode(latitude, longitude, state.lang);
         label = r.label;
-      } catch { /* GPS worked but geocoding didn't — city alone is still useful */ }
-      if (c) {
-        persist({ city: c, located: true, ...(label ? { area: label } : {}) });
-        setLocStatus("ready");
-      } else {
-        // Outside our current service region — keep whatever city was set.
-        if (label) persist({ area: label });
-        setLocStatus("outside");
+        // the ADMIN REGION decides coverage — border towns can be closer to a
+        // branch than parts of Islamabad itself, so distance can't be trusted
+        c = matchCoverage(r);
+      } catch {
+        // geocoder unreachable: coordinates are the only signal left
+        c = cityFromCoords(latitude, longitude);
       }
+      persist({ city: c ?? "other", located: true, ...(label ? { area: label } : {}) });
+      setLocStatus(c ? "ready" : "outside");
     })();
   }, [persist, state.lang]);
 

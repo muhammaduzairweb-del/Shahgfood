@@ -34,7 +34,7 @@ export interface Extra {
 const EN_X: Extra = {
   locTitle: "Where should we deliver?",
   locDesc: "Pick your area so we can connect you to the nearest Shah G Foods branch.",
-  locDetect: "📍 Use my current location",
+  locDetect: "Use my current location",
   locDetecting: "Detecting…",
   locOr: "or choose your area",
   locCityLabel: "City",
@@ -117,7 +117,7 @@ const EN_X: Extra = {
 const UR_X: Extra = {
   locTitle: "ہم کہاں ڈیلیور کریں؟",
   locDesc: "اپنا علاقہ منتخب کریں تاکہ ہم آپ کو قریب ترین شاہ جی فوڈز شاخ سے جوڑ سکیں۔",
-  locDetect: "📍 میری موجودہ لوکیشن استعمال کریں",
+  locDetect: "میری موجودہ لوکیشن استعمال کریں",
   locDetecting: "تلاش کیا جا رہا ہے…",
   locOr: "یا اپنا علاقہ منتخب کریں",
   locCityLabel: "شہر",

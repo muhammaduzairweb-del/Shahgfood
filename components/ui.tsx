@@ -4,16 +4,19 @@ import Link from "next/link";
 import { FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
 import { dishImage, dishSlug, TILE, ORDER_TEL, waOrderLink, type Dish } from "@/lib/data";
 import { mono } from "@/lib/cart";
+import { useApp } from "@/components/AppProvider";
 import type { Translation } from "@/lib/i18n";
 
 export const RED = "#C1272D";
 const WA_GREEN = "#25D366";
 
-// Order buttons (marketplace: no cart — call or WhatsApp the vendor directly)
+// Order buttons (marketplace: no cart — call or WhatsApp the vendor directly).
+// The WhatsApp message is prefilled with the customer's saved location.
 function OrderButtons({ name, ur, compact }: { name: string; ur: boolean; t: Translation; compact?: boolean }) {
+  const { area } = useApp();
   return (
     <div style={{ display: "flex", gap: 6, flex: "none" }} onClick={(e) => e.stopPropagation()}>
-      <a href={waOrderLink(name)} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" style={{ display: "flex", alignItems: "center", justifyContent: "center", width: compact ? 34 : 38, height: compact ? 34 : 38, borderRadius: 11, background: WA_GREEN, color: "#fff", flex: "none" }}>
+      <a href={waOrderLink(name, area)} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" style={{ display: "flex", alignItems: "center", justifyContent: "center", width: compact ? 34 : 38, height: compact ? 34 : 38, borderRadius: 11, background: WA_GREEN, color: "#fff", flex: "none" }}>
         <FaWhatsapp size={compact ? 17 : 19} />
       </a>
       <a href={`tel:${ORDER_TEL}`} style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 7, background: RED, color: "#fff", fontWeight: 800, fontSize: compact ? 12.5 : 13.5, padding: compact ? "8px 14px" : "9px 17px", borderRadius: 11, whiteSpace: "nowrap" }}>

@@ -1,10 +1,10 @@
 "use client";
 
 interface Props {
-  /** big emoji in the middle */
-  center: string;
-  /** emojis that circle around it */
-  items: string[];
+  /** big icon in the middle (real SVG icon, not an emoji) */
+  center: React.ReactNode;
+  /** icons that circle around it */
+  items: React.ReactNode[];
   /** true when rendered on a dark / gradient background */
   onDark?: boolean;
   /** orbit rotation duration in seconds */
@@ -32,7 +32,7 @@ export default function FoodOrbit({ center, items, onDark = false, speed = 22 }:
 
       {/* rotating satellites */}
       <div style={{ position: "absolute", inset: "17%", animation: `orbitSpin ${speed}s linear infinite` }}>
-        {items.map((emoji, i) => {
+        {items.map((icon, i) => {
           const angle = (360 / items.length) * i;
           return (
             <div
@@ -42,8 +42,8 @@ export default function FoodOrbit({ center, items, onDark = false, speed = 22 }:
                 transform: `rotate(${angle}deg)`,
               }}
             >
-              <div style={{ position: "absolute", top: -21, left: "50%", marginLeft: -21, width: 42, height: 42, borderRadius: "50%", background: satBg, boxShadow: "0 10px 22px -10px rgba(0,0,0,.4)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 21, animation: `orbitCounter ${speed}s linear infinite` }}>
-                {emoji}
+              <div style={{ position: "absolute", top: -21, left: "50%", marginLeft: -21, width: 42, height: 42, borderRadius: "50%", background: satBg, boxShadow: "0 10px 22px -10px rgba(0,0,0,.4)", display: "flex", alignItems: "center", justifyContent: "center", animation: `orbitCounter ${speed}s linear infinite` }}>
+                {icon}
               </div>
             </div>
           );
@@ -52,7 +52,7 @@ export default function FoodOrbit({ center, items, onDark = false, speed = 22 }:
 
       {/* floating centre plate */}
       <div style={{ position: "relative", width: "38%", aspectRatio: "1 / 1", borderRadius: "50%", background: centerBg, boxShadow: "0 26px 55px -22px rgba(0,0,0,.5)", display: "flex", alignItems: "center", justifyContent: "center", animation: "floatY 4.2s ease-in-out infinite" }}>
-        <span style={{ fontSize: "clamp(44px,9vw,74px)", lineHeight: 1 }}>{center}</span>
+        <span style={{ display: "flex", alignItems: "center", justifyContent: "center", lineHeight: 1 }}>{center}</span>
       </div>
     </div>
   );

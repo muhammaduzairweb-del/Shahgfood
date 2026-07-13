@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
-import { CATS, MENU, REVIEWS, SITE_IMAGES, dishImage } from "@/lib/data";
+import { FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
+import { CATS, MENU, REVIEWS, SITE_IMAGES, ORDER_TEL, dishImage, waOrderLink } from "@/lib/data";
 import { DICT } from "@/lib/i18n";
 import { PAGES } from "@/lib/i18n-extra";
 import { fmt as fmtBase, mono } from "@/lib/cart";
@@ -82,7 +83,7 @@ function MarqueeRow({ items, dir, dur }: { items: Review[]; dir: "left" | "right
 }
 
 export default function HomeContent() {
-  const { lang, cart, addItem, decItem, setCartOpen } = useApp();
+  const { lang, area } = useApp();
   const router = useRouter();
   const t = DICT[lang];
   const ur = lang === "ur";
@@ -189,9 +190,14 @@ export default function HomeContent() {
             <div style={{ alignSelf: "flex-start", background: "#E0A020", color: "#211812", fontSize: 11, fontWeight: 800, padding: "5px 12px", borderRadius: 20, letterSpacing: ".6px" }}>{t.featBadge}</div>
             <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: isPhone ? 28 : "clamp(30px,3.8vw,44px)", lineHeight: 1.08 }}>{ur ? sig.urdu : sig.name}</div>
             <div style={{ color: "rgba(255,255,255,.72)", fontSize: isPhone ? 13.5 : 15, lineHeight: isPhone ? 1.55 : 1.75, maxWidth: 460 }}>{t.sigSub}</div>
-            <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: isPhone ? 4 : 8, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: isPhone ? 4 : 8, flexWrap: "wrap" }}>
               <span className="num" style={{ fontSize: 26, fontWeight: 800 }}>{fmt(sig.price)}</span>
-              <button onClick={() => { addItem(1); setCartOpen(true); }} style={{ cursor: "pointer", border: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 15, padding: "13px 26px", borderRadius: 13, fontFamily: "inherit" }}>{t.add}</button>
+              <a href={`tel:${ORDER_TEL}`} style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 8, background: RED, color: "#fff", fontWeight: 800, fontSize: 14.5, padding: "12px 22px", borderRadius: 13 }}>
+                <FaPhoneAlt size={13} /> {ur ? "کال کریں" : "Order via Call"}
+              </a>
+              <a href={waOrderLink(sig.name, area)} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 8, background: "#25D366", color: "#fff", fontWeight: 800, fontSize: 14.5, padding: "12px 20px", borderRadius: 13 }}>
+                <FaWhatsapp size={17} /> WhatsApp
+              </a>
             </div>
           </div>
         </div>
@@ -221,13 +227,13 @@ export default function HomeContent() {
           {isPhone ? (
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {featured.map((d) => (
-                <DishRow key={d.id} d={d} ur={ur} t={t} fmt={fmt} qty={cart[d.id] || 0} onAdd={() => addItem(d.id)} onDec={() => decItem(d.id)} />
+                <DishRow key={d.id} d={d} ur={ur} t={t} fmt={fmt} />
               ))}
             </div>
           ) : (
             <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 18 }}>
               {featured.map((d) => (
-                <DishCard key={d.id} d={d} ur={ur} t={t} fmt={fmt} qty={cart[d.id] || 0} onAdd={() => addItem(d.id)} onDec={() => decItem(d.id)} />
+                <DishCard key={d.id} d={d} ur={ur} t={t} fmt={fmt} />
               ))}
             </div>
           )}

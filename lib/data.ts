@@ -422,9 +422,11 @@ export const ORDER_PHONE = "+92 330 786 2992"; // display
 export const ORDER_TEL = "+923307862992"; // tel: link
 export const ORDER_WA = "923307862992"; // wa.me number
 
-/** WhatsApp order link with a pre-filled message for a given dish. */
-export function waOrderLink(dishName: string): string {
-  const msg = `Assalam-o-Alaikum! 🍛\nMain Shah G Online (shahgfood.com) par listed aap ka "${dishName}" order karna chahta/chahti hoon.\nMehrbani karke rate aur total bill bata dein — shukriya!`;
+/** WhatsApp order link with a pre-filled message for a given dish. Pass the
+ *  customer's saved address so the vendor gets the delivery location upfront. */
+export function waOrderLink(dishName: string, address?: string): string {
+  const loc = address && address.trim() ? `\n📍 Meri location: ${address.trim()}` : "";
+  const msg = `Assalam-o-Alaikum! 🍛\nMain Shah G Online (shahgfood.com) par listed aap ka "${dishName}" order karna chahta/chahti hoon.${loc}\nMehrbani karke rate aur total bill bata dein, shukriya!`;
   return `https://wa.me/${ORDER_WA}?text=${encodeURIComponent(msg)}`;
 }
 
@@ -440,8 +442,27 @@ export function distanceKm(lat1: number, lng1: number, lat2: number, lng2: numbe
 // ===== Multi-vendor directory (area-based filtering) =====
 export type City = "Islamabad" | "Rawalpindi";
 
+/** What the user's location can resolve to: a served city, "other" (a real
+ *  place we don't operate in yet), or "" (unknown / not set). */
+export type CityChoice = City | "other" | "";
+
 /** The cities the platform currently operates in (used by the location picker). */
 export const CITIES: City[] = ["Islamabad", "Rawalpindi"];
+
+/**
+ * Decide coverage from the reverse-geocoded ADMINISTRATIVE region, not distance.
+ * Border towns (Khanpur is ~18 km from our B-17 branch) are physically close but
+ * in a different province — only a positive region match counts as served:
+ *  - anywhere in Islamabad Capital Territory → Islamabad
+ *  - Rawalpindi CITY only (the district also covers Murree / Gujar Khan, unserved)
+ */
+export function matchCoverage(parts: { city?: string; district?: string; state?: string }): City | null {
+  const isb = (v?: string) => !!v && (/islamabad/i.test(v) || v.includes("اسلام آباد"));
+  const rwp = (v?: string) => !!v && (/rawalpindi/i.test(v) || v.includes("راولپنڈی"));
+  if (isb(parts.state) || isb(parts.city)) return "Islamabad";
+  if (rwp(parts.city)) return "Rawalpindi";
+  return null;
+}
 
 export interface Restaurant {
   slug: string;
@@ -482,8 +503,8 @@ export const RESTAURANTS: Restaurant[] = [
 
 /**
  * Best-effort city from GPS coordinates: pick the nearest known branch and use
- * its city. Returns null if the nearest branch is implausibly far (>60 km), i.e.
- * the user is outside our current service region.
+ * its city. 25 km keeps this inside the actual twin-cities metro — anything
+ * farther (Abbottabad is ~45 km from the nearest branch) is NOT served.
  */
 export function cityFromCoords(lat: number, lng: number): City | null {
   let best: Branch | null = null;
@@ -492,12 +513,14 @@ export function cityFromCoords(lat: number, lng: number): City | null {
     const d = distanceKm(lat, lng, b.lat, b.lng);
     if (d < bestD) { bestD = d; best = b; }
   }
-  if (!best || bestD > 60) return null;
+  if (!best || bestD > 25) return null;
   return best.city;
 }
 
-/** Restaurants that serve the given city. A null city means "unknown" → show all. */
-export function restaurantsForCity(city: City | null | ""): Restaurant[] {
+/** Restaurants that serve the given city. "" (unknown) shows all; "other"
+ *  (a real place we don't operate in) shows none. */
+export function restaurantsForCity(city: CityChoice): Restaurant[] {
+  if (city === "other") return [];
   if (!city) return RESTAURANTS;
   return RESTAURANTS.filter((r) => r.coverageCities.includes(city));
 }

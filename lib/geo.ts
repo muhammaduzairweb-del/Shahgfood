@@ -9,6 +9,10 @@ export interface PreciseAddress {
   area: string;
   /** city name as reported by OSM */
   city: string;
+  /** district / county, e.g. "Haripur District" */
+  district: string;
+  /** province / territory, e.g. "Islamabad Capital Territory", "Khyber Pakhtunkhwa" */
+  state: string;
 }
 
 /**
@@ -66,5 +70,11 @@ export async function reverseGeocode(lat: number, lng: number, lang: "en" | "ur"
     || data.display_name
     || `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
 
-  return { label, area, city };
+  return {
+    label,
+    area,
+    city,
+    district: a.county || a.state_district || a.district || "",
+    state: a.state || a.region || "",
+  };
 }

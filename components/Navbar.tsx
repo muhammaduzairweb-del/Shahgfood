@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { FaStore } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import { BRANCHES, LOGO, LOGO_FILTER } from "@/lib/data";
 import { DICT } from "@/lib/i18n";
@@ -11,7 +12,7 @@ import { IconHome, IconMenu, IconInfo, IconBag } from "@/components/icons";
 const PURPLE = "#8E1E7C";
 
 export default function Navbar() {
-  const { lang, setLang, branch, setLocated } = useApp();
+  const { lang, setLang, branch, area, setLocated } = useApp();
   const t = DICT[lang];
   const ur = lang === "ur";
   const pathname = usePathname();
@@ -57,8 +58,8 @@ export default function Navbar() {
               <div onClick={() => setLocated(false)} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 11, marginInlineStart: 6 }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FCE3B4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21s-7-6.3-7-11a7 7 0 1 1 14 0c0 4.7-7 11-7 11z" /><circle cx="12" cy="10" r="2.5" /></svg>
                 <div style={{ lineHeight: 1.2 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#fff", fontWeight: 800, fontSize: 17 }}>{ur ? "ڈیلیوری" : "Deliver to"} <span style={{ fontSize: 12, opacity: 0.85 }}>▾</span></div>
-                  <div style={{ color: "rgba(255,255,255,.75)", fontSize: 12.5, marginTop: 1 }}>{branch}, {selBranch.city} · ETA ~ {t.etaVal}</div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#fff", fontWeight: 800, fontSize: 17 }}>{ur ? "آپ کی لوکیشن" : "Your location"} <span style={{ fontSize: 12, opacity: 0.85 }}>▾</span></div>
+                  <div style={{ color: "rgba(255,255,255,.75)", fontSize: 12.5, marginTop: 1, maxWidth: 280, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{area || `${branch}, ${selBranch.city}`}</div>
                 </div>
               </div>
             )}
@@ -88,7 +89,7 @@ export default function Navbar() {
 
 
               <Link href="/partner" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 7, background: "#fff", color: PURPLE, fontWeight: 800, fontSize: isMobile ? 12.5 : 13.5, borderRadius: 999, padding: isMobile ? "9px 13px" : "9px 18px", whiteSpace: "nowrap" }}>
-                🏪 {isMobile ? (ur ? "لسٹ" : "List") : (ur ? "ریستوران لسٹ کریں" : "List Restaurant")}
+                <FaStore size={14} /> {isMobile ? (ur ? "لسٹ" : "List") : (ur ? "ریستوران لسٹ کریں" : "List Restaurant")}
               </Link>
             </div>
           </div>

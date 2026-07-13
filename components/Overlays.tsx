@@ -1,15 +1,10 @@
 "use client";
 
-import CartDrawer from "@/components/CartDrawer";
 import LocationPicker from "@/components/LocationPicker";
 import { useApp } from "@/components/AppProvider";
 
 export default function Overlays() {
   const { hydrated, located } = useApp();
-  return (
-    <>
-      <CartDrawer />
-      {hydrated && !located && <LocationPicker />}
-    </>
-  );
+  // marketplace: no cart — orders go directly to the restaurant via call/WhatsApp
+  return <>{hydrated && !located && <LocationPicker />}</>;
 }

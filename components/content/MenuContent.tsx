@@ -50,7 +50,7 @@ function CategoryBanner({ c, ur, count, h, imgW, phone }: { c: Category; ur: boo
 }
 
 export default function MenuContent() {
-  const { lang, cart, addItem, decItem } = useApp();
+  const { lang } = useApp();
   const t = DICT[lang];
   const ur = lang === "ur";
   const fmt = (n: number) => fmtBase(n, ur);
@@ -171,13 +171,13 @@ export default function MenuContent() {
                 {isPhone ? (
                   <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                     {items.map((d) => (
-                      <DishRow key={d.id} d={d} ur={ur} t={t} fmt={fmt} qty={cart[d.id] || 0} onAdd={() => addItem(d.id)} onDec={() => decItem(d.id)} />
+                      <DishRow key={d.id} d={d} ur={ur} t={t} fmt={fmt} />
                     ))}
                   </div>
                 ) : (
                   <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 18 }}>
                     {items.map((d) => (
-                      <DishCard key={d.id} d={d} ur={ur} t={t} fmt={fmt} qty={cart[d.id] || 0} onAdd={() => addItem(d.id)} onDec={() => decItem(d.id)} showDesc />
+                      <DishCard key={d.id} d={d} ur={ur} t={t} fmt={fmt} showDesc />
                     ))}
                   </div>
                 )}

@@ -5,6 +5,10 @@
 // the Shah G Foods terms since the domain is shahgfood.com.)
 
 import Link from "next/link";
+import {
+  FaSearch, FaPhoneAlt, FaUtensils, FaBoxOpen, FaClipboardList, FaRocket, FaStore, FaHandshake, FaGlobeAsia,
+  FaCamera, FaEye, FaMoneyBillWave, FaChartLine, FaMapMarkedAlt, FaCrown, FaHome, FaMapMarkerAlt, FaStar, FaHeart,
+} from "react-icons/fa";
 import { useApp } from "@/components/AppProvider";
 import FoodOrbit from "@/components/FoodOrbit";
 
@@ -36,12 +40,12 @@ function DualCta({ ur }: { ur: boolean }) {
   return (
     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 16, marginTop: 44 }}>
       <div style={{ background: CHARCOAL, color: "#fff", borderRadius: 20, padding: "28px 26px", display: "flex", flexDirection: "column", gap: 11 }}>
-        <div style={{ fontSize: 28 }}>🍛</div>
+        <div><FaUtensils size={26} color="#fff" /></div>
         <div style={{ fontFamily: SERIF, fontSize: 23 }}>{ur ? "بھوک لگی ہے؟" : "Feeling hungry?"}</div>
         <Link href="/restaurant/shah-g-foods/menu" style={{ alignSelf: "flex-start", textDecoration: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 14.5, padding: "12px 22px", borderRadius: 12, marginTop: 4 }}>{ur ? "مینو دیکھیں →" : "Explore menus →"}</Link>
       </div>
       <div style={{ background: `linear-gradient(160deg,${PURPLE},#B71C66)`, color: "#fff", borderRadius: 20, padding: "28px 26px", display: "flex", flexDirection: "column", gap: 11 }}>
-        <div style={{ fontSize: 28 }}>🏪</div>
+        <div><FaStore size={26} color="#fff" /></div>
         <div style={{ fontFamily: SERIF, fontSize: 23 }}>{ur ? "ریستوران کے مالک ہیں؟" : "Own a restaurant?"}</div>
         <Link href="/partner" style={{ alignSelf: "flex-start", textDecoration: "none", background: "#fff", color: PURPLE, fontWeight: 800, fontSize: 14.5, padding: "12px 22px", borderRadius: 12, marginTop: 4 }}>{ur ? "اپنا ریستوران لسٹ کریں →" : "List your restaurant →"}</Link>
       </div>
@@ -54,25 +58,25 @@ export function HowItWorksContent() {
   const ur = useUr();
   const customer = ur
     ? [
-        { i: "🔍", h: "ڈش تلاش کریں", p: "اپنے علاقے کے ریستورانوں کے مینو دیکھیں اور پسندیدہ ڈش چنیں۔" },
-        { i: "📞", h: "سیدھا آرڈر کریں", p: "کال یا واٹس ایپ کا بٹن دبائیں، آرڈر سیدھا کچن کو جاتا ہے، کوئی درمیانی نہیں۔" },
-        { i: "🍽️", h: "کھانا وصول کریں", p: "قیمت اور ڈیلیوری ریستوران خود طے کرتا ہے، تازہ کھانا سیدھا آپ تک۔" },
+        { i: <FaSearch size={22} color={RED} />, h: "ڈش تلاش کریں", p: "اپنے علاقے کے ریستورانوں کے مینو دیکھیں اور پسندیدہ ڈش چنیں۔" },
+        { i: <FaPhoneAlt size={22} color={RED} />, h: "سیدھا آرڈر کریں", p: "کال یا واٹس ایپ کا بٹن دبائیں، آرڈر سیدھا کچن کو جاتا ہے، کوئی درمیانی نہیں۔" },
+        { i: <FaUtensils size={22} color={RED} />, h: "کھانا وصول کریں", p: "قیمت اور ڈیلیوری ریستوران خود طے کرتا ہے، تازہ کھانا سیدھا آپ تک۔" },
       ]
     : [
-        { i: "🔍", h: "Find a dish", p: "Browse menus from restaurants that serve your area and pick what you're craving." },
-        { i: "📞", h: "Order directly", p: "Tap Call or WhatsApp, your order goes straight to the kitchen, no middle-man." },
-        { i: "🍽️", h: "Enjoy your food", p: "Price and delivery are agreed directly with the restaurant, fresh food, straight to you." },
+        { i: <FaSearch size={22} color={RED} />, h: "Find a dish", p: "Browse menus from restaurants that serve your area and pick what you're craving." },
+        { i: <FaPhoneAlt size={22} color={RED} />, h: "Order directly", p: "Tap Call or WhatsApp, your order goes straight to the kitchen, no middle-man." },
+        { i: <FaUtensils size={22} color={RED} />, h: "Enjoy your food", p: "Price and delivery are agreed directly with the restaurant, fresh food, straight to you." },
       ];
   const owner = ur
     ? [
-        { i: "📦", h: "پیکج منتخب کریں", p: "اسٹارٹر، گروتھ یا سپر پریمیم، جو آپ کے کچن کے مطابق ہو۔" },
-        { i: "📝", h: "مینو جمع کرائیں", p: "اپنی ڈشز اور قیمتیں بھیجیں، تصاویر ہماری ٹیم برانڈ کی یکسانیت کے لیے خود لگاتی ہے۔" },
-        { i: "🚀", h: "24 گھنٹے میں لائیو", p: "آپ کا مینو آپ کے کوریج والے علاقوں میں نظر آنا شروع، آرڈرز سیدھے آپ کے نمبر پر۔" },
+        { i: <FaBoxOpen size={22} color={RED} />, h: "پیکج منتخب کریں", p: "اسٹارٹر، گروتھ یا سپر پریمیم، جو آپ کے کچن کے مطابق ہو۔" },
+        { i: <FaClipboardList size={22} color={RED} />, h: "مینو جمع کرائیں", p: "اپنی ڈشز اور قیمتیں بھیجیں، تصاویر ہماری ٹیم برانڈ کی یکسانیت کے لیے خود لگاتی ہے۔" },
+        { i: <FaRocket size={22} color={RED} />, h: "24 گھنٹے میں لائیو", p: "آپ کا مینو آپ کے کوریج والے علاقوں میں نظر آنا شروع، آرڈرز سیدھے آپ کے نمبر پر۔" },
       ]
     : [
-        { i: "📦", h: "Pick a package", p: "Starter, Growth or Super Premium, whichever fits your kitchen." },
-        { i: "📝", h: "Submit your menu", p: "Send your dishes and prices, our team places the images for brand consistency." },
-        { i: "🚀", h: "Go live in 24 hrs", p: "Your menu appears to customers in the areas you cover, orders ring your own number." },
+        { i: <FaBoxOpen size={22} color={RED} />, h: "Pick a package", p: "Starter, Growth or Super Premium, whichever fits your kitchen." },
+        { i: <FaClipboardList size={22} color={RED} />, h: "Submit your menu", p: "Send your dishes and prices, our team places the images for brand consistency." },
+        { i: <FaRocket size={22} color={RED} />, h: "Go live in 24 hrs", p: "Your menu appears to customers in the areas you cover, orders ring your own number." },
       ];
 
   return (
@@ -116,15 +120,15 @@ export function MissionContent() {
   const values = ur
     ? [
         { i: "0%", h: "صفر کمیشن", p: "ہر آرڈر کی پوری قیمت ریستوران کی، ہم فروخت پر ایک روپیہ نہیں لیتے۔" },
-        { i: "🤝", h: "براہِ راست رشتہ", p: "گاہک اور کچن کے بیچ کوئی نہیں، آرڈر، قیمت اور اعتماد سب براہِ راست۔" },
-        { i: "🇵🇰", h: "پورا پاکستان", p: "چھوٹے شہر کا ہوم کچن ہو یا بڑی چین، ہر معیاری کچن کے لیے جگہ۔" },
-        { i: "📸", h: "برانڈ کی یکسانیت", p: "ہر لسٹنگ کی تصاویر ہماری ٹیم لگاتی ہے تاکہ پورا پلیٹ فارم خوبصورت اور قابلِ اعتماد لگے۔" },
+        { i: <FaHandshake size={24} color={RED} />, h: "براہِ راست رشتہ", p: "گاہک اور کچن کے بیچ کوئی نہیں، آرڈر، قیمت اور اعتماد سب براہِ راست۔" },
+        { i: <FaGlobeAsia size={24} color={RED} />, h: "پورا پاکستان", p: "چھوٹے شہر کا ہوم کچن ہو یا بڑی چین، ہر معیاری کچن کے لیے جگہ۔" },
+        { i: <FaCamera size={24} color={RED} />, h: "برانڈ کی یکسانیت", p: "ہر لسٹنگ کی تصاویر ہماری ٹیم لگاتی ہے تاکہ پورا پلیٹ فارم خوبصورت اور قابلِ اعتماد لگے۔" },
       ]
     : [
         { i: "0%", h: "Zero commission", p: "Every rupee of every order belongs to the restaurant, we never take a cut of sales." },
-        { i: "🤝", h: "Direct relationships", p: "Nobody sits between the customer and the kitchen, orders, prices and trust are all direct." },
-        { i: "🇵🇰", h: "All of Pakistan", p: "A home kitchen in a small city or a big chain, there's a place for every quality kitchen." },
-        { i: "📸", h: "Brand consistency", p: "Our team places the imagery on every listing, so the whole platform looks beautiful and trustworthy." },
+        { i: <FaHandshake size={24} color={RED} />, h: "Direct relationships", p: "Nobody sits between the customer and the kitchen, orders, prices and trust are all direct." },
+        { i: <FaGlobeAsia size={24} color={RED} />, h: "All of Pakistan", p: "A home kitchen in a small city or a big chain, there's a place for every quality kitchen." },
+        { i: <FaCamera size={24} color={RED} />, h: "Brand consistency", p: "Our team places the imagery on every listing, so the whole platform looks beautiful and trustworthy." },
       ];
 
   return (
@@ -149,7 +153,11 @@ export function MissionContent() {
             <div style={{ marginTop: 10, fontWeight: 800, color: RED, fontSize: 12.5, letterSpacing: 1 }}>— SHAH G ONLINE</div>
           </div>
           <div style={{ flex: "1 1 280px", background: "linear-gradient(160deg,#FCF6EC,#F6EDDD)", border: "1px solid #EFE5D3", borderRadius: 22, padding: "18px 0" }}>
-            <FoodOrbit center="❤️" items={["🍛", "🏪", "🤝", "🇵🇰", "🚀", "⭐"]} speed={24} />
+            <FoodOrbit
+              center={<FaHeart size={46} color={RED} />}
+              items={[<FaUtensils key="u" size={19} color={RED} />, <FaStore key="s" size={19} color="#E0A020" />, <FaHandshake key="h" size={19} color={RED} />, <FaGlobeAsia key="g" size={19} color="#E0A020" />, <FaRocket key="r" size={19} color={RED} />, <FaStar key="st" size={19} color="#E0A020" />]}
+              speed={24}
+            />
           </div>
         </div>
 
@@ -173,20 +181,20 @@ export function WhyUsContent() {
   const ur = useUr();
   const perks = ur
     ? [
-        { i: "👀", h: "روزانہ 10,000+ وزیٹرز", p: "آپ کا مینو ہر روز ہزاروں بھوکے گاہکوں کے سامنے۔" },
-        { i: "💸", h: "0% کمیشن", p: "ڈیلیوری ایپس 25–35% تک لیتی ہیں، ہم فروخت سے کچھ نہیں لیتے، صرف سادہ سلاٹ فیس۔" },
-        { i: "📈", h: "گوگل پر رینکنگ", p: "ہر ڈش اور ریستوران کا اپنا SEO پیج، گاہک گوگل سے سیدھا آپ تک پہنچتے ہیں۔" },
-        { i: "📞", h: "براہِ راست آرڈر", p: "کال اور واٹس ایپ سیدھا آپ کے نمبر پر، گاہک کا نمبر بھی آپ ہی کے پاس۔" },
-        { i: "📸", h: "پروفیشنل لُک", p: "تصاویر ہماری ٹیم لگاتی ہے، آپ کی لسٹنگ ہمیشہ صاف اور برانڈڈ نظر آتی ہے۔" },
-        { i: "🗺️", h: "صرف آپ کے علاقے", p: "آپ صرف اُن گاہکوں کو نظر آتے ہیں جن تک آپ واقعی پہنچ سکتے ہیں۔" },
+        { i: <FaEye size={24} color={RED} />, h: "روزانہ 10,000+ وزیٹرز", p: "آپ کا مینو ہر روز ہزاروں بھوکے گاہکوں کے سامنے۔" },
+        { i: <FaMoneyBillWave size={24} color={RED} />, h: "0% کمیشن", p: "ڈیلیوری ایپس 25–35% تک لیتی ہیں، ہم فروخت سے کچھ نہیں لیتے، صرف سادہ سلاٹ فیس۔" },
+        { i: <FaChartLine size={24} color={RED} />, h: "گوگل پر رینکنگ", p: "ہر ڈش اور ریستوران کا اپنا SEO پیج، گاہک گوگل سے سیدھا آپ تک پہنچتے ہیں۔" },
+        { i: <FaPhoneAlt size={22} color={RED} />, h: "براہِ راست آرڈر", p: "کال اور واٹس ایپ سیدھا آپ کے نمبر پر، گاہک کا نمبر بھی آپ ہی کے پاس۔" },
+        { i: <FaCamera size={24} color={RED} />, h: "پروفیشنل لُک", p: "تصاویر ہماری ٹیم لگاتی ہے، آپ کی لسٹنگ ہمیشہ صاف اور برانڈڈ نظر آتی ہے۔" },
+        { i: <FaMapMarkedAlt size={24} color={RED} />, h: "صرف آپ کے علاقے", p: "آپ صرف اُن گاہکوں کو نظر آتے ہیں جن تک آپ واقعی پہنچ سکتے ہیں۔" },
       ]
     : [
-        { i: "👀", h: "10,000+ daily visitors", p: "Your menu in front of thousands of hungry customers, every single day." },
-        { i: "💸", h: "0% commission", p: "Delivery apps take 25–35% per order, we take nothing from sales, just a simple slot fee." },
-        { i: "📈", h: "Ranked on Google", p: "Every dish and restaurant gets its own SEO page, customers land on you straight from search." },
-        { i: "📞", h: "Direct orders", p: "Calls and WhatsApp ring your own number, you keep the customer relationship, and their number." },
-        { i: "📸", h: "Professional look", p: "Our team places the imagery, so your listing always looks clean, consistent and on-brand." },
-        { i: "🗺️", h: "Only your areas", p: "You're shown only to customers you can actually serve, no wasted calls from across the country." },
+        { i: <FaEye size={24} color={RED} />, h: "10,000+ daily visitors", p: "Your menu in front of thousands of hungry customers, every single day." },
+        { i: <FaMoneyBillWave size={24} color={RED} />, h: "0% commission", p: "Delivery apps take 25–35% per order, we take nothing from sales, just a simple slot fee." },
+        { i: <FaChartLine size={24} color={RED} />, h: "Ranked on Google", p: "Every dish and restaurant gets its own SEO page, customers land on you straight from search." },
+        { i: <FaPhoneAlt size={22} color={RED} />, h: "Direct orders", p: "Calls and WhatsApp ring your own number, you keep the customer relationship, and their number." },
+        { i: <FaCamera size={24} color={RED} />, h: "Professional look", p: "Our team places the imagery, so your listing always looks clean, consistent and on-brand." },
+        { i: <FaMapMarkedAlt size={24} color={RED} />, h: "Only your areas", p: "You're shown only to customers you can actually serve, no wasted calls from across the country." },
       ];
 
   return (
@@ -216,9 +224,12 @@ export function WhyUsContent() {
 /* ---------------- SUCCESS STORIES ---------------- */
 export function SuccessStoriesContent() {
   const ur = useUr();
-  const chips = ur
-    ? ["🍛 90+ ڈشز لسٹڈ", "👑 سپر پریمیم · سالانہ", "🏠 ہوم پیج فیچرڈ", "📍 تمام شاخیں"]
-    : ["🍛 90+ dishes listed", "👑 Super Premium · Yearly", "🏠 Homepage featured", "📍 All branches"];
+  const chips: { icon: React.ReactNode; label: string }[] = [
+    { icon: <FaUtensils size={12} />, label: ur ? "90+ ڈشز لسٹڈ" : "90+ dishes listed" },
+    { icon: <FaCrown size={12} />, label: ur ? "سپر پریمیم · سالانہ" : "Super Premium · Yearly" },
+    { icon: <FaHome size={12} />, label: ur ? "ہوم پیج فیچرڈ" : "Homepage featured" },
+    { icon: <FaMapMarkerAlt size={12} />, label: ur ? "تمام شاخیں" : "All branches" },
+  ];
 
   return (
     <div>
@@ -245,7 +256,7 @@ export function SuccessStoriesContent() {
             </p>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               {chips.map((c, i) => (
-                <span key={i} style={{ background: "rgba(255,255,255,.1)", border: "1px solid rgba(255,255,255,.18)", color: "rgba(255,255,255,.92)", fontSize: 12.5, fontWeight: 700, padding: "6px 12px", borderRadius: 999 }}>{c}</span>
+                <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "rgba(255,255,255,.1)", border: "1px solid rgba(255,255,255,.18)", color: "rgba(255,255,255,.92)", fontSize: 12.5, fontWeight: 700, padding: "6px 12px", borderRadius: 999 }}>{c.icon}{c.label}</span>
               ))}
             </div>
             <Link href="/restaurant/shah-g-foods/menu" style={{ alignSelf: "flex-start", textDecoration: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 15, padding: "12px 24px", borderRadius: 12, marginTop: 4 }}>{ur ? "شاہ جی کا مینو دیکھیں →" : "View Shah G's menu →"}</Link>
@@ -254,7 +265,7 @@ export function SuccessStoriesContent() {
 
         {/* your story next */}
         <div style={{ marginTop: 26, background: "linear-gradient(160deg,#FCF6EC,#F6EDDD)", border: "1px dashed #D9C9A8", borderRadius: 24, padding: "38px 26px", textAlign: "center" }}>
-          <div style={{ fontSize: 34 }}>✨</div>
+          <div><FaStar size={30} color="#E0A020" /></div>
           <div style={{ fontFamily: SERIF, fontSize: 26, marginTop: 8 }}>{ur ? "اگلی کہانی آپ کی ہو سکتی ہے" : "The next story could be yours"}</div>
           <p style={{ fontSize: 14.5, color: "#5A5245", maxWidth: 520, margin: "10px auto 0", lineHeight: 1.75 }}>
             {ur ? "اپنا مینو ہزاروں گاہکوں کے سامنے رکھیں، صفر کمیشن، براہِ راست آرڈرز، 24 گھنٹے میں لائیو۔" : "Put your menu in front of thousands of customers, zero commission, direct orders, live within 24 hours."}

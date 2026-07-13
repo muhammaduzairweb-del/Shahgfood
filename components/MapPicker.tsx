@@ -8,7 +8,7 @@ import { CITY_CENTER } from "@/lib/data";
 function pinIcon() {
   return L.divIcon({
     className: "sjf-marker",
-    html: `<div style="width:40px;height:40px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#C1272D;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 18px rgba(0,0,0,.4);border:3px solid #fff"><span style="transform:rotate(45deg);font-size:17px">📍</span></div>`,
+    html: `<div style="width:40px;height:40px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#C1272D;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 18px rgba(0,0,0,.4);border:3px solid #fff"><span style="transform:rotate(45deg);width:12px;height:12px;border-radius:50%;background:#fff;display:block"></span></div>`,
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
@@ -81,7 +81,12 @@ export default function MapPicker({
       scrollWheelZoom
       style={{ width: "100%", height }}
     >
-      <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      {/* CARTO Voyager — much cleaner cartography than raw OSM tiles, retina-sharp */}
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+        maxZoom={20}
+      />
       <AutoResize />
       <ClickToPlace onPick={place} />
       <Recenter center={pin ? [pin.lat, pin.lng] : null} />

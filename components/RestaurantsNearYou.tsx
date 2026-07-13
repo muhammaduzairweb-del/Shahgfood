@@ -3,7 +3,8 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { useApp } from "@/components/AppProvider";
-import { CITIES, restaurantsForCity, type City } from "@/lib/data";
+import { CITIES, restaurantsForCity, type City, type CityChoice } from "@/lib/data";
+import { FaMapMarkerAlt, FaMapMarkedAlt, FaUtensils } from "react-icons/fa";
 
 const RED = "#C1272D";
 const CHARCOAL = "#16171B";
@@ -28,10 +29,11 @@ export default function RestaurantsNearYou() {
   const label = (() => {
     if (locStatus === "locating") return ur ? "آپ کا مقام تلاش کیا جا رہا ہے…" : "Finding your exact location…";
     // exact street-level address from GPS (house, street, sector) beats a bare city name
+    if (city === "other") return area || (ur ? "فی الحال آپ کے علاقے میں سروس نہیں" : "We're not in your area yet");
     if (area && city) return area;
     if (city) return ur ? `${cityUr(city)} میں دستیاب` : `Serving ${city}`;
-    if (locStatus === "denied") return ur ? "مقام کی اجازت نہیں ملی — شہر منتخب کریں" : "Location off — pick your city";
-    if (locStatus === "outside") return ur ? "فی الحال آپ کے علاقے میں سروس نہیں — شہر منتخب کریں" : "Not in your area yet — pick a city";
+    if (locStatus === "denied") return ur ? "مقام کی اجازت نہیں ملی، شہر منتخب کریں" : "Location off, pick your city";
+    if (locStatus === "outside") return ur ? "فی الحال آپ کے علاقے میں سروس نہیں، شہر منتخب کریں" : "Not in your area yet, pick a city";
     return ur ? "اپنا شہر منتخب کریں" : "Choose your city";
   })();
 
@@ -45,7 +47,7 @@ export default function RestaurantsNearYou() {
           padding: "12px 16px", marginBottom: 18,
         }}
       >
-        <span aria-hidden style={{ fontSize: 20, lineHeight: 1 }}>📍</span>
+        <span aria-hidden style={{ display: "flex" }}><FaMapMarkerAlt size={18} color={RED} /></span>
         <div style={{ flex: "1 1 auto", minWidth: 160 }}>
           <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: ".5px", color: "#8A8072" }}>
             {ur ? "آپ کے علاقے میں" : "AVAILABLE IN YOUR AREA"}
@@ -55,7 +57,7 @@ export default function RestaurantsNearYou() {
 
         <select
           value={city}
-          onChange={(e) => setCity(e.target.value as City | "")}
+          onChange={(e) => setCity(e.target.value as CityChoice)}
           aria-label={ur ? "شہر منتخب کریں" : "Select city"}
           style={{
             fontFamily: "inherit", fontSize: 14, fontWeight: 700, color: CHARCOAL,
@@ -67,6 +69,7 @@ export default function RestaurantsNearYou() {
           {CITIES.map((c) => (
             <option key={c} value={c}>{ur ? cityUr(c) : c}</option>
           ))}
+          <option value="other">{ur ? "کوئی اور شہر" : "Somewhere else"}</option>
         </select>
 
         <button
@@ -91,7 +94,7 @@ export default function RestaurantsNearYou() {
             cursor: "pointer", whiteSpace: "nowrap",
           }}
         >
-          🗺️ {ur ? "نقشے پر چنیں" : "Pick on map"}
+          <FaMapMarkedAlt size={14} style={{ verticalAlign: "-2px", marginInlineEnd: 6 }} />{ur ? "نقشے پر چنیں" : "Pick on map"}
         </button>
       </div>
 
@@ -141,14 +144,14 @@ export default function RestaurantsNearYou() {
         </div>
       ) : (
         <div style={{ background: "#FCF9F3", border: "1px dashed #E3D9C7", borderRadius: 18, padding: "34px 22px", textAlign: "center" }}>
-          <div style={{ fontSize: 34, marginBottom: 8 }}>🍽️</div>
+          <div style={{ marginBottom: 8 }}><FaUtensils size={30} color="#B0A79A" /></div>
           <div style={{ fontSize: 16, fontWeight: 800, color: CHARCOAL }}>
-            {ur ? "آپ کے شہر میں ابھی کوئی ریستوران لسٹ نہیں" : "No listed kitchens in your city yet"}
+            {ur ? "ہم فی الحال آپ کے علاقے میں کام نہیں کر رہے" : "We're not operating in your area yet"}
           </div>
-          <div style={{ fontSize: 13.5, color: "#8A8072", marginTop: 6, maxWidth: 420, marginInline: "auto", lineHeight: 1.6 }}>
+          <div style={{ fontSize: 13.5, color: "#8A8072", marginTop: 6, maxWidth: 440, marginInline: "auto", lineHeight: 1.6 }}>
             {ur
-              ? "ہم تیزی سے پھیل رہے ہیں — جلد آپ کے علاقے میں بھی ریستوران دستیاب ہوں گے۔"
-              : "We're expanding fast — restaurants in your area are coming soon. Own a restaurant? List it below."}
+              ? "اگر آپ اس علاقے میں ریستوران کے مالک ہیں تو اپنا ریستوران یہاں لسٹ کریں اور آرڈرز حاصل کرنا شروع کریں!"
+              : "If you own a restaurant in this area, list it on Shah G Online and start getting orders!"}
           </div>
           <Link href="/partner" style={{ display: "inline-block", marginTop: 14, textDecoration: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 14, padding: "11px 20px", borderRadius: 12 }}>
             {ur ? "اپنا ریستوران لسٹ کریں" : "List your restaurant"}

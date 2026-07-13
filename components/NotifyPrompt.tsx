@@ -1,5 +1,7 @@
 "use client";
 
+import { FaBell } from "react-icons/fa";
+
 import { useEffect, useState } from "react";
 import { useApp } from "@/components/AppProvider";
 
@@ -56,7 +58,7 @@ export default function NotifyPrompt() {
         <div style={{ fontSize: 14, fontWeight: 700, color: "#2E7D32", textAlign: "center", padding: "4px 0" }}>{ur ? "✓ ہو گیا! شکریہ" : "✓ Done! Thanks"}</div>
       ) : (
         <div style={{ display: "flex", gap: 12 }}>
-          <div style={{ width: 40, height: 40, borderRadius: 12, background: "#FCF2F1", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flex: "none" }}>🔔</div>
+          <div style={{ width: 40, height: 40, borderRadius: 12, background: "#FCF2F1", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}><FaBell size={17} color="#C1272D" /></div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontSize: 14.5, fontWeight: 800, color: "#211812" }}>{ur ? "نوٹیفیکیشن آن کریں" : "Turn on notifications"}</div>
             <div style={{ fontSize: 12.5, color: "#8A8072", marginTop: 2, lineHeight: 1.45 }}>{ur ? "آرڈر یاد دہانیاں اور مزیدار آفرز حاصل کریں۔" : "Get order reminders & tasty offers."}</div>

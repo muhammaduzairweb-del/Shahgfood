@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { FaPhoneAlt } from "react-icons/fa";
 import { MENU, BRANCHES, HOURS, type Branch, branchSlug, dishImage, distanceKm } from "@/lib/data";
 import { fmt as fmtBase } from "@/lib/cart";
 import { useApp } from "@/components/AppProvider";
@@ -127,7 +128,7 @@ export function NearMeContent() {
           onClick={locate}
           style={{ cursor: "pointer", marginTop: 8, border: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 15.5, padding: "14px 26px", borderRadius: 13, fontFamily: "inherit" }}
         >
-          {status === "loading" ? (ur ? "تلاش کیا جا رہا ہے…" : "Locating…") : (ur ? "📍 میری لوکیشن استعمال کریں" : "📍 Use my location")}
+          {status === "loading" ? (ur ? "تلاش کیا جا رہا ہے…" : "Locating…") : (ur ? "میری لوکیشن استعمال کریں" : "Use my location")}
         </button>
 
         {status === "error" && (
@@ -180,7 +181,7 @@ export function ContactNumberContent() {
           href={`tel:${PHONE_TEL}`}
           style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 16, background: "#fff", border: `1.5px solid ${RED}`, borderRadius: 18, padding: "22px 24px" }}
         >
-          <span style={{ width: 52, height: 52, borderRadius: 14, background: "#FCF2F1", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, flex: "none" }}>📞</span>
+          <span style={{ width: 52, height: 52, borderRadius: 14, background: "#FCF2F1", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}><FaPhoneAlt size={20} color={RED} /></span>
           <div>
             <div style={{ fontSize: 12.5, fontWeight: 800, color: RED, letterSpacing: ".5px" }}>{ur ? "کال کریں (تمام شاخیں)" : "CALL US (ALL BRANCHES)"}</div>
             <div className="num" style={{ fontSize: 24, fontWeight: 800, marginTop: 4, color: "#211812" }}>{PHONE_DISPLAY}</div>

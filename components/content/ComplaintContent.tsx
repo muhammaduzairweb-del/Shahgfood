@@ -1,14 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useApp } from "@/components/AppProvider";
+import { FaExclamationTriangle, FaPaperclip, FaCheckCircle } from "react-icons/fa";
 import PageHero from "@/components/PageHero";
 import SuccessModal from "@/components/SuccessModal";
 
 const RED = "#C1272D";
 
 export default function ComplaintContent() {
-  const { lang } = useApp();
+  const { lang, area, hydrated } = useApp();
   const ur = lang === "ur";
 
   const ISSUES = ur
@@ -22,6 +23,11 @@ export default function ComplaintContent() {
   const [err, setErr] = useState("");
 
   const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setF({ ...f, [k]: e.target.value });
+
+  // prefill the area with the customer's saved location once storage hydrates
+  useEffect(() => {
+    if (hydrated && area) setF((p) => (p.area ? p : { ...p, area }));
+  }, [hydrated, area]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,12 +60,12 @@ export default function ComplaintContent() {
     <>
       <PageHero
         title={ur ? "شکایت درج کریں" : "File a Complaint"}
-        subtitle={ur ? "کسی لسٹڈ ریستوران سے آرڈر پر مسئلہ ہوا؟ ہمیں تفصیل بتائیں — ہم تحقیق کریں گے۔" : "Had an issue with an order from a listed restaurant? Tell us what happened — we'll investigate."}
+        subtitle={ur ? "کسی لسٹڈ ریستوران سے آرڈر پر مسئلہ ہوا؟ ہمیں تفصیل بتائیں، ہم تحقیق کریں گے۔" : "Had an issue with an order from a listed restaurant? Tell us what happened, we'll investigate."}
         badge={ur ? "کسٹمر سپورٹ" : "CUSTOMER SUPPORT"}
       />
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "30px 20px 64px" }}>
         <div style={{ background: "#FCF7EE", border: "1px solid #EFE3CF", borderRadius: 14, padding: "14px 16px", fontSize: 13.5, color: "#8a6a2f", lineHeight: 1.6, marginBottom: 22 }}>
-          ⚠️ {ur ? "شاہ جی آن لائن ایک مارکیٹ پلیس ہے — آرڈر سیدھا ریستوران سے ہوتا ہے۔ اگر کسی ریستوران نے دھوکہ دیا یا کھانا نہیں دیا تو یہ فارم بھریں، ہم پورے معاملے کی تحقیق کریں گے۔" : "Shah G Online is a marketplace — orders are placed directly with the restaurant. If a restaurant scammed you or didn't deliver, fill this form and we'll investigate the whole matter."}
+          <FaExclamationTriangle size={15} style={{ flex: "none", marginTop: 3 }} /> {ur ? "شاہ جی آن لائن ایک مارکیٹ پلیس ہے، آرڈر سیدھا ریستوران سے ہوتا ہے۔ اگر کسی ریستوران نے دھوکہ دیا یا کھانا نہیں دیا تو یہ فارم بھریں، ہم پورے معاملے کی تحقیق کریں گے۔" : "Shah G Online is a marketplace, orders are placed directly with the restaurant. If a restaurant scammed you or didn't deliver, fill this form and we'll investigate the whole matter."}
         </div>
 
         <form onSubmit={submit} style={{ background: "#fff", border: "1px solid #EAE1D2", borderRadius: 20, padding: "26px 24px" }}>
@@ -87,9 +93,9 @@ export default function ComplaintContent() {
           <div style={{ marginTop: 12 }}><div style={lbl}>{ur ? "تفصیل سے بتائیں" : "Describe the issue in detail"} *</div><textarea required rows={4} value={f.details} onChange={set("details")} placeholder={ur ? "کیا ہوا، پورا واقعہ لکھیں…" : "Tell us exactly what happened…"} style={{ ...input, resize: "vertical" }} /></div>
 
           <div style={{ marginTop: 14 }}>
-            <div style={lbl}>{ur ? "ثبوت (اسکرین شاٹ / تصویر) — اختیاری" : "Evidence (screenshot / photo) — optional"}</div>
+            <div style={lbl}>{ur ? "ثبوت (اسکرین شاٹ / تصویر)، اختیاری" : "Evidence (screenshot / photo), optional"}</div>
             <label style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 6, border: `1.5px dashed ${evidence ? "#2E9E4F" : "#E0D6C4"}`, background: evidence ? "#EEF7EE" : "#FBF7EF", borderRadius: 12, padding: "12px 14px", cursor: "pointer", fontSize: 13.5, color: evidence ? "#2E7D32" : "#8A8072" }}>
-              <span style={{ fontSize: 18 }}>{evidence ? "✅" : "📎"}</span>
+              <span style={{ display: "flex" }}>{evidence ? <FaCheckCircle size={16} color="#2E9E4F" /> : <FaPaperclip size={16} color="#8A8072" />}</span>
               <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{evidence ? evidence.name : ur ? "کوئی اسکرین شاٹ یا تصویر اپ لوڈ کریں" : "Upload a screenshot or photo"}</span>
               <input type="file" accept="image/*,.pdf" onChange={(e) => setEvidence(e.target.files?.[0] || null)} style={{ display: "none" }} />
             </label>
@@ -103,7 +109,7 @@ export default function ComplaintContent() {
       <SuccessModal
         open={modal}
         ur={ur}
-        title={ur ? "شکایت موصول ہو گئی! 🙏" : "Complaint received! 🙏"}
+        title={ur ? "شکایت موصول ہو گئی!" : "Complaint received!"}
         message={ur ? "شکریہ! ہم اس معاملے کی مکمل تحقیق کریں گے اور جلد آپ سے رابطہ کریں گے۔" : "Thank you! We'll investigate the whole matter and get back to you shortly."}
         onClose={() => setModal(false)}
       />
