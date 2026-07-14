@@ -20,7 +20,7 @@ export default function SuccessModal({ open, ur, title, message, onClose }: { op
         </div>
         <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 26, marginTop: 16, color: "#211812" }}>{title}</div>
         <div style={{ fontSize: 14.5, color: "#5A5245", marginTop: 10, lineHeight: 1.65 }}>{message}</div>
-        <div style={{ marginTop: 14, background: "#FCF7EE", borderRadius: 12, padding: "10px 14px", fontSize: 12.5, color: "#B07A15", lineHeight: 1.5, textAlign: ur ? "right" : "left" }} >{ur ? "براہ کرم اپنا اسپام/جنک فولڈر بھی چیک کریں، کبھی کبھار ای میل وہاں چلی جاتی ہے۔" : "Please also check your Spam / Junk folder, our email sometimes lands there."}</div>
+        <div style={{ marginTop: 14, background: "#FCF7EE", borderRadius: 12, padding: "10px 14px", fontSize: 12.5, color: "#B07A15", lineHeight: 1.5, textAlign: ur ? "right" : "left" }}>{ur ? "ہماری ٹیم آپ کی تفصیلات دیکھ کر جلد خود آپ سے رابطہ کرے گی۔" : "Our team has your details and will contact you directly soon."}</div>
         <button onClick={onClose} style={{ cursor: "pointer", marginTop: 20, border: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 15, padding: "12px 32px", borderRadius: 13, fontFamily: "inherit" }}>{ur ? "زبردست، شکریہ!" : "Great, thanks!"}</button>
       </div>
     </div>

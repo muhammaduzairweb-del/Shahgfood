@@ -272,7 +272,7 @@ export default function PartnerContent() {
         open={modal}
         ur={ur}
         title={ur ? "درخواست موصول ہو گئی!" : "Request received!"}
-        message={ur ? "شکریہ! ہم نے آپ کو تصدیقی ای میل بھیج دی ہے۔ ہماری ٹیم جلد رابطہ کر کے ادائیگی مکمل کرائے گی۔" : "Thank you! We've emailed you a confirmation. Our team will contact you shortly to complete your listing."}
+        message={ur ? "شکریہ! آپ کی درخواست موصول ہو گئی ہے۔ ہماری ٹیم جلد رابطہ کر کے ادائیگی مکمل کرا کے آپ کی لسٹنگ لائیو کر دے گی۔" : "Thank you! Your request has been received. Our team will contact you shortly to complete payment and take your listing live."}
         onClose={() => setModal(false)}
       />
     </>

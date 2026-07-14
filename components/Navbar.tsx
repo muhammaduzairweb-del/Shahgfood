@@ -7,12 +7,15 @@ import { BRANCHES, LOGO, LOGO_FILTER } from "@/lib/data";
 import { DICT } from "@/lib/i18n";
 import { useApp } from "@/components/AppProvider";
 import { useWidth, useHideOnScroll } from "@/components/hooks";
-import { IconHome, IconMenu, IconInfo, IconBag } from "@/components/icons";
+import { IconHome, IconMenu, IconInfo, IconBriefcase, IconChat } from "@/components/icons";
+import { useChatUnread } from "@/lib/chat-store";
+import { showChatSoon } from "@/components/ChatSoonToast";
 
 const PURPLE = "#8E1E7C";
 
 export default function Navbar() {
   const { lang, setLang, branch, area, setLocated } = useApp();
+  const chatUnread = useChatUnread();
   const t = DICT[lang];
   const ur = lang === "ur";
   const pathname = usePathname();
@@ -32,7 +35,7 @@ export default function Navbar() {
   const M_TABS: { href: string; Icon: (p: { size?: number; color?: string; strokeWidth?: number }) => React.ReactElement; match: (p: string) => boolean }[] = [
     { href: "/", Icon: IconHome, match: (p) => p === "/" },
     { href: MENU_PATH, Icon: IconMenu, match: (p) => p.startsWith("/menu") || p.startsWith("/restaurant") },
-    { href: "/partner", Icon: IconBag, match: (p) => p.startsWith("/partner") },
+    { href: "/partner", Icon: IconBriefcase, match: (p) => p.startsWith("/partner") },
     { href: "/about", Icon: IconInfo, match: (p) => p.startsWith("/about") },
   ];
   const M_TAB_W = 64;
@@ -87,6 +90,14 @@ export default function Navbar() {
                 <div onClick={() => setLang("ur")} className="urdu" style={{ cursor: "pointer", padding: "0 11px", height: 26, display: "flex", alignItems: "center", fontWeight: 700, fontSize: 12.5, lineHeight: 1, borderRadius: 999, background: ur ? "#fff" : "transparent", color: ur ? PURPLE : "rgba(255,255,255,.85)" }}>اردو</div>
               </div>
 
+
+              {/* chat is gated behind a coming-soon toast until the WhatsApp relay goes live */}
+              <Link href="/chat" onClick={(e) => { e.preventDefault(); showChatSoon(); }} aria-label={ur ? "چیٹس" : "Chats"} style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", width: 38, height: 38, borderRadius: "50%", background: "rgba(255,255,255,.16)", color: "#fff", flex: "none" }}>
+                <IconChat size={19} strokeWidth={1.9} />
+                {chatUnread > 0 && (
+                  <span className="num" style={{ position: "absolute", top: -3, insetInlineEnd: -3, minWidth: 17, height: 17, borderRadius: 9, background: "#25D366", color: "#fff", fontSize: 10, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", padding: "0 4px", border: "1.5px solid rgba(94,26,134,1)" }}>{chatUnread}</span>
+                )}
+              </Link>
 
               <Link href="/partner" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 7, background: "#fff", color: PURPLE, fontWeight: 800, fontSize: isMobile ? 12.5 : 13.5, borderRadius: 999, padding: isMobile ? "9px 13px" : "9px 18px", whiteSpace: "nowrap" }}>
                 <FaStore size={14} /> {isMobile ? (ur ? "لسٹ" : "List") : (ur ? "ریستوران لسٹ کریں" : "List Restaurant")}

@@ -28,6 +28,28 @@ export function IconHome({ size = 24, color = "currentColor", strokeWidth = 2 }:
   );
 }
 
+export function IconChat({ size = 24, color = "currentColor", strokeWidth = 2 }: IconProps) {
+  return (
+    <svg {...base(size, color, strokeWidth)}>
+      <path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.3 8.9 8.9 0 0 1-3.4-.7L3 21l1.9-5.6a8 8 0 0 1-.9-3.9A8.4 8.4 0 0 1 12.5 3.2 8.4 8.4 0 0 1 21 11.5z" />
+      <path d="M8.5 10.5h7" />
+      <path d="M8.5 14h4.5" />
+    </svg>
+  );
+}
+
+export function IconBriefcase({ size = 24, color = "currentColor", strokeWidth = 2 }: IconProps) {
+  return (
+    <svg {...base(size, color, strokeWidth)}>
+      <rect x="3" y="7.5" width="18" height="12.5" rx="2.5" />
+      <path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5" />
+      <path d="M3 13h7" />
+      <path d="M14 13h7" />
+      <path d="M10 11.5h4v3h-4z" />
+    </svg>
+  );
+}
+
 export function IconMenu({ size = 24, color = "currentColor", strokeWidth = 2 }: IconProps) {
   return (
     <svg {...base(size, color, strokeWidth)}>

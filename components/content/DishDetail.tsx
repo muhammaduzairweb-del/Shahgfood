@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
-import { FaUtensils, FaClock } from "react-icons/fa";
+import { FaUtensils, FaClock, FaCommentDots } from "react-icons/fa";
 import { MENU, CATS, getDishBySlug, dishSlug, dishImage, dishVariants, ORDER_TEL, waOrderLink, TILE } from "@/lib/data";
 import { DICT } from "@/lib/i18n";
 import { dishKB } from "@/lib/kb";
 import { fmt as fmtBase, mono } from "@/lib/cart";
 import { useApp } from "@/components/AppProvider";
 import { useWidth } from "@/components/hooks";
+import { showChatSoon } from "@/components/ChatSoonToast";
 
 const RED = "#C1272D";
 const CHARCOAL = "#16171B";
@@ -99,6 +100,9 @@ export default function DishDetail({ slug }: { slug: string }) {
             <a href={waOrderLink(d.name, area)} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: WA_GREEN, color: "#fff", fontWeight: 800, fontSize: 15, padding: "13px 22px", borderRadius: 13 }}>
               <FaWhatsapp size={19} /> WhatsApp
             </a>
+            <Link href={`/chat?to=shah-g-foods&text=${encodeURIComponent((ur ? "السلام علیکم! مجھے یہ آرڈر کرنا ہے: " : "Assalam o Alaikum! I'd like to order: ") + d.name)}`} onClick={(e) => { e.preventDefault(); showChatSoon(); }} style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: "#fff", border: "1.5px solid #00A884", color: "#008069", fontWeight: 800, fontSize: 15, padding: "12px 20px", borderRadius: 13 }}>
+              <FaCommentDots size={17} /> {ur ? "چیٹ کریں" : "Chat"}
+            </Link>
           </div>
           <div style={{ fontSize: 12, color: "#B0A692", marginTop: 8 }}>{ur ? "شاہ جی فوڈز پر لسٹڈ · براہِ راست آرڈر کریں" : "Listed by Shah G Foods · order directly"}</div>
         </div>

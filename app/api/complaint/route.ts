@@ -70,31 +70,7 @@ export async function POST(req: NextRequest) {
       attachments,
     });
 
-    // confirmation to the customer
-    const userHtml = `
-    <div style="font-family:'Segoe UI',Arial,Helvetica,sans-serif;max-width:600px;margin:0 auto;background:#fff;border:1px solid #EAE1D2;border-radius:18px;overflow:hidden">
-      <div style="background:linear-gradient(120deg,#5E1A86,#B71C66);padding:28px 26px;color:#fff;text-align:center">
-        <div style="font-size:13px;letter-spacing:1.2px;opacity:.85;font-weight:700">SHAH G ONLINE</div>
-        <div style="font-size:24px;font-weight:800;margin-top:8px">We've received your complaint 🙏</div>
-      </div>
-      <div style="padding:24px 26px 6px;color:#3a332b;font-size:15px;line-height:1.75">
-        <p style="margin:0 0 12px">Thank you, ${esc(name)}. We take complaints seriously and our team will investigate the whole matter regarding <b>${esc(g("restaurant"))}</b>.</p>
-        <p style="margin:0 0 4px;color:#8A8072">We'll get back to you at this email. Please also check your Spam folder.</p>
-      </div>
-      <div dir="rtl" style="padding:16px 26px 24px;border-top:1px solid #F0E7D8;font-family:'Noto Nastaliq Urdu','Jameel Noori Nastaleeq','Segoe UI',serif;color:#3a332b;font-size:17px;line-height:2.2;text-align:right">
-        <p style="margin:0 0 10px">آپ کی شکایت موصول ہو گئی ہے 🙏</p>
-        <p style="margin:0 0 10px">شکریہ! ہماری ٹیم <b>${esc(g("restaurant"))}</b> کے خلاف اس معاملے کی مکمل تحقیق کرے گی اور اسی ای میل پر آپ سے رابطہ کرے گی۔ براہ کرم اپنا اسپام فولڈر بھی دیکھیں۔</p>
-      </div>
-      <div style="background:#211812;color:rgba(255,255,255,.6);padding:16px 24px;font-size:12px;text-align:center">Shah G Online · shahgfood.com · ${PUBLIC_EMAIL}</div>
-    </div>`;
-
-    await transporter.sendMail({
-      from: `"${fromName}" <${user}>`,
-      to: email,
-      subject: `✅ Shah G Online — your complaint was received / آپ کی شکایت موصول ہو گئی`,
-      html: userHtml,
-    });
-
+    // no auto-mail to the customer — the team replies manually from the admin inbox
     return NextResponse.json({ ok: true });
   } catch (e) {
     return NextResponse.json({ ok: false, error: e instanceof Error ? e.message : "Failed to send." }, { status: 500 });

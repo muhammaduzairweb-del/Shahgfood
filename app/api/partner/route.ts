@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 export const runtime = "nodejs";
-const PUBLIC_EMAIL = "business@shahgfood.com";
 
 function esc(s: string) {
   return String(s).replace(/[<>&]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[c] || c));
@@ -68,34 +67,7 @@ export async function POST(req: NextRequest) {
       html: adminHtml,
     });
 
-    // ---- 2) bilingual confirmation to the partner (Nastaliq for Urdu) ----
-    const userHtml = `
-    <div style="font-family:'Segoe UI',Arial,Helvetica,sans-serif;max-width:600px;margin:0 auto;background:#fff;border:1px solid #EAE1D2;border-radius:18px;overflow:hidden">
-      <div style="background:linear-gradient(120deg,#5E1A86,#8E1E7C,#B71C66);padding:30px 26px;color:#fff;text-align:center">
-        <div style="font-size:13px;letter-spacing:1.2px;opacity:.85;font-weight:700">SHAH G ONLINE</div>
-        <div style="font-size:26px;font-weight:800;margin-top:8px">Thank you, ${esc(owner || restaurant)}! 🎉</div>
-      </div>
-      <div style="padding:26px 26px 8px;color:#3a332b;font-size:15px;line-height:1.75">
-        <p style="margin:0 0 14px">We've received your listing request for <b>${esc(restaurant)}</b> on the <b>${esc(pkg)}</b> (${esc(term)}) plan.</p>
-        <p style="margin:0 0 14px">Our team is reviewing your details and will contact you shortly from this email address to complete your payment via <b>PayFast</b> and take your listing live — usually within 24 hours.</p>
-        <p style="margin:0 0 4px;color:#8A8072">Please just wait for our response — no action is needed from you right now. 🙏</p>
-      </div>
-      <div dir="rtl" style="padding:18px 26px 26px;border-top:1px solid #F0E7D8;font-family:'Noto Nastaliq Urdu','Jameel Noori Nastaleeq','Segoe UI',serif;color:#3a332b;font-size:17px;line-height:2.2;text-align:right">
-        <p style="margin:0 0 10px">شاہ جی آن لائن کا انتخاب کرنے کا شکریہ! 🎉</p>
-        <p style="margin:0 0 10px">ہمیں آپ کے ریستوران <b>${esc(restaurant)}</b> کی <b>${esc(pkg)}</b> پلان پر لسٹنگ درخواست موصول ہو گئی ہے۔</p>
-        <p style="margin:0 0 10px">ہماری ٹیم آپ کی تفصیلات کا جائزہ لے رہی ہے اور جلد اسی ای میل سے آپ سے رابطہ کر کے <b>PayFast</b> کے ذریعے ادائیگی مکمل کرا کے آپ کی لسٹنگ لائیو کر دے گی — عموماً 24 گھنٹے میں۔</p>
-        <p style="margin:0;color:#8A8072">براہِ کرم ہمارے جواب کا انتظار کریں — ابھی آپ کو کچھ کرنے کی ضرورت نہیں۔ 🙏</p>
-      </div>
-      <div style="background:#211812;color:rgba(255,255,255,.6);padding:16px 24px;font-size:12px;text-align:center">Shah G Online · shahgfood.com · ${PUBLIC_EMAIL}</div>
-    </div>`;
-
-    await transporter.sendMail({
-      from: `"${fromName}" <${user}>`,
-      to: email,
-      subject: `✅ Shah G Online — we received your request / آپ کی درخواست موصول ہو گئی`,
-      html: userHtml,
-    });
-
+    // no auto-mail to the partner — the team replies manually from the admin inbox
     return NextResponse.json({ ok: true });
   } catch (e) {
     return NextResponse.json({ ok: false, error: e instanceof Error ? e.message : "Failed to send." }, { status: 500 });
