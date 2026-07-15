@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { FaCreditCard, FaGlobeAsia, FaUtensils, FaCrown, FaHome, FaMapMarkerAlt, FaCamera, FaInfoCircle } from "react-icons/fa";
+import { FaCreditCard, FaGlobeAsia, FaUtensils, FaCrown, FaHome, FaMapMarkerAlt, FaCamera, FaInfoCircle, FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
 import { useApp } from "@/components/AppProvider";
+import { useWidth } from "@/components/hooks";
 import SuccessModal from "@/components/SuccessModal";
 
 const RED = "#C1272D";
@@ -34,9 +35,65 @@ const typePlaceholder: Record<string, string> = {
 };
 const typeLabel = (v: string) => DISH_TYPES.find((t) => t.v === v)?.label ?? v;
 
+// Simulated incoming-order feed for the payment panel: cycles realistic call &
+// WhatsApp orders so owners SEE what a listing gets them. Clearly labelled a preview.
+const SIM_ORDERS = [
+  { d: "Chicken Karahi (Full)", du: "چکن کڑاہی (فل)", a: "F-10, Islamabad", wa: true },
+  { d: "Daal Chawal ×2", du: "دال چاول ×2", a: "G-9, Islamabad", wa: false },
+  { d: "Seekh Kebab (12 pcs)", du: "سیخ کباب (12 عدد)", a: "Bahria Town", wa: true },
+  { d: "Bannu Beef Pulao (1 kg)", du: "بنوں بیف پلاؤ (1 کلو)", a: "Blue Area", wa: false },
+  { d: "Malai Boti + 4 Naan", du: "ملائی بوٹی + 4 نان", a: "Saddar, Rawalpindi", wa: true },
+  { d: "Chicken Biryani (Family)", du: "چکن بریانی (فیملی)", a: "DHA Phase 2", wa: false },
+  { d: "Mix BBQ Platter", du: "مکس باربی کیو پلیٹر", a: "E-11, Islamabad", wa: true },
+  { d: "Halwa Puri Nashta ×3", du: "حلوہ پوری ناشتہ ×3", a: "Satellite Town", wa: false },
+];
+
+function OrderSim({ ur }: { ur: boolean }) {
+  const [n, setN] = useState(3);
+  useEffect(() => {
+    const id = setInterval(() => setN((x) => x + 1), 2600);
+    return () => clearInterval(id);
+  }, []);
+  const ages = [ur ? "ابھی ابھی" : "just now", ur ? "2 منٹ پہلے" : "2 min ago", ur ? "5 منٹ پہلے" : "5 min ago"];
+
+  return (
+    <div style={{ marginTop: 4, paddingTop: 14, borderTop: "1px solid rgba(255,255,255,.18)" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+        <span style={{ position: "relative", width: 34, height: 34, flex: "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <span style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "2px solid rgba(255,255,255,.5)", animation: "ringPulse 2s ease-out infinite" }} />
+          <span style={{ width: 30, height: 30, borderRadius: "50%", background: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <FaPhoneAlt size={12} color={PURPLE} />
+          </span>
+        </span>
+        <div>
+          <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: ".5px" }}>{ur ? "آپ کا فون، بجتا ہوا" : "YOUR PHONE, RINGING"}</div>
+          <div style={{ fontSize: 10.5, opacity: 0.7 }}>{ur ? "(پیش نظارہ — ایسے آرڈر آتے ہیں)" : "(preview — this is how orders arrive)"}</div>
+        </div>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        {[0, 1, 2].map((off) => {
+          const o = SIM_ORDERS[(n - off + SIM_ORDERS.length * 100) % SIM_ORDERS.length];
+          return (
+            <div key={`${n}-${off}`} style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(255,255,255,.12)", borderRadius: 12, padding: "9px 12px", opacity: off === 0 ? 1 : off === 1 ? 0.75 : 0.5, animation: off === 0 ? "rise .4s ease" : undefined }}>
+              <span style={{ width: 30, height: 30, borderRadius: "50%", flex: "none", background: o.wa ? "#25D366" : "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {o.wa ? <FaWhatsapp size={15} color="#fff" /> : <FaPhoneAlt size={11} color={PURPLE} />}
+              </span>
+              <span style={{ flex: 1, minWidth: 0 }}>
+                <span style={{ display: "block", fontSize: 13, fontWeight: 800, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{ur ? o.du : o.d}</span>
+                <span style={{ display: "block", fontSize: 11, opacity: 0.75, marginTop: 1 }}>{o.a} · {ages[off]}</span>
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export default function PartnerContent() {
   const { lang } = useApp();
   const ur = lang === "ur";
+  const isNarrow = useWidth() < 700;
 
   const [sel, setSel] = useState<Pkg | null>(null);
   const [term, setTerm] = useState<"yearly" | "monthly">("yearly");
@@ -205,8 +262,8 @@ export default function PartnerContent() {
         {/* FORM (after a package is selected) */}
         {sel && (
           <div ref={formRef} style={{ scrollMarginTop: 84, margin: "44px 0 20px", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 20 }}>
-            {/* what happens next */}
-            <div style={{ background: `linear-gradient(160deg,${PURPLE},#B71C66)`, color: "#fff", borderRadius: 22, padding: "30px 28px", display: "flex", flexDirection: "column", gap: 14 }}>
+            {/* what happens next — sticky at its natural height, so no dead space */}
+            <div style={{ background: `linear-gradient(160deg,${PURPLE},#B71C66)`, color: "#fff", borderRadius: 22, padding: "30px 28px", display: "flex", flexDirection: "column", gap: 14, alignSelf: "start", position: isNarrow ? "static" : "sticky", top: 96 }}>
               <div style={{ fontSize: 12.5, fontWeight: 800, letterSpacing: ".5px", opacity: 0.85 }}>{sel.name} · {term === "yearly" ? (ur ? "سالانہ" : "Yearly") : ur ? "ماہانہ" : "Monthly"}</div>
               <div className="num" style={{ fontSize: 40, fontWeight: 800 }}>Rs {amount.toLocaleString()}<span style={{ fontSize: 15, opacity: 0.8 }}> / {term === "yearly" ? (ur ? "سال" : "yr") : ur ? "ماہ" : "mo"}</span></div>
               <div style={{ background: "rgba(255,255,255,.12)", borderRadius: 12, padding: "12px 14px", fontSize: 13, lineHeight: 1.6, display: "flex", gap: 9, alignItems: "flex-start" }}><FaCreditCard size={15} color="#F7D774" style={{ flex: "none", marginTop: 2 }} /> {ur ? "اپنی تفصیلات جمع کرائیں — ادائیگی کی تفصیلات آپ کو ای میل کے ذریعے بھیجی جائیں گی۔" : "Submit your details — payment details will be shared with you by email."}</div>
@@ -215,6 +272,9 @@ export default function PartnerContent() {
                   <div key={i} style={{ display: "flex", gap: 9 }}><span style={{ fontWeight: 800 }}>{i + 1}.</span><span style={{ opacity: 0.92 }}>{s}</span></div>
                 ))}
               </div>
+
+              {/* live order simulator — fills the panel & sells the dream */}
+              <OrderSim ur={ur} />
             </div>
 
             {/* form */}
