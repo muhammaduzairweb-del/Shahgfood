@@ -4,6 +4,7 @@ import { FaBell } from "react-icons/fa";
 
 import { useEffect, useState } from "react";
 import { useApp } from "@/components/AppProvider";
+import { ensurePushSubscription } from "@/lib/push-client";
 
 const RED = "#C1272D";
 
@@ -17,14 +18,18 @@ export default function NotifyPrompt() {
     if (typeof window === "undefined" || !("Notification" in window)) return;
     if (Notification.permission !== "default") return; // already granted or blocked
     if (sessionStorage.getItem("notify-prompt-dismissed") === "1") return;
-    const t = setTimeout(() => setShow(true), 2200); // small delay so it's not jarring
+    // ask right away — every visitor should be invited to notifications on arrival
+    const t = setTimeout(() => setShow(true), 500);
     return () => clearTimeout(t);
   }, []);
 
   const enable = async () => {
     try {
       const p = await Notification.requestPermission();
-      if (p === "granted") window.dispatchEvent(new Event("notify-enabled"));
+      if (p === "granted") {
+        window.dispatchEvent(new Event("notify-enabled"));
+        ensurePushSubscription(ur ? "ur" : "en");
+      }
     } catch { /* ignore */ }
     setDone(true);
     setTimeout(() => setShow(false), 1300);
@@ -61,7 +66,7 @@ export default function NotifyPrompt() {
           <div style={{ width: 40, height: 40, borderRadius: 12, background: "#FCF2F1", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}><FaBell size={17} color="#C1272D" /></div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontSize: 14.5, fontWeight: 800, color: "#211812" }}>{ur ? "نوٹیفیکیشن آن کریں" : "Turn on notifications"}</div>
-            <div style={{ fontSize: 12.5, color: "#8A8072", marginTop: 2, lineHeight: 1.45 }}>{ur ? "آرڈر یاد دہانیاں اور مزیدار آفرز حاصل کریں۔" : "Get order reminders & tasty offers."}</div>
+            <div style={{ fontSize: 12.5, color: "#8A8072", marginTop: 2, lineHeight: 1.45 }}>{ur ? "مزیدار ڈیلز، نئے ریستوران اور کھانے کی یاد دہانیاں پائیں۔" : "Tasty deals, new restaurant listings & meal-time reminders."}</div>
             <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
               <button onClick={enable} style={{ cursor: "pointer", border: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 12.5, fontFamily: "inherit", padding: "8px 15px", borderRadius: 10 }}>{ur ? "آن کریں" : "Turn on"}</button>
               <button onClick={dismiss} style={{ cursor: "pointer", border: "none", background: "transparent", color: "#8A8072", fontWeight: 700, fontSize: 12.5, fontFamily: "inherit", padding: "8px 10px" }}>{ur ? "ابھی نہیں" : "Not now"}</button>

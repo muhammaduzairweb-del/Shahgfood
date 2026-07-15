@@ -2,23 +2,8 @@
 
 import { useEffect } from "react";
 import { useApp } from "@/components/AppProvider";
-
-// three gentle "we're going digital soon" nudges through the day
-const SLOTS = [10, 15, 20]; // 10 AM · 3 PM · 8 PM
-
-function messageFor(hour: number, ur: boolean): { title: string; body: string } {
-  if (hour === 10)
-    return ur
-      ? { title: "ناشتے کا وقت؟ 🍳", body: "دیسی ناشتے کی طلب ہو رہی ہے؟ ہم بہت جلد ڈیجیٹل ہو رہے ہیں — بس تیار رہیں! :)" }
-      : { title: "Nashta time? 🍳", body: "Craving a proper desi breakfast? We're going digital very soon — stay tuned! :)" };
-  if (hour === 15)
-    return ur
-      ? { title: "چٹ پٹی طلب؟ 🌶️", body: "چاٹ اور چائے کا دل کر رہا ہے؟ تھوڑا صبر — ہم جلد آن لائن آ رہے ہیں، پھر سب ایک کلک پر۔ تیار رہیں! :)" }
-      : { title: "Chatpata craving? 🌶️", body: "Feeling like some chaat & chai? Hang tight — we're coming online soon, then it's all one click away. Stay tuned! :)" };
-  return ur
-    ? { title: "کھانے کا وقت 🍛", body: "آج رات کچھ مزیدار کھانے کو دل چاہ رہا ہے؟ ہم جلد لائیو ہوں گے — پھر نوٹیفیکیشن کی برسات! تیار رہیں :)" }
-    : { title: "Dinner o'clock 🍛", body: "Hungry for something hearty tonight? We'll be live very soon — get ready for a notification barsaat. Stay tuned! :)" };
-}
+import { SLOTS, messageFor } from "@/lib/push-messages";
+import { ensurePushSubscription } from "@/lib/push-client";
 
 function msUntilHour(hour: number) {
   const now = new Date();
@@ -64,6 +49,9 @@ export default function NotifyReminder() {
 
     const start = () => {
       if (Notification.permission !== "granted") return;
+      // real Web Push: register this browser so /api/push/send reaches it
+      // even when the site is closed (local timers below cover open tabs)
+      ensurePushSubscription(ur ? "ur" : "en");
       clearAll();
       const today = new Date().toDateString();
       const nowHour = new Date().getHours();

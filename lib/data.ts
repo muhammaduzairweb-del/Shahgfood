@@ -396,6 +396,34 @@ export const BRANCHES: Branch[] = [
   B("Bhara Kahu", "Bhara Kahu, Islamabad", "17.0 km", 33.7415, 73.178, "Islamabad"),
 ];
 
+// ===== Published complaints → anonymous branch reviews =====
+// When a verified complaint comes through /complaint and the team decides to
+// publish it, it appears on that branch's page — anonymized (no customer name,
+// email or phone; staff members referred to generically for legal safety).
+export interface BranchReview {
+  rating: number; // out of 5
+  title: string;
+  titleU: string;
+  when: string; // display date
+  text: string; // published account (anonymized)
+  textU: string;
+}
+
+export const BRANCH_REVIEWS: Record<string, BranchReview[]> = {
+  "g-8-markaz": [
+    {
+      rating: 1,
+      title: "Rude staff behaviour",
+      titleU: "عملے کا بدتمیز رویہ",
+      when: "14 Jul 2026",
+      text:
+        "Main aur mera staff is branch ke regular customer hain, aur aaj second time aisa hua ke aik staff member ne abusive behaviour kiya — sirf is wajah se ke hum ne kaha ke kisi dusre table ka waste aur gande bartan hamare table se utha do. Us ne shadeed badtameezi ki aur kuch uthaya bhi nahi. Intehai badtehzeeb rawayya tha, aur agar dusre log use mana na karte to woh jhagre par tayar tha.",
+      textU:
+        "میں اور میرا عملہ اس شاخ کے مستقل گاہک ہیں، اور آج دوسری بار ایسا ہوا کہ عملے کے ایک فرد نے بدتمیزی کی — صرف اس وجہ سے کہ ہم نے کہا کہ کسی دوسرے میز کا کچرا اور گندے برتن ہمارے میز سے اٹھا دو۔ اس نے شدید بدتمیزی کی اور کچھ اٹھایا بھی نہیں۔ انتہائی بدتہذیب رویہ تھا، اور اگر دوسرے لوگ اسے منع نہ کرتے تو وہ جھگڑے پر تیار تھا۔",
+    },
+  ],
+};
+
 /** URL-safe slug for a branch name, e.g. "F-10 Markaz" → "f-10-markaz". */
 export function branchSlug(name: string): string {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");

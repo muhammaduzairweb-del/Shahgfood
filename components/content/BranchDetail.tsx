@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { MENU, BRANCHES, SITE_IMAGES, HOURS, getBranchBySlug, branchSlug, dishImage } from "@/lib/data";
+import { FaUserSecret, FaShieldAlt } from "react-icons/fa";
+import { MENU, BRANCHES, BRANCH_REVIEWS, SITE_IMAGES, HOURS, getBranchBySlug, branchSlug, dishImage } from "@/lib/data";
 import { DICT } from "@/lib/i18n";
 import { fmt as fmtBase, mono } from "@/lib/cart";
 import { useApp } from "@/components/AppProvider";
 import { useWidth } from "@/components/hooks";
+import { IconStar } from "@/components/icons";
 import PageHero from "@/components/PageHero";
 
 const RED = "#C1272D";
@@ -98,6 +100,48 @@ export default function BranchDetail({ slug }: { slug: string }) {
         <div style={{ marginTop: 16 }}>
           <Link href="/menu" style={{ textDecoration: "none", color: RED, fontWeight: 800, fontSize: 14.5 }}>{t.seeFullMenu}</Link>
         </div>
+
+        {/* published customer reviews (verified complaints, anonymized) */}
+        {(BRANCH_REVIEWS[slug] || []).length > 0 && (
+          <>
+            <h2 style={h2}>{ur ? "گاہکوں کے ریویوز" : "Customer reviews"}</h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {BRANCH_REVIEWS[slug].map((r, i) => (
+                <div key={i} style={{ background: "#fff", border: "1px solid #EAE1D2", borderRadius: 18, padding: "18px 20px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+                    <span style={{ width: 42, height: 42, borderRadius: "50%", background: "#F5EEE1", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
+                      <FaUserSecret size={18} color="#8A8072" />
+                    </span>
+                    <div style={{ flex: 1, minWidth: 160 }}>
+                      <div style={{ fontWeight: 800, fontSize: 14.5 }}>{ur ? "گمنام گاہک" : "Anonymous customer"}</div>
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 3 }}>
+                        <span style={{ display: "inline-flex", gap: 1 }}>
+                          {[0, 1, 2, 3, 4].map((s) => <IconStar key={s} size={13} color={s < r.rating ? "#FBBC04" : "#E3DDD0"} />)}
+                        </span>
+                        <span className="num" style={{ fontSize: 11.5, color: "#8A8072" }}>{r.when}</span>
+                      </div>
+                    </div>
+                    <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#FCF2F1", color: RED, fontSize: 10.5, fontWeight: 800, padding: "5px 11px", borderRadius: 999, letterSpacing: ".3px" }}>
+                      <FaShieldAlt size={10} /> {ur ? "تصدیق شدہ شکایت" : "VERIFIED COMPLAINT"}
+                    </span>
+                  </div>
+                  <div style={{ fontWeight: 800, fontSize: 15, marginTop: 13 }}>{ur ? r.titleU : r.title}</div>
+                  <p style={{ fontSize: 14, lineHeight: 1.8, color: "#4A4238", margin: "7px 0 0" }}>{ur ? r.textU : r.text}</p>
+                  <div style={{ marginTop: 13, background: "#FCF9F3", border: "1px solid #F0E7D8", borderRadius: 11, padding: "9px 13px", fontSize: 12, color: "#8A8072", lineHeight: 1.6 }}>
+                    {ur
+                      ? "یہ شکایت شاہ جی آن لائن کے شکایتی نظام سے تصدیق کے بعد گمنام طور پر شائع کی گئی ہے اور ریستوران کی انتظامیہ کو بھیج دی گئی ہے۔"
+                      : "Published anonymously after verification through the Shah G Online complaints system, and forwarded to the restaurant's management."}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop: 12 }}>
+              <Link href="/complaint" style={{ textDecoration: "none", color: RED, fontWeight: 800, fontSize: 13.5 }}>
+                {ur ? "کوئی مسئلہ پیش آیا؟ شکایت درج کریں ←" : "Had a problem here? File a complaint →"}
+              </Link>
+            </div>
+          </>
+        )}
 
         {/* nearby branches — internal links */}
         <h2 style={h2}>{ur ? `${branch.city} میں دیگر شاخیں` : `Other Shah G Foods branches in ${branch.city}`}</h2>
