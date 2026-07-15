@@ -101,11 +101,11 @@ export default function PartnerContent() {
 
   return (
     <>
-      {/* toast, PayFast coming soon */}
+      {/* toast — how payment works */}
       {toast && (
         <div style={{ position: "fixed", top: 84, left: "50%", transform: "translateX(-50%)", zIndex: 80, width: "min(430px, calc(100% - 28px))", background: "#211812", color: "#fff", borderRadius: 14, boxShadow: "0 24px 50px -16px rgba(0,0,0,.5)", padding: "13px 16px", display: "flex", alignItems: "center", gap: 11, animation: "rise .3s ease" }}>
           <span style={{ display: "flex" }}><FaCreditCard size={18} color="#F7D774" /></span>
-          <span style={{ fontSize: 13.5, lineHeight: 1.5 }}>{ur ? "آن لائن ادائیگی (PayFast) بہت جلد! ابھی نیچے اپنی تفصیلات بھریں، ہماری ٹیم آپ سے رابطہ کر کے ادائیگی مکمل کرائے گی۔" : "Online payment (PayFast) is coming very soon! For now, submit your details below and our team will reach out to complete your listing."}</span>
+          <span style={{ fontSize: 13.5, lineHeight: 1.5 }}>{ur ? "نیچے اپنی تفصیلات بھریں — ادائیگی کی تفصیلات آپ کو ای میل پر بھیج دی جائیں گی۔" : "Fill in your details below — payment details will be shared with you by email."}</span>
         </div>
       )}
 
@@ -209,9 +209,9 @@ export default function PartnerContent() {
             <div style={{ background: `linear-gradient(160deg,${PURPLE},#B71C66)`, color: "#fff", borderRadius: 22, padding: "30px 28px", display: "flex", flexDirection: "column", gap: 14 }}>
               <div style={{ fontSize: 12.5, fontWeight: 800, letterSpacing: ".5px", opacity: 0.85 }}>{sel.name} · {term === "yearly" ? (ur ? "سالانہ" : "Yearly") : ur ? "ماہانہ" : "Monthly"}</div>
               <div className="num" style={{ fontSize: 40, fontWeight: 800 }}>Rs {amount.toLocaleString()}<span style={{ fontSize: 15, opacity: 0.8 }}> / {term === "yearly" ? (ur ? "سال" : "yr") : ur ? "ماہ" : "mo"}</span></div>
-              <div style={{ background: "rgba(255,255,255,.12)", borderRadius: 12, padding: "12px 14px", fontSize: 13, lineHeight: 1.6, display: "flex", gap: 9, alignItems: "flex-start" }}><FaCreditCard size={15} color="#F7D774" style={{ flex: "none", marginTop: 2 }} /> {ur ? "آن لائن ادائیگی (PayFast) بہت جلد شامل کی جا رہی ہے۔ ابھی اپنی تفصیلات بھیجیں، ہماری ٹیم رابطہ کر کے ادائیگی مکمل کرائے گی۔" : "Secure online payment via PayFast is being added shortly. Submit your details now, our team will contact you to complete the payment."}</div>
+              <div style={{ background: "rgba(255,255,255,.12)", borderRadius: 12, padding: "12px 14px", fontSize: 13, lineHeight: 1.6, display: "flex", gap: 9, alignItems: "flex-start" }}><FaCreditCard size={15} color="#F7D774" style={{ flex: "none", marginTop: 2 }} /> {ur ? "اپنی تفصیلات جمع کرائیں — ادائیگی کی تفصیلات آپ کو ای میل کے ذریعے بھیجی جائیں گی۔" : "Submit your details — payment details will be shared with you by email."}</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 9, marginTop: 2, fontSize: 13.5 }}>
-                {[ur ? "تفصیلات بھیجیں" : "Submit your details", ur ? "ٹیم رابطہ کر کے ادائیگی کرائے گی" : "Team contacts you to pay", ur ? "24 گھنٹے میں لائیو" : "Live within 24 hours"].map((s, i) => (
+                {[ur ? "تفصیلات بھیجیں" : "Submit your details", ur ? "ادائیگی کی تفصیلات ای میل پر ملیں گی" : "Payment details arrive by email", ur ? "24 گھنٹے میں لائیو" : "Live within 24 hours"].map((s, i) => (
                   <div key={i} style={{ display: "flex", gap: 9 }}><span style={{ fontWeight: 800 }}>{i + 1}.</span><span style={{ opacity: 0.92 }}>{s}</span></div>
                 ))}
               </div>
@@ -260,7 +260,7 @@ export default function PartnerContent() {
 
                   {err && <div style={{ fontSize: 13, color: "#9A3B2E", marginBottom: 12 }}>{err}</div>}
                   <button type="submit" disabled={state === "sending"} style={{ cursor: state === "sending" ? "not-allowed" : "pointer", width: "100%", border: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 16, fontFamily: "inherit", padding: 15, borderRadius: 14 }}>{state === "sending" ? (ur ? "بھیجا جا رہا ہے…" : "Sending…") : ur ? "تفصیلات بھیجیں" : "Submit my details"}</button>
-                  <div style={{ fontSize: 11.5, color: "#B0A692", marginTop: 10, textAlign: "center" }}>{ur ? "ادائیگی کے لیے ہماری ٹیم رابطہ کرے گی۔" : "Our team will contact you to arrange payment."}</div>
+                  <div style={{ fontSize: 11.5, color: "#B0A692", marginTop: 10, textAlign: "center" }}>{ur ? "ادائیگی کی تفصیلات آپ کو ای میل پر بھیجی جائیں گی۔" : "Payment details will be sent to you by email."}</div>
                 </form>
               )}
             </div>
@@ -272,7 +272,7 @@ export default function PartnerContent() {
         open={modal}
         ur={ur}
         title={ur ? "درخواست موصول ہو گئی!" : "Request received!"}
-        message={ur ? "شکریہ! آپ کی درخواست موصول ہو گئی ہے۔ ہماری ٹیم جلد رابطہ کر کے ادائیگی مکمل کرا کے آپ کی لسٹنگ لائیو کر دے گی۔" : "Thank you! Your request has been received. Our team will contact you shortly to complete payment and take your listing live."}
+        message={ur ? "شکریہ! آپ کی درخواست موصول ہو گئی ہے۔ ادائیگی کی تفصیلات آپ کو ای میل پر بھیج دی جائیں گی، اس کے بعد آپ کی لسٹنگ لائیو ہو جائے گی۔" : "Thank you! Your request has been received. Payment details will be shared with you by email, and your listing goes live right after."}
         onClose={() => setModal(false)}
       />
     </>

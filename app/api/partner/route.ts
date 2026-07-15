@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
         </table>
         <div style="margin-top:18px;font-weight:800;color:#C1272D;font-size:13px;letter-spacing:.4px">DISHES SUBMITTED</div>
         <div style="margin-top:8px;padding:14px;background:#F7F3EB;border-radius:12px;white-space:pre-wrap;font-size:13.5px;color:#4A4238;line-height:1.6">${esc(dishes)}</div>
-        <div style="margin-top:18px;font-size:12.5px;color:#8A8072">Contact this partner to arrange the PayFast payment, then approve & list them.</div>
+        <div style="margin-top:18px;font-size:12.5px;color:#8A8072">Email this partner the payment details, then approve & list them once paid.</div>
       </div>
       <div style="background:#211812;color:rgba(255,255,255,.6);padding:14px 24px;font-size:12px;text-align:center">Shah G Online · shahgfood.com</div>
     </div>`;

@@ -33,7 +33,7 @@ const PRIVACY_EN: LegalDoc = {
     { h: "1. Who we are", body: [`${COMPANY} is a digital marketplace that lists the menus of partner restaurants and home kitchens across Pakistan. We are an online-only service based in ${LOCATION}. We do not cook, sell, or deliver food ourselves — orders are placed directly with the listed restaurant.`] },
     { h: "2. Information we collect", body: [
       "From customers: nothing is required to browse. If you choose to order, you contact the restaurant directly by phone or WhatsApp — any details you share then go to that restaurant, not to us.",
-      "From restaurant partners: business name, owner name, phone, email, service areas, dish and pricing details, and a payment reference/receipt for your listing subscription.",
+      "From restaurant partners: business name, owner name, phone, email, service areas, dish and pricing details, and payment confirmation details for your listing subscription.",
       "Automatically: basic technical data (device, browser, IP, pages viewed) and cookies/local storage to keep the site working and to remember your language preference.",
     ] },
     { h: "3. How we use your information", body: [
@@ -42,7 +42,7 @@ const PRIVACY_EN: LegalDoc = {
       "To improve, secure and operate the website.",
       "To meet our legal, tax and regulatory obligations.",
     ] },
-    { h: "4. Payments", body: [`Listing subscription payments are processed by our authorised payment service provider (PayFast, a State Bank of Pakistan–licensed PSO/PSP). We do not store your full card or bank details on our servers. Customer food payments are made directly to the restaurant and are outside our systems.`] },
+    { h: "4. Payments", body: [`Listing subscription payment details are shared with partner restaurants by email after they submit a listing request, and payments are settled by bank transfer. We do not store your card or bank details on our servers. Customer food payments are made directly to the restaurant and are outside our systems.`] },
     { h: "5. How we share information", body: [
       "With partner restaurants, only as needed to operate their listing.",
       "With service providers (payment processor, hosting, email) strictly to run the service.",
@@ -72,7 +72,7 @@ const TERMS_EN: LegalDoc = {
     ] },
     { h: "4. Listing fees & payment (B2B only)", body: [
       `Listing packages are billed as published on the “List your restaurant” page (monthly or yearly). Fees are for the listing / advertising service only — ${COMPANY} charges 0% commission on your food sales.`,
-      `${COMPANY} operates a digital food marketplace and B2B restaurant directory platform. We provide online visibility, advertising and lead-generation services to restaurant owners by showcasing their signature menus on our high-traffic platform. Any online payment links or card payments we use are intended EXCLUSIVELY to collect fixed monthly digital slot rentals, subscription fees and software listing charges directly from our onboarding restaurant partners (B2B clients). No retail consumer-end food-delivery payments or cash-on-delivery transactions are processed through our payment links — they are strictly for corporate vendor subscription billing. ${COMPANY} is an IT / service provider, not a food seller.`,
+      `${COMPANY} operates a digital food marketplace and B2B restaurant directory platform. We provide online visibility, advertising and lead-generation services to restaurant owners by showcasing their signature menus on our high-traffic platform. Any payments we collect are intended EXCLUSIVELY as fixed monthly digital slot rentals, subscription fees and software listing charges directly from our onboarding restaurant partners (B2B clients). No retail consumer-end food-delivery payments or cash-on-delivery transactions are processed through our systems — billing is strictly for corporate vendor subscriptions. ${COMPANY} is an IT / service provider, not a food seller.`,
     ] },
     { h: "5. Acceptable use", body: ["Do not misuse the website, submit false or fraudulent listings, scrape data, or use it for any unlawful purpose. We may suspend accounts that break these terms."] },
     { h: "6. Intellectual property", body: [`The ${COMPANY} name, logo, design and content are owned by or licensed to us. Restaurant names, logos and dish images remain the property of the respective partners, used with permission for their listing.`] },
@@ -96,7 +96,7 @@ const REFUND_EN: LegalDoc = {
       "Once your listing is live, the subscription is generally non-refundable for the current period, as the service is already being delivered. Yearly plans may be cancelled going forward; already-used months are not refunded.",
       "If we are unable to activate your listing at all, you will receive a full refund.",
     ] },
-    { h: "3. How to request a refund", body: [`Email us at ${EMAIL} with your payment reference. Approved refunds are returned to your original payment method (via our payment provider, PayFast) within 7–10 working days.`] },
+    { h: "3. How to request a refund", body: [`Email us at ${EMAIL} with your payment reference. Approved refunds are returned to your original payment method within 7–10 working days.`] },
   ],
 };
 
@@ -124,11 +124,11 @@ const PRIVACY_UR: LegalDoc = {
     { h: "1. ہم کون ہیں", body: ["شاہ جی آن لائن ایک ڈیجیٹل مارکیٹ پلیس ہے جو پاکستان بھر کے ریستورانوں اور ہوم کچن کے مینو لسٹ کرتا ہے۔ ہم صرف آن لائن سروس ہیں (کوئی فزیکل دکان نہیں)۔ ہم خود کھانا نہیں پکاتے، بیچتے یا ڈیلیور نہیں کرتے — آرڈر سیدھا ریستوران کو جاتا ہے۔"] },
     { h: "2. ہم کیا جمع کرتے ہیں", body: [
       "گاہکوں سے: براؤز کرنے کے لیے کچھ ضروری نہیں۔ آرڈر کے لیے آپ سیدھا ریستوران سے رابطہ کرتے ہیں، آپ کی تفصیلات اُسی کو جاتی ہیں۔",
-      "پارٹنر ریستورانوں سے: کاروبار کا نام، مالک، فون، ای میل، سروس ایریاز، ڈشز و قیمتیں اور لسٹنگ کی ادائیگی کی رسید۔",
+      "پارٹنر ریستورانوں سے: کاروبار کا نام، مالک، فون، ای میل، سروس ایریاز، ڈشز و قیمتیں اور لسٹنگ کی ادائیگی کی تصدیق۔",
       "خودکار: بنیادی تکنیکی ڈیٹا (ڈیوائس، براؤزر، IP) اور کوکیز/لوکل اسٹوریج۔",
     ] },
     { h: "3. استعمال", body: ["لسٹنگ دکھانے، پارٹنر سبسکرپشن چلانے، ویب سائٹ بہتر و محفوظ رکھنے اور قانونی تقاضے پورے کرنے کے لیے۔"] },
-    { h: "4. ادائیگیاں", body: ["لسٹنگ کی ادائیگیاں ہمارے مجاز پیمنٹ پرووائیڈر (PayFast — اسٹیٹ بینک لائسنس یافتہ) کے ذریعے ہوتی ہیں۔ ہم آپ کے مکمل کارڈ/بینک تفصیلات محفوظ نہیں کرتے۔ کھانے کی ادائیگی سیدھا ریستوران کو ہوتی ہے۔"] },
+    { h: "4. ادائیگیاں", body: ["لسٹنگ درخواست جمع کرانے کے بعد ادائیگی کی تفصیلات پارٹنر ریستوران کو ای میل پر بھیجی جاتی ہیں اور ادائیگی بینک ٹرانسفر سے ہوتی ہے۔ ہم آپ کے کارڈ/بینک تفصیلات محفوظ نہیں کرتے۔ کھانے کی ادائیگی سیدھا ریستوران کو ہوتی ہے۔"] },
     { h: "5. شیئرنگ", body: ["پارٹنر ریستوران اور سروس فراہم کنندگان کے ساتھ صرف ضرورت کے مطابق، یا قانوناً لازم ہونے پر۔ ہم آپ کی معلومات کبھی فروخت نہیں کرتے۔"] },
     { h: "6. کوکیز", body: ["ہم ضروری کوکیز اور لوکل اسٹوریج استعمال کرتے ہیں تاکہ زبان یاد رہے اور سائٹ بہتر ہو۔ آپ براؤزر سے کنٹرول کر سکتے ہیں۔"] },
     { h: "7. حفاظت و مدت", body: ["معلومات صرف ضرورت اور قانونی تقاضوں تک رکھی جاتی ہیں، پھر حذف کر دی جاتی ہیں۔ ہم مناسب حفاظتی اقدامات کرتے ہیں۔"] },
@@ -152,7 +152,7 @@ const TERMS_UR: LegalDoc = {
     ] },
     { h: "4. لسٹنگ فیس (صرف B2B)", body: [
       "لسٹنگ پیکج ”اپنا ریستوران لسٹ کریں“ صفحے کے مطابق بل ہوتے ہیں۔ فیس صرف لسٹنگ/ایڈورٹائزنگ سروس کے لیے ہے — کھانے کی سیلز پر 0% کمیشن۔",
-      "شاہ جی آن لائن ایک ڈیجیٹل فوڈ مارکیٹ پلیس اور B2B ریستوران ڈائریکٹری پلیٹ فارم ہے۔ ہم ریستوران مالکان کو آن لائن وزیبلٹی، ایڈورٹائزنگ اور لیڈ جنریشن فراہم کرتے ہیں۔ ہمارے آن لائن پیمنٹ لنکس صرف پارٹنر ریستورانوں (B2B کلائنٹس) سے ماہانہ ڈیجیٹل سلاٹ رینٹل، سبسکرپشن اور سافٹ ویئر لسٹنگ فیس وصول کرنے کے لیے ہیں۔ کوئی ریٹیل کنزیومر فوڈ ڈیلیوری یا کیش آن ڈیلیوری ادائیگی ان لنکس سے پروسیس نہیں ہوتی — یہ صرف کارپوریٹ وینڈر سبسکرپشن بلنگ کے لیے ہیں۔ شاہ جی آن لائن ایک IT/سروس فراہم کنندہ ہے، کھانے کا بیچنے والا نہیں۔",
+      "شاہ جی آن لائن ایک ڈیجیٹل فوڈ مارکیٹ پلیس اور B2B ریستوران ڈائریکٹری پلیٹ فارم ہے۔ ہم ریستوران مالکان کو آن لائن وزیبلٹی، ایڈورٹائزنگ اور لیڈ جنریشن فراہم کرتے ہیں۔ ہم جو ادائیگیاں وصول کرتے ہیں وہ صرف پارٹنر ریستورانوں (B2B کلائنٹس) سے ماہانہ ڈیجیٹل سلاٹ رینٹل، سبسکرپشن اور سافٹ ویئر لسٹنگ فیس ہیں۔ کوئی ریٹیل کنزیومر فوڈ ڈیلیوری یا کیش آن ڈیلیوری ادائیگی ہمارے نظام سے پروسیس نہیں ہوتی — بلنگ صرف کارپوریٹ وینڈر سبسکرپشن کے لیے ہے۔ شاہ جی آن لائن ایک IT/سروس فراہم کنندہ ہے، کھانے کا بیچنے والا نہیں۔",
     ] },
     { h: "5. مناسب استعمال", body: ["جعلی لسٹنگ، ڈیٹا اسکریپنگ یا غیر قانونی استعمال ممنوع ہے۔ خلاف ورزی پر اکاؤنٹ معطل ہو سکتا ہے۔"] },
     { h: "6. دانشورانہ املاک", body: ["شاہ جی آن لائن کا نام، لوگو اور ڈیزائن ہماری ملکیت ہیں۔ ریستوران کے نام و تصاویر اُن کی اپنی ملکیت ہیں، اجازت سے استعمال۔"] },
