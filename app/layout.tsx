@@ -3,6 +3,7 @@ import "leaflet/dist/leaflet.css";
 import "./globals.css";
 import { AppProvider } from "@/components/AppProvider";
 import Overlays from "@/components/Overlays";
+import GoogleTranslate from "@/components/GoogleTranslate";
 import { BRANCHES, branchSlug } from "@/lib/data";
 
 const SITE_URL = "https://shahgfood.com";
@@ -202,6 +203,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AppProvider>
           {children}
           <Overlays />
+          <GoogleTranslate />
         </AppProvider>
       </body>
     </html>

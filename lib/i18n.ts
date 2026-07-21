@@ -81,4 +81,6 @@ export const UR: Translation = {
   reviewsBadge: "15,000+ تصدیق شدہ ریویوز", reviewsTitle: "ہر شاخ پر پسند کیا گیا", reviewsSub: "اسلام آباد اور راولپنڈی کی 35+ شاخوں پر 15,000+ تصدیق شدہ ریویوز۔ دیکھیں لوگ بار بار کیوں آتے ہیں۔", onGoogle: "گوگل پر", homeFaqTitle: "اکثر پوچھے گئے سوالات", homeFaqSub: "آرڈر سے پہلے چند فوری جوابات۔",
 };
 
-export const DICT: Record<Lang, Translation> = { en: EN, ur: UR };
+// UR is kept for reference but no longer rendered — Google Translate now
+// generates the Urdu copy live from the English source (see GoogleTranslate.tsx)
+export const DICT: Record<Lang, Translation> = { en: EN, ur: EN };
