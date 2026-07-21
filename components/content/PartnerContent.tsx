@@ -96,7 +96,7 @@ export default function PartnerContent() {
   const isNarrow = useWidth() < 700;
 
   const [sel, setSel] = useState<Pkg | null>(null);
-  const [term, setTerm] = useState<"yearly" | "monthly">("yearly");
+  const [term, setTerm] = useState<"yearly" | "monthly">("monthly");
   const [toast, setToast] = useState(false);
   const [f, setF] = useState({ restaurant: "", owner: "", email: "", phone: "", areas: "" });
   const [dishes, setDishes] = useState([{ name: "", type: "fixed", details: "" }]);
