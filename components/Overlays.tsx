@@ -6,13 +6,13 @@ import ChatSoonToast from "@/components/ChatSoonToast";
 import { useApp } from "@/components/AppProvider";
 
 export default function Overlays() {
-  const { hydrated, located } = useApp();
+  const { hydrated, pickerOpen } = useApp();
   // marketplace: no cart — orders go directly to the restaurant via call/WhatsApp
   return (
     <>
       <ChatNotifier />
       <ChatSoonToast />
-      {hydrated && !located && <LocationPicker />}
+      {hydrated && pickerOpen && <LocationPicker />}
     </>
   );
 }

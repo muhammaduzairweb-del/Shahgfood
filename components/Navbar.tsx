@@ -14,7 +14,7 @@ import { showChatSoon } from "@/components/ChatSoonToast";
 const PURPLE = "#8E1E7C";
 
 export default function Navbar() {
-  const { lang, setLang, branch, area, setLocated } = useApp();
+  const { lang, setLang, branch, area, setPickerOpen } = useApp();
   const chatUnread = useChatUnread();
   const t = DICT[lang];
   const ur = lang === "ur";
@@ -58,7 +58,7 @@ export default function Navbar() {
             </Link>
 
             {!isMobile && (
-              <div onClick={() => setLocated(false)} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 11, marginInlineStart: 6 }}>
+              <div onClick={() => setPickerOpen(true)} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 11, marginInlineStart: 6 }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FCE3B4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21s-7-6.3-7-11a7 7 0 1 1 14 0c0 4.7-7 11-7 11z" /><circle cx="12" cy="10" r="2.5" /></svg>
                 <div style={{ lineHeight: 1.2 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#fff", fontWeight: 800, fontSize: 17 }}>{ur ? "آپ کی لوکیشن" : "Your location"} <span style={{ fontSize: 12, opacity: 0.85 }}>▾</span></div>

@@ -24,7 +24,7 @@ function haversine(aLat: number, aLng: number, bLat: number, bLng: number): numb
 }
 
 export default function LocationPicker() {
-  const { lang, setBranch, setArea, setLocated, setCity: setGlobalCity } = useApp();
+  const { lang, setBranch, setArea, setLocated, setPickerOpen, setCity: setGlobalCity } = useApp();
   const ur = lang === "ur";
   const isMobile = useWidth() < 760;
 
@@ -108,6 +108,7 @@ export default function LocationPicker() {
     setGlobalCity(served ?? (nearest ? nearest.city : ""));
     setArea(finalAddress() || branchName);
     setLocated(true);
+    setPickerOpen(false);
   };
 
   return (
@@ -139,7 +140,7 @@ export default function LocationPicker() {
           </div>
           {/* skip (X) over the map on mobile */}
           {isMobile && (
-            <button onClick={() => setLocated(true)} aria-label="skip" style={{ position: "absolute", top: 12, insetInlineEnd: 12, zIndex: 500, width: 38, height: 38, borderRadius: "50%", border: "none", background: "rgba(22,14,26,.72)", color: "#fff", fontSize: 17, cursor: "pointer", backdropFilter: "blur(4px)" }}>✕</button>
+            <button onClick={() => { setLocated(true); setPickerOpen(false); }} aria-label="skip" style={{ position: "absolute", top: 12, insetInlineEnd: 12, zIndex: 500, width: 38, height: 38, borderRadius: "50%", border: "none", background: "rgba(22,14,26,.72)", color: "#fff", fontSize: 17, cursor: "pointer", backdropFilter: "blur(4px)" }}>✕</button>
           )}
         </div>
 
@@ -148,7 +149,7 @@ export default function LocationPicker() {
           {/* header */}
           <div style={{ background: `linear-gradient(135deg,${PURPLE},#8E1E7C 55%,#B71C66)`, color: "#fff", padding: isMobile ? "16px 20px" : "24px 26px 20px", position: "relative" }}>
             {!isMobile && (
-              <button onClick={() => setLocated(true)} aria-label="skip" style={{ position: "absolute", top: 14, insetInlineEnd: 14, width: 34, height: 34, borderRadius: "50%", border: "none", background: "rgba(255,255,255,.16)", color: "#fff", fontSize: 15, cursor: "pointer" }}>✕</button>
+              <button onClick={() => { setLocated(true); setPickerOpen(false); }} aria-label="skip" style={{ position: "absolute", top: 14, insetInlineEnd: 14, width: 34, height: 34, borderRadius: "50%", border: "none", background: "rgba(255,255,255,.16)", color: "#fff", fontSize: 15, cursor: "pointer" }}>✕</button>
             )}
             <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: isMobile ? 21 : 26, lineHeight: 1.2 }}>
               <FaMapMarkerAlt size={20} style={{ verticalAlign: "-2px", marginInlineEnd: 8 }} />{ur ? "آپ کہاں ہیں؟" : "Where are you?"}
@@ -222,7 +223,7 @@ export default function LocationPicker() {
             >
               {canConfirm ? (ur ? "✓ یہی میری لوکیشن ہے" : "✓ Yes, this is my location") : ur ? "پہلے لوکیشن چنیں" : "Set your location first"}
             </button>
-            <button onClick={() => setLocated(true)} style={{ cursor: "pointer", border: "none", background: "transparent", fontFamily: "inherit", textAlign: "center", fontSize: 13, fontWeight: 700, color: "#8A8072", padding: 4 }}>
+            <button onClick={() => { setLocated(true); setPickerOpen(false); }} style={{ cursor: "pointer", border: "none", background: "transparent", fontFamily: "inherit", textAlign: "center", fontSize: 13, fontWeight: 700, color: "#8A8072", padding: 4 }}>
               {ur ? "ابھی نہیں، بعد میں" : "Skip for now"}
             </button>
           </div>

@@ -25,6 +25,8 @@ interface AppState {
   setArea: (a: string) => void;
   located: boolean;
   setLocated: (v: boolean) => void;
+  pickerOpen: boolean;
+  setPickerOpen: (v: boolean) => void;
   city: CityChoice;
   setCity: (c: CityChoice) => void;
   locStatus: LocStatus;
@@ -70,6 +72,7 @@ const DEFAULTS: Persisted = {
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<Persisted>(DEFAULTS);
   const [cartOpen, setCartOpen] = useState(false);
+  const [pickerOpen, setPickerOpen] = useState(false);
   const [hydrated, setHydrated] = useState(false);
   const [locStatus, setLocStatus] = useState<LocStatus>("idle");
 
@@ -164,6 +167,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setArea: (a) => persist({ area: a }),
     located: state.located,
     setLocated: (v) => persist({ located: v }),
+    pickerOpen,
+    setPickerOpen,
     city: state.city,
     // manual city change invalidates any previously detected street address
     setCity: (c) => { persist((p) => ({ city: c, located: !!c, area: p.city === c ? p.area : "" })); setLocStatus(c ? "ready" : "idle"); },
