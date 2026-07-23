@@ -13,9 +13,9 @@ const CHARCOAL = "#16171B";
 
 interface Pkg { id: string; name: string; monthly: number; dishes: string; max: number; featured?: boolean; popular?: boolean; perks: string[] }
 const PACKAGES: Pkg[] = [
-  { id: "starter", name: "Starter", monthly: 15000, dishes: "5 signature dishes", max: 5, perks: ["List up to 5 signature dishes", "0% commission on every sale", "Direct call & WhatsApp orders", "Shown only in your covered areas", "Zero setup or IT cost"] },
-  { id: "growth", name: "Growth", monthly: 35000, dishes: "15 dishes", max: 15, popular: true, perks: ["List up to 15 dishes", "0% commission on every sale", "Priority placement in your areas", "Direct call & WhatsApp orders", "Zero setup or IT cost"] },
-  { id: "premium", name: "Super Premium", monthly: 80000, dishes: "Featured on homepage", max: 30, featured: true, perks: ["★ Featured on the Shah G Online homepage", "List up to 30 dishes / full menu", "Top placement across the whole site", "Direct call & WhatsApp orders", "Dedicated priority support"] },
+  { id: "starter", name: "Starter", monthly: 8000, dishes: "5 signature dishes", max: 5, perks: ["List up to 5 signature dishes", "0% commission on every sale", "Direct call & WhatsApp orders", "Shown only in your covered areas", "Zero setup or IT cost"] },
+  { id: "growth", name: "Growth", monthly: 15000, dishes: "15 dishes", max: 15, popular: true, perks: ["List up to 15 dishes", "0% commission on every sale", "Priority placement in your areas", "Direct call & WhatsApp orders", "Zero setup or IT cost"] },
+  { id: "premium", name: "Super Premium", monthly: 22000, dishes: "Featured on homepage", max: 30, featured: true, perks: ["★ Featured on the Shah G Online homepage", "List up to 30 dishes / full menu", "Top placement across the whole site", "Direct call & WhatsApp orders", "Dedicated priority support"] },
 ];
 const yearly = (m: number) => Math.round(m * 12 * 0.8);
 
