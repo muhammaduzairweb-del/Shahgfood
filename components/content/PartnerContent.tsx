@@ -187,6 +187,24 @@ export default function PartnerContent() {
           ))}
         </div>
 
+        {/* HOME KITCHENS — not just restaurants, home cooks can list too */}
+        <div style={{ marginTop: 40, background: "linear-gradient(115deg,#FCF3DC,#F7E7C4)", border: "1px solid #E9D6A0", borderRadius: 24, padding: "28px 26px", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 22 }}>
+          <div style={{ flex: "none", width: 64, height: 64, borderRadius: 18, background: "#fff", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 14px 28px -16px rgba(160,110,20,.5)" }}>
+            <FaHome size={28} color="#A0720F" />
+          </div>
+          <div style={{ flex: "1 1 320px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 6 }}>
+              <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 22, color: "#211812" }}>{ur ? "ہوم کچن بھی خوش آمدید" : "Home kitchens welcome too"}</div>
+              <span style={{ background: "#A0720F", color: "#fff", fontSize: 10.5, fontWeight: 800, padding: "4px 11px", borderRadius: 999, letterSpacing: ".5px" }}>{ur ? "گھر کا کھانا" : "GHAR KA KHANA"}</span>
+            </div>
+            <p style={{ fontSize: 14.5, color: "#5A4B2A", lineHeight: 1.75, margin: 0 }}>
+              {ur
+                ? "شاہ جی آن لائن صرف ریستورانوں کے لیے نہیں — اگر آپ گھر پر تازہ، کم مصالحے اور کم تیل والا کھانا بناتے ہیں تو آپ بھی لسٹ ہو سکتے ہیں۔ خاص طور پر ان لوگوں کے لیے بہترین جو تیز مرچ مصالحہ پسند نہیں کرتے اور روزانہ سادہ گھریلو کھانا چاہتے ہیں۔"
+                : "Shah G Online isn't just for restaurants — if you cook fresh, homestyle food at home (less oil, less spice), you can list here too. Perfect for people who don't like heavy, spicy restaurant food and just want simple, home-cooked meals every day."}
+            </p>
+          </div>
+        </div>
+
         {/* FEATURED PARTNER */}
         <div style={{ marginTop: 40 }}>
           <div style={{ fontSize: 12.5, fontWeight: 800, color: RED, letterSpacing: ".6px", marginBottom: 12 }}>{ur ? "ہمارا بانی پارٹنر" : "OUR FOUNDING PARTNER"}</div>

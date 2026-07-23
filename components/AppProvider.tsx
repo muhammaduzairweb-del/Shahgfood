@@ -60,7 +60,7 @@ interface Persisted {
 }
 
 const DEFAULTS: Persisted = {
-  lang: "ur",
+  lang: "en",
   branch: "F-10 Markaz",
   area: "",
   located: false,
