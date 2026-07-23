@@ -21,9 +21,14 @@ export async function POST(req: NextRequest) {
     const term = g("term");
     const amount = g("amount");
     const dishes = g("dishes");
+    const consent = g("consent");
+    const consentAt = g("consentAt");
 
     if (!restaurant || !email || !phone) {
       return NextResponse.json({ ok: false, error: "Missing required fields." }, { status: 400 });
+    }
+    if (consent !== "yes") {
+      return NextResponse.json({ ok: false, error: "You must agree to the Terms of Service and Privacy Policy." }, { status: 400 });
     }
 
     const user = process.env.SMTP_USER;
@@ -54,7 +59,14 @@ export async function POST(req: NextRequest) {
         </table>
         <div style="margin-top:18px;font-weight:800;color:#C1272D;font-size:13px;letter-spacing:.4px">DISHES SUBMITTED</div>
         <div style="margin-top:8px;padding:14px;background:#F7F3EB;border-radius:12px;white-space:pre-wrap;font-size:13.5px;color:#4A4238;line-height:1.6">${esc(dishes)}</div>
-        <div style="margin-top:18px;font-size:12.5px;color:#8A8072">Email this partner the payment details, then approve & list them once paid.</div>
+        <div style="margin-top:18px;display:flex;align-items:flex-start;gap:10px;background:#EAF6EC;border:1px solid #C9E7CE;border-radius:12px;padding:12px 14px">
+          <span style="font-size:20px;line-height:1;flex:none">🫆</span>
+          <div style="font-size:12.5px;color:#1E5631;line-height:1.6">
+            <div style="font-weight:800">Consent verified — Terms of Service & Privacy Policy</div>
+            <div>This partner ticked the consent checkbox and agreed to Shah G Online's Terms of Service and Privacy Policy before submitting.${consentAt ? ` Recorded at ${esc(consentAt)}.` : ""}</div>
+          </div>
+        </div>
+        <div style="margin-top:14px;font-size:12.5px;color:#8A8072">Email this partner the payment details, then approve & list them once paid.</div>
       </div>
       <div style="background:#211812;color:rgba(255,255,255,.6);padding:14px 24px;font-size:12px;text-align:center">Shah G Online · shahgfood.com</div>
     </div>`;

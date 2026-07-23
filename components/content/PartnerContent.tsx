@@ -99,6 +99,7 @@ export default function PartnerContent() {
   const [term, setTerm] = useState<"yearly" | "monthly">("monthly");
   const [toast, setToast] = useState(false);
   const [f, setF] = useState({ restaurant: "", owner: "", email: "", phone: "", areas: "" });
+  const [agree, setAgree] = useState(false);
   const [dishes, setDishes] = useState([{ name: "", type: "fixed", details: "" }]);
   const [state, setState] = useState<"idle" | "sending" | "error">("idle");
   const [modal, setModal] = useState(false);
@@ -127,7 +128,7 @@ export default function PartnerContent() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!sel) return;
+    if (!sel || !agree) return;
     setErr("");
     setState("sending");
     const dishesText = dishes.filter((d) => d.name.trim()).map((d, i) => `${i + 1}. ${d.name} [${typeLabel(d.type)}], ${d.details}`).join("\n");
@@ -142,10 +143,12 @@ export default function PartnerContent() {
     fd.append("amount", `Rs ${amount.toLocaleString()}`);
     fd.append("dishes", dishesText);
     fd.append("lang", lang);
+    fd.append("consent", agree ? "yes" : "no");
+    fd.append("consentAt", new Date().toISOString());
     try {
       const res = await fetch("/api/partner", { method: "POST", body: fd });
       const j = await res.json();
-      if (j.ok) { setModal(true); setState("idle"); setF({ restaurant: "", owner: "", email: "", phone: "", areas: "" }); setDishes([{ name: "", type: "fixed", details: "" }]); }
+      if (j.ok) { setModal(true); setState("idle"); setF({ restaurant: "", owner: "", email: "", phone: "", areas: "" }); setDishes([{ name: "", type: "fixed", details: "" }]); setAgree(false); }
       else { setState("error"); setErr(j.error || "Failed to send."); }
     } catch {
       setState("error");
@@ -336,8 +339,19 @@ export default function PartnerContent() {
                   </div>
                   {sel && dishes.length < sel.max && <button type="button" onClick={addDish} style={{ cursor: "pointer", border: `1.5px dashed ${RED}`, background: "transparent", color: RED, fontWeight: 800, fontSize: 13.5, fontFamily: "inherit", padding: "9px 16px", borderRadius: 11, marginBottom: 14 }}>+ {ur ? "ڈش شامل کریں" : "Add dish"} ({dishes.length}/{sel.max})</button>}
 
+                  <label style={{ display: "flex", gap: 9, alignItems: "flex-start", fontSize: 12.5, color: "#5A5245", lineHeight: 1.6, margin: "6px 0 14px", cursor: "pointer" }}>
+                    <input required type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} style={{ marginTop: 2, width: 16, height: 16, flex: "none", accentColor: RED, cursor: "pointer" }} />
+                    <span>
+                      {ur ? (
+                        <>میں شاہ جی آن لائن کی <Link href="/terms" target="_blank" style={{ color: RED, fontWeight: 700 }}>شرائطِ استعمال</Link> اور <Link href="/privacy" target="_blank" style={{ color: RED, fontWeight: 700 }}>پرائیویسی پالیسی</Link> سے اتفاق کرتا/کرتی ہوں۔ *</>
+                      ) : (
+                        <>I agree to Shah G Online's <Link href="/terms" target="_blank" style={{ color: RED, fontWeight: 700 }}>Terms of Service</Link> and <Link href="/privacy" target="_blank" style={{ color: RED, fontWeight: 700 }}>Privacy Policy</Link>. *</>
+                      )}
+                    </span>
+                  </label>
+
                   {err && <div style={{ fontSize: 13, color: "#9A3B2E", marginBottom: 12 }}>{err}</div>}
-                  <button type="submit" disabled={state === "sending"} style={{ cursor: state === "sending" ? "not-allowed" : "pointer", width: "100%", border: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 16, fontFamily: "inherit", padding: 15, borderRadius: 14 }}>{state === "sending" ? (ur ? "بھیجا جا رہا ہے…" : "Sending…") : ur ? "تفصیلات بھیجیں" : "Submit my details"}</button>
+                  <button type="submit" disabled={state === "sending" || !agree} style={{ cursor: state === "sending" || !agree ? "not-allowed" : "pointer", width: "100%", border: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 16, fontFamily: "inherit", padding: 15, borderRadius: 14, opacity: !agree ? 0.55 : 1 }}>{state === "sending" ? (ur ? "بھیجا جا رہا ہے…" : "Sending…") : ur ? "تفصیلات بھیجیں" : "Submit my details"}</button>
                   <div style={{ fontSize: 11.5, color: "#B0A692", marginTop: 10, textAlign: "center" }}>{ur ? "ادائیگی کی تفصیلات آپ کو ای میل پر بھیجی جائیں گی۔" : "Payment details will be sent to you by email."}</div>
                 </form>
               )}
