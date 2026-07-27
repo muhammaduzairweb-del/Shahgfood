@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   FaHome,
   FaLightbulb,
@@ -22,8 +22,8 @@ const PURPLE = "#5E1A86";
 const INK = "#202124";
 
 // Styled after Google Search Console's own layout — illustrative numbers only,
-// not wired to a real Search Console account.
-const HOURS = ["1 PM", "3 PM", "5 PM", "7 PM", "9 PM", "11 PM", "1 AM", "3 AM", "5 AM", "7 AM", "9 AM", "11 AM"];
+// not wired to a real Search Console account (yet — swap in real API data here later).
+const HOURS = ["1 PM", "3 PM", "5 PM", "7 PM", "9 PM", "11 PM", "1 AM", "3 AM", "5 AM", "7 AM", "9 AM", "11 AM", "1 PM"];
 const CLICKS_BASE = [150, 520, 480, 800, 380, 900, 430, 60, 40, 130, 620, 80, 30];
 const IMPR_BASE = [1600, 5200, 4800, 8200, 3600, 9500, 4900, 900, 700, 1600, 6300, 900, 400];
 // last couple of points render dotted, like GSC's "today, still counting" tail
@@ -43,13 +43,27 @@ function fmt(n: number) {
   return String(Math.round(n));
 }
 
-function pathFor(values: number[], max: number, w: number, h: number, from: number, to: number) {
+function points(values: number[], max: number, w: number, h: number): [number, number][] {
   const step = w / (values.length - 1);
-  const pts: string[] = [];
-  for (let i = from; i <= to; i++) {
-    pts.push(`${i === from ? "M" : "L"} ${(i * step).toFixed(1)},${(h - (values[i] / max) * h).toFixed(1)}`);
+  return values.map((v, i) => [i * step, h - (v / max) * h] as [number, number]);
+}
+
+// Catmull-Rom → cubic bezier, so the line reads as a smooth curve instead of sharp zigzags
+function smoothPath(pts: [number, number][]) {
+  if (pts.length < 2) return "";
+  let d = `M ${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)}`;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[i === 0 ? i : i - 1];
+    const p1 = pts[i];
+    const p2 = pts[i + 1];
+    const p3 = pts[i + 2 < pts.length ? i + 2 : i + 1];
+    const c1x = p1[0] + (p2[0] - p0[0]) / 6;
+    const c1y = p1[1] + (p2[1] - p0[1]) / 6;
+    const c2x = p2[0] - (p3[0] - p1[0]) / 6;
+    const c2y = p2[1] - (p3[1] - p1[1]) / 6;
+    d += ` C ${c1x.toFixed(1)},${c1y.toFixed(1)} ${c2x.toFixed(1)},${c2y.toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}`;
   }
-  return pts.join(" ");
+  return d;
 }
 
 const NAV_MAIN: { Icon: typeof FaHome; en: string; ur: string; active?: boolean }[] = [
@@ -70,20 +84,25 @@ const NAV_EXPERIENCE: { Icon: typeof FaHome; en: string; ur: string }[] = [
 
 export default function PartnerPerformanceSample({ ur }: { ur: boolean }) {
   const [period, setPeriod] = useState<Period>("24h");
+  const [hover, setHover] = useState<number | null>(null);
+  const chartRef = useRef<HTMLDivElement>(null);
   const isNarrow = useWidth() < 860;
   const p = PERIODS.find((x) => x.id === period)!;
 
   const W = 640;
   const H = 190;
-  const upTo = period === "24h" ? DOTTED_FROM : CLICKS_BASE.length - 1;
+  const n = CLICKS_BASE.length;
+  const upTo = period === "24h" ? DOTTED_FROM : n - 1;
   const clicksScaled = CLICKS_BASE.map((v) => v * p.mult);
   const imprScaled = IMPR_BASE.map((v) => v * p.mult);
   const clicksMax = Math.max(...clicksScaled) * 1.12;
   const imprMax = Math.max(...imprScaled) * 1.12;
-  const clicksSolid = pathFor(clicksScaled, clicksMax, W, H, 0, upTo);
-  const imprSolid = pathFor(imprScaled, imprMax, W, H, 0, upTo);
-  const clicksDot = period === "24h" ? pathFor(clicksScaled, clicksMax, W, H, DOTTED_FROM, clicksScaled.length - 1) : "";
-  const imprDot = period === "24h" ? pathFor(imprScaled, imprMax, W, H, DOTTED_FROM, imprScaled.length - 1) : "";
+  const clicksPts = points(clicksScaled, clicksMax, W, H);
+  const imprPts = points(imprScaled, imprMax, W, H);
+  const clicksSolid = smoothPath(clicksPts.slice(0, upTo + 1));
+  const imprSolid = smoothPath(imprPts.slice(0, upTo + 1));
+  const clicksDot = period === "24h" ? smoothPath(clicksPts.slice(DOTTED_FROM)) : "";
+  const imprDot = period === "24h" ? smoothPath(imprPts.slice(DOTTED_FROM)) : "";
 
   const totalClicks = clicksScaled.slice(0, upTo + 1).reduce((a, b) => a + b, 0);
   const totalImpr = imprScaled.slice(0, upTo + 1).reduce((a, b) => a + b, 0);
@@ -94,6 +113,14 @@ export default function PartnerPerformanceSample({ ur }: { ur: boolean }) {
     { l: ur ? "اوسط CTR" : "Average CTR", v: p.ctr, c: null, checked: false },
     { l: ur ? "اوسط پوزیشن" : "Average position", v: p.pos, c: null, checked: false },
   ];
+
+  const handleMove = (e: React.MouseEvent) => {
+    const el = chartRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const frac = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
+    setHover(Math.min(upTo, Math.max(0, Math.round(frac * (n - 1)))));
+  };
 
   const navItem = (Icon: typeof FaHome, label: string, active?: boolean) => (
     <div
@@ -106,10 +133,11 @@ export default function PartnerPerformanceSample({ ur }: { ur: boolean }) {
         borderRadius: active ? 0 : 8,
         background: active ? "#E8F0FE" : "transparent",
         borderInlineStart: active ? `3px solid ${BLUE}` : "3px solid transparent",
-        color: active ? BLUE : "#3C4043",
+        color: active ? BLUE : "#BDC1C6",
         fontWeight: active ? 700 : 500,
         fontSize: 13.5,
-        cursor: "default",
+        cursor: active ? "default" : "not-allowed",
+        opacity: active ? 1 : 0.85,
       }}
     >
       <Icon size={14} />
@@ -118,35 +146,36 @@ export default function PartnerPerformanceSample({ ur }: { ur: boolean }) {
   );
 
   return (
-    <div style={{ background: "#fff", border: "1px solid #EAE1D2", borderRadius: 22, position: "relative", overflow: "hidden", display: "flex", flexDirection: isNarrow ? "column" : "row" }}>
-      <div style={{ position: "absolute", top: 14, insetInlineEnd: 14, zIndex: 2, background: "#211812", color: "#fff", fontSize: 10, fontWeight: 800, padding: "5px 11px", borderRadius: 999, letterSpacing: ".4px", whiteSpace: "nowrap" }}>
-        {ur ? "نمونہ ڈیٹا · محض مثال" : "SAMPLE DATA · ILLUSTRATIVE EXAMPLE"}
-      </div>
-
-      {/* SIDEBAR — mirrors Google Search Console's own nav, for illustration */}
+    <div style={{ background: "#fff", border: "1px solid #EAE1D2", borderRadius: 22, overflow: "hidden", display: "flex", flexDirection: isNarrow ? "column" : "row" }}>
+      {/* SIDEBAR — mirrors Google Search Console's own nav, for illustration. Only Performance has content here, everything else is greyed out / non-interactive. */}
       {!isNarrow && (
         <div style={{ flex: "none", width: 208, background: "#F8F9FC", borderInlineEnd: "1px solid #EAE1D2", padding: "18px 0" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "0 16px 16px", borderBottom: "1px solid #EAE1D2", marginBottom: 10 }}>
             <div style={{ width: 30, height: 30, borderRadius: 8, background: `linear-gradient(135deg,${PURPLE},#B71C66)`, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 12, flex: "none" }}>SG</div>
             <div style={{ fontSize: 13, fontWeight: 700, color: INK, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>shahgfood.com</div>
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>{NAV_MAIN.map((n) => navItem(n.Icon, ur ? n.ur : n.en, n.active))}</div>
-          <div style={{ marginTop: 14, padding: "0 16px", fontSize: 11.5, fontWeight: 700, color: "#5F6368", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>{NAV_MAIN.map((it) => navItem(it.Icon, ur ? it.ur : it.en, it.active))}</div>
+          <div style={{ marginTop: 14, padding: "0 16px", fontSize: 11.5, fontWeight: 700, color: "#BDC1C6", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             {ur ? "انڈیکسنگ" : "Indexing"} <FaChevronDown size={9} />
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 6 }}>{NAV_INDEXING.map((n) => navItem(n.Icon, ur ? n.ur : n.en))}</div>
-          <div style={{ marginTop: 14, padding: "0 16px", fontSize: 11.5, fontWeight: 700, color: "#5F6368", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 6 }}>{NAV_INDEXING.map((it) => navItem(it.Icon, ur ? it.ur : it.en))}</div>
+          <div style={{ marginTop: 14, padding: "0 16px", fontSize: 11.5, fontWeight: 700, color: "#BDC1C6", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             {ur ? "تجربہ" : "Experience"} <FaChevronDown size={9} />
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 6 }}>{NAV_EXPERIENCE.map((n) => navItem(n.Icon, ur ? n.ur : n.en))}</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 6 }}>{NAV_EXPERIENCE.map((it) => navItem(it.Icon, ur ? it.ur : it.en))}</div>
         </div>
       )}
 
       {/* MAIN */}
       <div style={{ flex: 1, minWidth: 0, padding: "22px 22px 18px" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 16, paddingInlineEnd: isNarrow ? 0 : 140 }}>
-          <div style={{ fontSize: 19, fontWeight: 700, color: INK }}>{ur ? "کارکردگی" : "Performance"}</div>
-          <span style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12.5, fontWeight: 700, color: "#3C4043", cursor: "default" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 16, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+            <div style={{ fontSize: 19, fontWeight: 700, color: INK }}>{ur ? "کارکردگی" : "Performance"}</div>
+            <span style={{ background: "#F1F3F4", color: "#5F6368", fontSize: 10, fontWeight: 800, padding: "4px 10px", borderRadius: 999, letterSpacing: ".4px", whiteSpace: "nowrap" }}>
+              {ur ? "نمونہ ڈیٹا" : "SAMPLE DATA"}
+            </span>
+          </div>
+          <span style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12.5, fontWeight: 700, color: "#3C4043", cursor: "default", flex: "none" }}>
             <FaDownload size={12} /> {ur ? "ایکسپورٹ" : "EXPORT"}
           </span>
         </div>
@@ -199,15 +228,51 @@ export default function PartnerPerformanceSample({ ur }: { ur: boolean }) {
               <span key={i}>{l}</span>
             ))}
           </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
+          <div
+            ref={chartRef}
+            onMouseMove={handleMove}
+            onMouseLeave={() => setHover(null)}
+            style={{ flex: 1, minWidth: 0, position: "relative", cursor: "crosshair" }}
+          >
             <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "auto", display: "block" }} preserveAspectRatio="none">
-              <path d={imprSolid} fill="none" stroke={PURPLE} strokeWidth={2.5} />
-              {imprDot && <path d={imprDot} fill="none" stroke={PURPLE} strokeWidth={2.5} strokeDasharray="3 4" />}
-              <path d={clicksSolid} fill="none" stroke={BLUE} strokeWidth={2.5} />
-              {clicksDot && <path d={clicksDot} fill="none" stroke={BLUE} strokeWidth={2.5} strokeDasharray="3 4" />}
+              <path d={imprSolid} fill="none" stroke={PURPLE} strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
+              {imprDot && <path d={imprDot} fill="none" stroke={PURPLE} strokeWidth={2.5} strokeLinecap="round" strokeDasharray="1 6" />}
+              <path d={clicksSolid} fill="none" stroke={BLUE} strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
+              {clicksDot && <path d={clicksDot} fill="none" stroke={BLUE} strokeWidth={2.5} strokeLinecap="round" strokeDasharray="1 6" />}
+              {hover !== null && (
+                <>
+                  <line x1={clicksPts[hover][0]} y1={0} x2={clicksPts[hover][0]} y2={H} stroke="#DADCE0" strokeWidth={1.5} />
+                  <circle cx={imprPts[hover][0]} cy={imprPts[hover][1]} r={4.5} fill="#fff" stroke={PURPLE} strokeWidth={2.5} />
+                  <circle cx={clicksPts[hover][0]} cy={clicksPts[hover][1]} r={4.5} fill="#fff" stroke={BLUE} strokeWidth={2.5} />
+                </>
+              )}
             </svg>
+            {hover !== null && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: 4,
+                  left: `min(max(${(hover / (n - 1)) * 100}%, 78px), calc(100% - 78px))`,
+                  transform: "translateX(-50%)",
+                  background: "#fff",
+                  border: "1px solid #EAE1D2",
+                  borderRadius: 10,
+                  boxShadow: "0 12px 26px -12px rgba(0,0,0,.3)",
+                  padding: "8px 12px",
+                  fontSize: 11.5,
+                  lineHeight: 1.6,
+                  whiteSpace: "nowrap",
+                  pointerEvents: "none",
+                  zIndex: 3,
+                }}
+              >
+                <div style={{ fontWeight: 800, color: INK, marginBottom: 3 }}>{HOURS[hover]}</div>
+                <div style={{ color: BLUE, fontWeight: 700 }}>{ur ? "کلکس" : "Clicks"}: {fmt(clicksScaled[hover])}</div>
+                <div style={{ color: PURPLE, fontWeight: 700 }}>{ur ? "امپریشنز" : "Impressions"}: {fmt(imprScaled[hover])}</div>
+              </div>
+            )}
             <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: "#9AA0A6", marginTop: 6 }}>
-              {HOURS.map((h) => (
+              {HOURS.slice(0, 12).map((h) => (
                 <span key={h}>{h}</span>
               ))}
             </div>
@@ -232,8 +297,8 @@ export default function PartnerPerformanceSample({ ur }: { ur: boolean }) {
 
         <div style={{ marginTop: 16, fontSize: 12, color: "#8A8072", lineHeight: 1.6, borderTop: "1px solid #F0E9DA", paddingTop: 12 }}>
           {ur
-            ? "یہ گوگل سرچ کنسول کے انداز میں بنایا گیا ایک نمونہ / مثال ہے کہ اسلام آباد اور راولپنڈی میں سرچ وزیبیلیٹی کیسی نظر آ سکتی ہے — یہ کسی حقیقی سرچ کنسول اکاؤنٹ سے منسلک نہیں۔"
-            : "Styled after Google Search Console — a sample / illustrative example of what search visibility in Islamabad & Rawalpindi can look like. Not connected to a real Search Console account."}
+            ? "یہ گوگل سرچ کنسول کے انداز میں بنایا گیا ایک نمونہ / مثال ہے کہ سرچ وزیبیلیٹی کیسی نظر آ سکتی ہے — یہ کسی حقیقی سرچ کنسول اکاؤنٹ سے منسلک نہیں (ابھی تک)۔"
+            : "Styled after Google Search Console — a sample / illustrative example of what search visibility can look like. Not connected to a real Search Console account (yet)."}
         </div>
       </div>
     </div>

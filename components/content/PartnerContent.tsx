@@ -197,8 +197,8 @@ export default function PartnerContent() {
             <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 30, color: "#211812" }}>{ur ? "شاہ جی آن لائن کیوں؟" : "Why Shah G Online"}</div>
             <p style={{ fontSize: 14.5, color: "#8A8072", margin: "8px auto 0", maxWidth: 620, lineHeight: 1.75 }}>
               {ur
-                ? "روزانہ ہزاروں لوگ اسلام آباد اور راولپنڈی میں گوگل پر \"کھانا میرے قریب\"، \"کراہی آرڈر کریں\" یا \"دال چاول ڈیلیوری\" جیسی چیزیں سرچ کرتے ہیں۔ شاہ جی آن لائن انہی سرچز میں نظر آنے کے لیے بنایا اور بہتر کیا گیا ہے — نیچے ایک مثال ہے کہ یہ نظر آنا کیسا لگتا ہے۔"
-                : "Every day, thousands of people in Islamabad & Rawalpindi search Google for things like \"food near me\", \"order karahi online\" or \"daal chawal delivery\". Shah G Online is built and optimized to show up in exactly those searches — here's an example of what that visibility can look like."}
+                ? "روزانہ ہزاروں لوگ پاکستان بھر میں گوگل پر \"کھانا میرے قریب\"، \"کراہی آرڈر کریں\" یا \"دال چاول ڈیلیوری\" جیسی چیزیں سرچ کرتے ہیں۔ شاہ جی آن لائن انہی سرچز میں نظر آنے کے لیے بنایا اور بہتر کیا گیا ہے — کوئی بھی ریستوران یا ہوم کچن، ملک میں کہیں سے بھی، اپنے علاقے کے گاہکوں تک پہنچنے کے لیے لسٹ ہو سکتا ہے۔ نیچے ایک مثال ہے کہ یہ نظر آنا کیسا لگتا ہے۔"
+                : "Every day, thousands of people across Pakistan search Google for things like \"food near me\", \"order karahi online\" or \"daal chawal delivery\". Shah G Online is built and optimized to show up in exactly those searches — any restaurant or home kitchen, anywhere in the country, can list and reach customers in their own area. Here's an example of what that visibility can look like."}
             </p>
           </div>
           <PartnerPerformanceSample ur={ur} />
