@@ -6,6 +6,7 @@ import { FaCreditCard, FaGlobeAsia, FaUtensils, FaCrown, FaHome, FaMapMarkerAlt,
 import { useApp } from "@/components/AppProvider";
 import { useWidth } from "@/components/hooks";
 import SuccessModal from "@/components/SuccessModal";
+import PartnerPerformanceSample from "@/components/PartnerPerformanceSample";
 
 const RED = "#C1272D";
 const PURPLE = "#5E1A86";
@@ -188,6 +189,19 @@ export default function PartnerContent() {
               <div style={{ fontSize: 12.5, color: "#8A8072", marginTop: 3 }}>{s.l}</div>
             </div>
           ))}
+        </div>
+
+        {/* WHY SHAH G ONLINE — search-visibility pitch, illustrative example only */}
+        <div style={{ marginTop: 40 }}>
+          <div style={{ textAlign: "center", marginBottom: 18 }}>
+            <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 30, color: "#211812" }}>{ur ? "شاہ جی آن لائن کیوں؟" : "Why Shah G Online"}</div>
+            <p style={{ fontSize: 14.5, color: "#8A8072", margin: "8px auto 0", maxWidth: 620, lineHeight: 1.75 }}>
+              {ur
+                ? "روزانہ ہزاروں لوگ اسلام آباد اور راولپنڈی میں گوگل پر \"کھانا میرے قریب\"، \"کراہی آرڈر کریں\" یا \"دال چاول ڈیلیوری\" جیسی چیزیں سرچ کرتے ہیں۔ شاہ جی آن لائن انہی سرچز میں نظر آنے کے لیے بنایا اور بہتر کیا گیا ہے — نیچے ایک مثال ہے کہ یہ نظر آنا کیسا لگتا ہے۔"
+                : "Every day, thousands of people in Islamabad & Rawalpindi search Google for things like \"food near me\", \"order karahi online\" or \"daal chawal delivery\". Shah G Online is built and optimized to show up in exactly those searches — here's an example of what that visibility can look like."}
+            </p>
+          </div>
+          <PartnerPerformanceSample ur={ur} />
         </div>
 
         {/* HOME KITCHENS — not just restaurants, home cooks can list too */}
