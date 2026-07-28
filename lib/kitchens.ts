@@ -12,6 +12,7 @@ export interface KitchenDish {
   half?: number; // used when type === "halffull"
   full?: number; // used when type === "halffull"
   note?: string; // freeform fallback, e.g. "6 pcs Rs 720 · 12 pcs Rs 1320"
+  img?: string; // real dish photo — falls back to a gradient tile until supplied
 }
 
 export interface Kitchen {
@@ -22,6 +23,7 @@ export interface Kitchen {
   phone: string; // display format, e.g. "0334-1525640"
   whatsapp: string; // digits only, international format for wa.me
   areas: string[];
+  deliveryFee: string; // display string, e.g. "Rs 250 flat, all covered areas"
   dishes: KitchenDish[];
 }
 
@@ -33,17 +35,39 @@ export const KITCHENS: Kitchen[] = [
     taglineU: "گھر کا خالص اور تازہ کھانا، آرڈر پر تیار۔",
     phone: "0334-1525640",
     whatsapp: "923341525640",
-    areas: ["Range Road", "Peshawar Road", "Chur Chowk", "Ahsan Colony", "Shally Wally"],
+    areas: ["Range Road", "Peshawar Road", "Chor Chowk", "Ahsan Colony", "Shaliwali"],
+    deliveryFee: "Rs 250 flat, anywhere in the covered areas",
     dishes: [
-      { name: "Daal Chawal", type: "fixed", price: 350 },
-      { name: "Butter Chicken", type: "halffull" }, // half/full prices to be confirmed with the partner
-      { name: "Achari Baingan Aloo", type: "fixed", price: 300 },
-      { name: "Chana Pulao", type: "fixed", price: 300 },
-      { name: "Pasta", type: "halffull" }, // half/full prices to be confirmed with the partner
+      { name: "Daal Chawal", type: "halffull", half: 350, full: 550, img: "/DaalChawel__Jiya's kitchen.jpg" },
+      { name: "Butter Chicken", type: "halffull", half: 1000, full: 2500, img: "/Butterchicken__JIya kithven.jpg" },
+      { name: "Achari Baingan Aloo", type: "fixed", price: 300, img: "/Achari bengan Jiya kithcen.jpg" }, // to be reconfirmed with the partner
+      { name: "Chana Pulao", type: "fixed", price: 300, img: "/Chan pulao Jiya kitchen.jpg" }, // to be reconfirmed with the partner
+      { name: "Pasta", type: "halffull", img: "/Pasta__Jiya Kitchen.jpg" }, // half/full prices to be confirmed with the partner
     ],
   },
 ];
 
 export function getKitchen(slug: string): Kitchen | undefined {
   return KITCHENS.find((k) => k.slug === slug);
+}
+
+// ----- shared WhatsApp prefill messages, used for every listed kitchen/restaurant -----
+// Mentions Shah G Online by name so the partner can see the order came from their listing.
+
+export function kitchenDishPriceText(d: KitchenDish): string {
+  if (d.type === "fixed" && d.price != null) return `Rs ${d.price.toLocaleString()}`;
+  if (d.type === "halffull" && d.half != null && d.full != null) return `Half Rs ${d.half.toLocaleString()} / Full Rs ${d.full.toLocaleString()}`;
+  if (d.note) return d.note;
+  return "";
+}
+
+export function kitchenDishWaLink(kitchen: Kitchen, dish: KitchenDish): string {
+  const price = kitchenDishPriceText(dish);
+  const msg = `Assalam-o-Alaikum! 🍛\nMain Shah G Online (shahgfood.com) par listed aap ka "${dish.name}"${price ? ` (${price})` : ""} order karna chahta/chahti hoon.\nShukriya!`;
+  return `https://wa.me/${kitchen.whatsapp}?text=${encodeURIComponent(msg)}`;
+}
+
+export function kitchenWaLink(kitchen: Kitchen): string {
+  const msg = `Assalam-o-Alaikum! 🍛\nMain aap ko Shah G Online (shahgfood.com) par listed dekh kar order karna chahta/chahti hoon.\nMehrbani karke menu aur rates bata dein, shukriya!`;
+  return `https://wa.me/${kitchen.whatsapp}?text=${encodeURIComponent(msg)}`;
 }

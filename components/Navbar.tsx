@@ -7,7 +7,7 @@ import { BRANCHES, LOGO, LOGO_FILTER } from "@/lib/data";
 import { DICT } from "@/lib/i18n";
 import { useApp } from "@/components/AppProvider";
 import { useWidth, useHideOnScroll } from "@/components/hooks";
-import { IconHome, IconMenu, IconInfo, IconBriefcase, IconChat } from "@/components/icons";
+import { IconHome, IconMenu, IconInfo, IconChat, IconPot, IconFeed } from "@/components/icons";
 import { useChatUnread } from "@/lib/chat-store";
 import { showChatSoon } from "@/components/ChatSoonToast";
 
@@ -26,8 +26,9 @@ export default function Navbar() {
   const MENU_PATH = "/restaurant/shah-g-foods/menu";
   const NAV: [string, string][] = [
     ["/", t.home],
-    [MENU_PATH, t.menu],
-    ["/partner", ur ? "پارٹنر" : "Partner"],
+    [MENU_PATH, ur ? "ریستوران" : "Restaurant"],
+    ["/kitchen", ur ? "کچن" : "Kitchen"],
+    ["/feed", "Feed"],
     ["/about", t.about],
   ];
 
@@ -35,7 +36,8 @@ export default function Navbar() {
   const M_TABS: { href: string; Icon: (p: { size?: number; color?: string; strokeWidth?: number }) => React.ReactElement; match: (p: string) => boolean }[] = [
     { href: "/", Icon: IconHome, match: (p) => p === "/" },
     { href: MENU_PATH, Icon: IconMenu, match: (p) => p.startsWith("/menu") || p.startsWith("/restaurant") },
-    { href: "/partner", Icon: IconBriefcase, match: (p) => p.startsWith("/partner") },
+    { href: "/kitchen", Icon: IconPot, match: (p) => p.startsWith("/kitchen") },
+    { href: "/feed", Icon: IconFeed, match: (p) => p.startsWith("/feed") },
     { href: "/about", Icon: IconInfo, match: (p) => p.startsWith("/about") },
   ];
   const M_TAB_W = 64;

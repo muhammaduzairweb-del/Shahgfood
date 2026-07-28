@@ -17,6 +17,7 @@ export async function POST(req: NextRequest) {
     const email = g("email");
     const phone = g("phone");
     const areas = g("areas");
+    const deliveryFee = g("deliveryFee");
     const pkg = g("package");
     const term = g("term");
     const amount = g("amount");
@@ -56,6 +57,7 @@ export async function POST(req: NextRequest) {
           ${row("Email", email)}
           ${row("Phone / WhatsApp", phone)}
           ${row("Areas covered", areas)}
+          ${row("Delivery fee", deliveryFee)}
         </table>
         <div style="margin-top:18px;font-weight:800;color:#C1272D;font-size:13px;letter-spacing:.4px">DISHES SUBMITTED</div>
         <div style="margin-top:8px;padding:14px;background:#F7F3EB;border-radius:12px;white-space:pre-wrap;font-size:13.5px;color:#4A4238;line-height:1.6">${esc(dishes)}</div>

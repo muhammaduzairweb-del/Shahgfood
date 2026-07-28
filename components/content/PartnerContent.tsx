@@ -14,9 +14,9 @@ const CHARCOAL = "#16171B";
 
 interface Pkg { id: string; name: string; monthly: number; dishes: string; max: number; featured?: boolean; popular?: boolean; perks: string[] }
 const PACKAGES: Pkg[] = [
-  { id: "starter", name: "Starter", monthly: 8000, dishes: "5 signature dishes", max: 5, perks: ["List up to 5 signature dishes", "0% commission on every sale", "Direct call & WhatsApp orders", "Shown only in your covered areas", "Zero setup or IT cost"] },
-  { id: "growth", name: "Growth", monthly: 15000, dishes: "15 dishes", max: 15, popular: true, perks: ["List up to 15 dishes", "0% commission on every sale", "Priority placement in your areas", "Direct call & WhatsApp orders", "Zero setup or IT cost"] },
-  { id: "premium", name: "Super Premium", monthly: 22000, dishes: "Featured on homepage", max: 30, featured: true, perks: ["★ Featured on the Shah G Online homepage", "List up to 30 dishes / full menu", "Top placement across the whole site", "Direct call & WhatsApp orders", "Dedicated priority support"] },
+  { id: "starter", name: "Starter", monthly: 15000, dishes: "5 signature dishes", max: 5, perks: ["List up to 5 signature dishes", "0% commission on every sale", "Direct call & WhatsApp orders", "Shown only in your covered areas", "Zero setup or IT cost"] },
+  { id: "growth", name: "Growth", monthly: 25000, dishes: "10 dishes", max: 10, popular: true, perks: ["List up to 10 dishes", "0% commission on every sale", "Priority placement in your areas", "Direct call & WhatsApp orders", "Zero setup or IT cost"] },
+  { id: "premium", name: "Super Premium", monthly: 32000, dishes: "Featured on homepage", max: 21, featured: true, perks: ["★ Featured on the Shah G Online homepage", "List up to 21 dishes", "Top placement across the whole site", "Direct call & WhatsApp orders", "Dedicated priority support"] },
 ];
 const yearly = (m: number) => Math.round(m * 12 * 0.8);
 
@@ -99,9 +99,9 @@ export default function PartnerContent() {
   const [sel, setSel] = useState<Pkg | null>(null);
   const [term, setTerm] = useState<"yearly" | "monthly">("monthly");
   const [toast, setToast] = useState(false);
-  const [f, setF] = useState({ restaurant: "", owner: "", email: "", phone: "", areas: "" });
+  const [f, setF] = useState({ restaurant: "", owner: "", email: "", phone: "", areas: "", deliveryFee: "" });
   const [agree, setAgree] = useState(false);
-  const [dishes, setDishes] = useState([{ name: "", type: "fixed", details: "" }]);
+  const [dishes, setDishes] = useState([{ name: "", type: "fixed", details: "", half: "", full: "" }]);
   const [state, setState] = useState<"idle" | "sending" | "error">("idle");
   const [modal, setModal] = useState(false);
   const [err, setErr] = useState("");
@@ -123,8 +123,8 @@ export default function PartnerContent() {
 
   const amount = sel ? (term === "yearly" ? yearly(sel.monthly) : sel.monthly) : 0;
   const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setF({ ...f, [k]: e.target.value });
-  const setDish = (i: number, k: "name" | "type" | "details", v: string) => setDishes((arr) => arr.map((d, j) => (j === i ? { ...d, [k]: v } : d)));
-  const addDish = () => sel && dishes.length < sel.max && setDishes((a) => [...a, { name: "", type: "fixed", details: "" }]);
+  const setDish = (i: number, k: "name" | "type" | "details" | "half" | "full", v: string) => setDishes((arr) => arr.map((d, j) => (j === i ? { ...d, [k]: v } : d)));
+  const addDish = () => sel && dishes.length < sel.max && setDishes((a) => [...a, { name: "", type: "fixed", details: "", half: "", full: "" }]);
   const rmDish = (i: number) => setDishes((a) => a.filter((_, j) => j !== i));
 
   const submit = async (e: React.FormEvent) => {
@@ -132,13 +132,20 @@ export default function PartnerContent() {
     if (!sel || !agree) return;
     setErr("");
     setState("sending");
-    const dishesText = dishes.filter((d) => d.name.trim()).map((d, i) => `${i + 1}. ${d.name} [${typeLabel(d.type)}], ${d.details}`).join("\n");
+    const dishesText = dishes
+      .filter((d) => d.name.trim())
+      .map((d, i) => {
+        const priceInfo = d.type === "halffull" ? `Half Rs ${d.half || "-"} · Full Rs ${d.full || "-"}` : d.details;
+        return `${i + 1}. ${d.name} [${typeLabel(d.type)}], ${priceInfo}`;
+      })
+      .join("\n");
     const fd = new FormData();
     fd.append("restaurant", f.restaurant);
     fd.append("owner", f.owner);
     fd.append("email", f.email);
     fd.append("phone", f.phone);
     fd.append("areas", f.areas);
+    fd.append("deliveryFee", f.deliveryFee);
     fd.append("package", `${sel.name} · ${sel.dishes}`);
     fd.append("term", term === "yearly" ? "Yearly (20% off)" : "Monthly");
     fd.append("amount", `Rs ${amount.toLocaleString()}`);
@@ -149,7 +156,7 @@ export default function PartnerContent() {
     try {
       const res = await fetch("/api/partner", { method: "POST", body: fd });
       const j = await res.json();
-      if (j.ok) { setModal(true); setState("idle"); setF({ restaurant: "", owner: "", email: "", phone: "", areas: "" }); setDishes([{ name: "", type: "fixed", details: "" }]); setAgree(false); }
+      if (j.ok) { setModal(true); setState("idle"); setF({ restaurant: "", owner: "", email: "", phone: "", areas: "", deliveryFee: "" }); setDishes([{ name: "", type: "fixed", details: "", half: "", full: "" }]); setAgree(false); }
       else { setState("error"); setErr(j.error || "Failed to send."); }
     } catch {
       setState("error");
@@ -322,7 +329,8 @@ export default function PartnerContent() {
                   <div style={{ marginBottom: 4 }}><div style={lbl}>{ur ? "آپ کی ای میل (فعال)" : "Your email (active)"} *</div><input required type="email" value={f.email} onChange={set("email")} placeholder="you@example.com" style={input} /></div>
                   <div style={{ fontSize: 11.5, color: "#B07A15", background: "#FCF7EE", borderRadius: 8, padding: "8px 11px", margin: "8px 0 12px", lineHeight: 1.5, display: "flex", gap: 7, alignItems: "flex-start" }}><FaInfoCircle size={13} color="#B07A15" style={{ flex: "none", marginTop: 2 }} /> <span>{ur ? "ایک فعال ای میل دیں، شاہ جی آن لائن اپنی سرکاری ای میل سے آپ سے رابطہ کرے گا، اور آپ کو ابھی تصدیقی ای میل بھی جائے گی۔" : "Use an active email. Shah G Online contacts you from its official email, and you'll get an instant confirmation email too."}</span></div>
 
-                  <div style={{ marginBottom: 14 }}><div style={lbl}>{ur ? "آپ کن علاقوں میں ڈیلیور کرتے ہیں؟" : "Which areas do you serve / deliver to?"} *</div><input required value={f.areas} onChange={set("areas")} placeholder={ur ? "مثلاً F-10، F-11، بلیو ایریا" : "e.g. F-10, F-11, Blue Area, G-9"} style={input} /><div style={{ fontSize: 11, color: "#B0A692", marginTop: 4 }}>{ur ? "آپ کی لسٹنگ صرف انہی علاقوں کے گاہکوں کو دکھائی دے گی۔" : "Your listing will only show to customers in these areas."}</div></div>
+                  <div style={{ marginBottom: 11 }}><div style={lbl}>{ur ? "آپ کن علاقوں میں ڈیلیور کرتے ہیں؟" : "Which areas do you serve / deliver to?"} *</div><input required value={f.areas} onChange={set("areas")} placeholder={ur ? "مثلاً F-10، F-11، بلیو ایریا" : "e.g. F-10, F-11, Blue Area, G-9"} style={input} /><div style={{ fontSize: 11, color: "#B0A692", marginTop: 4 }}>{ur ? "آپ کی لسٹنگ صرف انہی علاقوں کے گاہکوں کو دکھائی دے گی۔" : "Your listing will only show to customers in these areas."}</div></div>
+                  <div style={{ marginBottom: 14 }}><div style={lbl}>{ur ? "ان علاقوں میں ڈیلیوری فیس کتنی ہے؟" : "What's the delivery fee for these areas?"} *</div><input required value={f.deliveryFee} onChange={set("deliveryFee")} placeholder={ur ? "مثلاً Rs 100، یا مفت" : "e.g. Rs 100, or Free"} style={input} /></div>
 
                   {/* dishes */}
                   <div style={lbl}>{ur ? "آپ کی ڈشز اور قیمتیں" : "Your dishes & prices"} *</div>
@@ -341,7 +349,20 @@ export default function PartnerContent() {
                           <select value={d.type} onChange={(e) => setDish(i, "type", e.target.value)} style={{ ...input, marginTop: 0, flex: "1 1 150px", cursor: "pointer" }}>
                             {DISH_TYPES.map((t) => <option key={t.v} value={t.v}>{t.label}</option>)}
                           </select>
-                          <input value={d.details} onChange={(e) => setDish(i, "details", e.target.value)} placeholder={typePlaceholder[d.type]} style={{ ...input, marginTop: 0, flex: "2 1 200px" }} />
+                          {d.type === "halffull" ? (
+                            <>
+                              <div style={{ flex: "1 1 140px" }}>
+                                <div style={{ fontSize: 11, fontWeight: 800, color: "#8A8072", marginBottom: 4 }}>{ur ? "ہاف" : "Half"}</div>
+                                <input required value={d.half} onChange={(e) => setDish(i, "half", e.target.value)} placeholder={ur ? "مثلاً Rs 800" : "e.g. Rs 800"} style={{ ...input, marginTop: 0 }} />
+                              </div>
+                              <div style={{ flex: "1 1 140px" }}>
+                                <div style={{ fontSize: 11, fontWeight: 800, color: "#8A8072", marginBottom: 4 }}>{ur ? "فل" : "Full"}</div>
+                                <input required value={d.full} onChange={(e) => setDish(i, "full", e.target.value)} placeholder={ur ? "مثلاً Rs 1500" : "e.g. Rs 1500"} style={{ ...input, marginTop: 0 }} />
+                              </div>
+                            </>
+                          ) : (
+                            <input required value={d.details} onChange={(e) => setDish(i, "details", e.target.value)} placeholder={typePlaceholder[d.type]} style={{ ...input, marginTop: 0, flex: "2 1 200px" }} />
+                          )}
                         </div>
                       </div>
                     ))}

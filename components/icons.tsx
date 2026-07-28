@@ -61,6 +61,27 @@ export function IconMenu({ size = 24, color = "currentColor", strokeWidth = 2 }:
   );
 }
 
+export function IconPot({ size = 24, color = "currentColor", strokeWidth = 2 }: IconProps) {
+  return (
+    <svg {...base(size, color, strokeWidth)}>
+      <path d="M4 11h16v4a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5v-4z" />
+      <path d="M2 11h20" />
+      <path d="M7 11V8a5 5 0 0 1 10 0v3" />
+      <path d="M9 4c0-.6.4-1 1-1M15 4c0 .6-.4 1-1 1" />
+    </svg>
+  );
+}
+
+export function IconFeed({ size = 24, color = "currentColor", strokeWidth = 2 }: IconProps) {
+  return (
+    <svg {...base(size, color, strokeWidth)}>
+      <rect x="3" y="4" width="18" height="6" rx="2" />
+      <rect x="3" y="14" width="18" height="6" rx="2" />
+      <path d="M7 7h.01M7 17h.01" />
+    </svg>
+  );
+}
+
 export function IconPin({ size = 24, color = "currentColor", strokeWidth = 2 }: IconProps) {
   return (
     <svg {...base(size, color, strokeWidth)}>
