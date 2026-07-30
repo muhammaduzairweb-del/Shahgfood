@@ -103,19 +103,18 @@ export default function KitchenContent({ kitchen }: { kitchen: Kitchen }) {
 
         {/* MENU */}
         <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 26, marginBottom: 16, color: "#211812" }}>{ur ? "مینو" : "Menu"}</div>
-        <div style={{ position: "relative" }}>
-          <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 18, filter: kitchen.paused ? "blur(3px)" : undefined, pointerEvents: kitchen.paused ? "none" : undefined, userSelect: kitchen.paused ? "none" : undefined }}>
+        {kitchen.paused ? (
+          <div style={{ background: "#16110D", borderRadius: 20, padding: "48px 24px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", gap: 10, minHeight: 220 }}>
+            <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: ".4px", color: "#fff" }}>{ur ? "کچن عارضی طور پر بند ہے" : "KITCHEN TEMPORARILY DOWN"}</div>
+            <div style={{ fontSize: 13.5, color: "rgba(255,255,255,.7)", maxWidth: 360, lineHeight: 1.6 }}>{kitchen.pausedReason}</div>
+          </div>
+        ) : (
+          <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 18 }}>
             {kitchen.dishes.map((d, i) => (
               <DishTile key={d.name} d={d} i={i} kitchen={kitchen} ur={ur} />
             ))}
           </div>
-          {kitchen.paused && (
-            <div style={{ position: "absolute", inset: 0, borderRadius: 20, background: "rgba(15,10,8,.82)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: 24, gap: 8 }}>
-              <div style={{ fontSize: 15, fontWeight: 800, letterSpacing: ".4px", color: "#fff" }}>{ur ? "کچن عارضی طور پر بند ہے" : "KITCHEN TEMPORARILY DOWN"}</div>
-              <div style={{ fontSize: 13.5, color: "rgba(255,255,255,.8)", maxWidth: 360, lineHeight: 1.6 }}>{kitchen.pausedReason}</div>
-            </div>
-          )}
-        </div>
+        )}
 
         <div style={{ marginTop: 28, textAlign: "center" }}>
           <a href={waHref} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: RED, color: "#fff", fontWeight: 800, fontSize: 15, padding: "14px 28px", borderRadius: 14 }}>
