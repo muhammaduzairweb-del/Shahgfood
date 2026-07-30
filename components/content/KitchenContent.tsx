@@ -64,7 +64,8 @@ export default function KitchenContent({ kitchen }: { kitchen: Kitchen }) {
   const waHref = kitchenWaLink(kitchen);
 
   return (
-    <>
+    <div style={{ position: "relative" }}>
+      <div style={{ filter: kitchen.paused ? "blur(5px)" : undefined, pointerEvents: kitchen.paused ? "none" : undefined, userSelect: kitchen.paused ? "none" : undefined }}>
       {/* HERO */}
       <section style={{ position: "relative", overflow: "hidden", background: `linear-gradient(115deg,${PURPLE} 0%,#8E1E7C 55%,#B71C66 100%)`, color: "#fff" }}>
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "56px 20px 62px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
@@ -103,18 +104,11 @@ export default function KitchenContent({ kitchen }: { kitchen: Kitchen }) {
 
         {/* MENU */}
         <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 26, marginBottom: 16, color: "#211812" }}>{ur ? "مینو" : "Menu"}</div>
-        {kitchen.paused ? (
-          <div style={{ background: "#16110D", borderRadius: 20, padding: "48px 24px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", gap: 10, minHeight: 220 }}>
-            <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: ".4px", color: "#fff" }}>{ur ? "کچن عارضی طور پر بند ہے" : "KITCHEN TEMPORARILY DOWN"}</div>
-            <div style={{ fontSize: 13.5, color: "rgba(255,255,255,.7)", maxWidth: 360, lineHeight: 1.6 }}>{kitchen.pausedReason}</div>
-          </div>
-        ) : (
-          <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 18 }}>
-            {kitchen.dishes.map((d, i) => (
-              <DishTile key={d.name} d={d} i={i} kitchen={kitchen} ur={ur} />
-            ))}
-          </div>
-        )}
+        <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 18 }}>
+          {kitchen.dishes.map((d, i) => (
+            <DishTile key={d.name} d={d} i={i} kitchen={kitchen} ur={ur} />
+          ))}
+        </div>
 
         <div style={{ marginTop: 28, textAlign: "center" }}>
           <a href={waHref} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: RED, color: "#fff", fontWeight: 800, fontSize: 15, padding: "14px 28px", borderRadius: 14 }}>
@@ -125,6 +119,18 @@ export default function KitchenContent({ kitchen }: { kitchen: Kitchen }) {
           </div>
         </div>
       </div>
-    </>
+      </div>
+
+      {kitchen.paused && (
+        <div style={{ position: "absolute", inset: 0, zIndex: 20 }}>
+          <div style={{ position: "sticky", top: "35vh", display: "flex", justifyContent: "center", padding: "0 20px" }}>
+            <div style={{ background: "#16110D", borderRadius: 20, padding: "28px 30px", textAlign: "center", maxWidth: 380, boxShadow: "0 30px 70px -20px rgba(0,0,0,.6)" }}>
+              <div style={{ fontSize: 17, fontWeight: 800, letterSpacing: ".4px", color: "#fff" }}>{ur ? "کچن عارضی طور پر بند ہے" : "KITCHEN TEMPORARILY DOWN"}</div>
+              <div style={{ fontSize: 14, color: "rgba(255,255,255,.75)", marginTop: 8, lineHeight: 1.6 }}>{kitchen.pausedReason}</div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
