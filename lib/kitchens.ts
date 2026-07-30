@@ -25,6 +25,8 @@ export interface Kitchen {
   areas: string[];
   deliveryFee: string; // display string, e.g. "Rs 250 flat, all covered areas"
   dishes: KitchenDish[];
+  paused?: boolean; // menu stays in place, just covered with a banner — flip back on when resolved
+  pausedReason?: string;
 }
 
 export const KITCHENS: Kitchen[] = [
@@ -37,6 +39,8 @@ export const KITCHENS: Kitchen[] = [
     whatsapp: "923341525640",
     areas: ["Range Road", "Peshawar Road", "Chor Chowk", "Ahsan Colony", "Shaliwali"],
     deliveryFee: "Rs 250 flat, anywhere in the covered areas",
+    paused: true,
+    pausedReason: "Kitchen is temporarily down — payment pending.",
     dishes: [
       { name: "Daal Chawal", type: "halffull", half: 350, full: 550, img: "/DaalChawel__Jiya's kitchen.jpg" },
       { name: "Butter Chicken", type: "halffull", half: 1000, full: 2500, img: "/Butterchicken__JIya kithven.jpg" },
