@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { LOGO, LOGO_FILTER } from "@/lib/data";
-import { DICT } from "@/lib/i18n";
-import { useApp } from "@/components/AppProvider";
+import { LOGO, LOGO_FILTER, ORDER_PHONE, ORDER_TEL } from "@/lib/data";
+import { T } from "@/lib/copy";
 import { useWidth } from "@/components/hooks";
 import { IconFacebook, IconInstagram } from "@/components/icons";
 
@@ -14,23 +13,21 @@ const FB_URL = "https://www.facebook.com/profile.php?id=61592033124593";
 const IG_URL = "https://www.instagram.com/shahgfoodsofficial/";
 
 export default function SiteFooter() {
-  const { lang } = useApp();
-  const t = DICT[lang];
-  const ur = lang === "ur";
+  const t = T;
   const isMobile = useWidth() < 820;
 
   const company: [string, string][] = [
-    [ur ? "ہمارے بارے میں" : "About us", "/about"],
-    [ur ? "یہ کیسے کام کرتا ہے" : "How it works", "/how-it-works"],
-    [ur ? "ہمارا مشن" : "Our mission", "/mission"],
-    [ur ? "شاہ جی آن لائن ہی کیوں؟" : "Why Shah G Online", "/why-shah-g-online"],
-    [ur ? "کامیابی کی کہانیاں" : "Success stories", "/success-stories"],
-    [ur ? "شاخیں" : "Branches", "/branches"],
-    [ur ? "ریستوران لسٹ کریں" : "List your restaurant", "/partner"],
+    ["About us", "/about"],
+    ["Full menu", "/menu"],
+    ["Our branches", "/branches"],
+    ["Find a branch near me", "/shah-g-near-me"],
+    ["Food photos", "/shah-g-foods-photos"],
   ];
   const help: [string, string][] = [
-    [ur ? "شکایت درج کریں" : "File a complaint", "/complaint"],
-    [ur ? "سوالات" : "FAQs", "/faqs"],
+    ["Contact & feedback", "/contact"],
+    ["FAQs", "/faqs"],
+    ["Contact number", "/shah-g-contact-number"],
+    ["Best Daal Chawal in Islamabad", "/best-daal-chawal-islamabad"],
   ];
 
   return (
@@ -54,7 +51,7 @@ export default function SiteFooter() {
           {help.map(([label, href]) => (
             <Link key={href} href={href} style={colLink}>{label}</Link>
           ))}
-          <Link href="/partner" style={colLink}>{ur ? "ریستوران لسٹ کریں" : "List your restaurant"}</Link>
+          <a href={`tel:${ORDER_TEL}`} className="num" style={colLink}>{ORDER_PHONE}</a>
         </div>
 
         <div style={{ fontSize: 13, lineHeight: 2.1 }}>
@@ -67,12 +64,11 @@ export default function SiteFooter() {
         </div>
       </div>
       <div style={{ borderTop: "1px solid rgba(255,255,255,.1)", padding: isMobile ? "16px 20px 104px" : "16px 20px", display: "flex", flexWrap: "wrap", gap: "6px 18px", alignItems: "center", justifyContent: "center", fontSize: 12, color: "rgba(255,255,255,.4)" }}>
-        <span className="num">© 2026 Shah G Online · shahgfood.com</span>
+        <span className="num">© {new Date().getFullYear()} Shah G Foods · shahgfood.com</span>
         <span style={{ opacity: 0.4 }}>·</span>
-        <Link href="/privacy" style={{ color: "rgba(255,255,255,.55)", textDecoration: "none" }}>{ur ? "پرائیویسی" : "Privacy"}</Link>
-        <Link href="/terms" style={{ color: "rgba(255,255,255,.55)", textDecoration: "none" }}>{ur ? "شرائط و ضوابط" : "Terms"}</Link>
-        <Link href="/refund" style={{ color: "rgba(255,255,255,.55)", textDecoration: "none" }}>{ur ? "ری فنڈ" : "Refunds"}</Link>
-        <Link href="/shipping" style={{ color: "rgba(255,255,255,.55)", textDecoration: "none" }}>{ur ? "سروس پالیسی" : "Service Policy"}</Link>
+        <Link href="/privacy" style={{ color: "rgba(255,255,255,.55)", textDecoration: "none" }}>Privacy Policy</Link>
+        <Link href="/terms" style={{ color: "rgba(255,255,255,.55)", textDecoration: "none" }}>Terms</Link>
+        <Link href="/refund" style={{ color: "rgba(255,255,255,.55)", textDecoration: "none" }}>Refund Policy</Link>
       </div>
     </footer>
   );

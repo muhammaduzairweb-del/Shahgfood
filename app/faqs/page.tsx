@@ -4,7 +4,7 @@ import { FaqsContent } from "@/components/content/ContentPages";
 
 export const metadata: Metadata = {
   title: "FAQs",
-  description: "Delivery areas, timings, fees, payment methods and order tracking — answers to common Shah G Foods questions.",
+  description: "Answers to common questions about Shah G Foods: how to order, delivery areas, opening hours, payment and catering.",
   alternates: { canonical: "/faqs" },
 };
 

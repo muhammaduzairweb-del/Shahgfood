@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import SiteShell from "@/components/SiteShell";
 import BranchDetail from "@/components/content/BranchDetail";
-import { BRANCHES, branchSlug, getBranchBySlug } from "@/lib/data";
+import { BRANCHES, ORDER_TEL, branchSlug, getBranchBySlug } from "@/lib/data";
 
-const SITE_URL = "https://shahgfood.com";
+import { SITE_URL } from "@/lib/copy";
 
 export function generateStaticParams() {
   return BRANCHES.map((b) => ({ slug: branchSlug(b.name) }));
@@ -14,10 +14,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const b = getBranchBySlug(slug);
   if (!b) return {};
-  const title = `Shah G Foods ${b.name} — Menu, Delivery & Timings`;
-  const description = `Order Daal Chawal, biryani, karahi, handi & BBQ from Shah G Foods ${b.name}, ${b.city}. Fast home delivery, open daily 11 AM–2 AM. Address: ${b.address}.`;
+  const title = `Shah G Foods ${b.name}, ${b.city}: Address, Timings & Delivery`;
+  const description = `Order Daal Chawal, biryani, karahi and BBQ from Shah G Foods ${b.name}, ${b.city}. Address: ${b.address}. Open daily 8 AM to 2 AM with fast home delivery.`;
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: { canonical: `/branches/${slug}` },
     openGraph: { title, description, url: `${SITE_URL}/branches/${slug}`, type: "website" },
@@ -34,6 +34,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     "@type": "Restaurant",
     name: `Shah G Foods ${b.name}`,
     servesCuisine: ["Pakistani", "Desi", "BBQ"],
+    telephone: ORDER_TEL,
+    image: `${SITE_URL}/Shahgfoods__Feature.jpg`,
+    parentOrganization: { "@id": `${SITE_URL}/#restaurant` },
     priceRange: "Rs 100–2000",
     url: `${SITE_URL}/branches/${slug}`,
     address: { "@type": "PostalAddress", streetAddress: b.address, addressLocality: b.city, addressRegion: b.city === "Rawalpindi" ? "Punjab" : "Islamabad Capital Territory", addressCountry: "PK" },

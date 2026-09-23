@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import { useApp } from "@/components/AppProvider";
 import { SLOTS, messageFor } from "@/lib/push-messages";
 import { ensurePushSubscription } from "@/lib/push-client";
 
@@ -14,9 +13,6 @@ function msUntilHour(hour: number) {
 }
 
 export default function NotifyReminder() {
-  const { lang } = useApp();
-  const ur = lang === "ur";
-
   useEffect(() => {
     if (typeof window === "undefined" || !("Notification" in window)) return;
 
@@ -24,7 +20,7 @@ export default function NotifyReminder() {
     const clearAll = () => { timers.forEach(clearTimeout); timers = []; };
 
     const fire = async (hour: number) => {
-      const { title, body } = messageFor(hour, ur);
+      const { title, body } = messageFor(hour);
       const options: NotificationOptions = { body, icon: "/icon.svg", badge: "/icon.svg", tag: `shahg-${hour}` };
       try {
         if ("serviceWorker" in navigator) {
@@ -51,7 +47,7 @@ export default function NotifyReminder() {
       if (Notification.permission !== "granted") return;
       // real Web Push: register this browser so /api/push/send reaches it
       // even when the site is closed (local timers below cover open tabs)
-      ensurePushSubscription(ur ? "ur" : "en");
+      ensurePushSubscription();
       clearAll();
       const today = new Date().toDateString();
       const nowHour = new Date().getHours();
@@ -70,7 +66,7 @@ export default function NotifyReminder() {
       clearAll();
       window.removeEventListener("notify-enabled", start);
     };
-  }, [ur]);
+  }, []);
 
   return null;
 }

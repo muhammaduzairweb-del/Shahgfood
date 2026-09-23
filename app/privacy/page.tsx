@@ -4,7 +4,7 @@ import { PrivacyContent } from "@/components/content/LegalPages";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "How Shah G Foods collects, uses, shares and protects your personal information when you order desi food online.",
+  description: "How Shah G Foods collects, uses and protects your information when you use shahgfood.com or order from us.",
   alternates: { canonical: "/privacy" },
 };
 

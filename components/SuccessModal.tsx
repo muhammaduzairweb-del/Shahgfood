@@ -2,12 +2,12 @@
 
 const RED = "#C1272D";
 
-export default function SuccessModal({ open, ur, title, message, onClose }: { open: boolean; ur: boolean; title: string; message: string; onClose: () => void }) {
+export default function SuccessModal({ open, title, message, onClose }: { open: boolean; title: string; message: string; onClose: () => void }) {
   if (!open) return null;
-    // CSS confetti: colored shapes, no emojis
+  // CSS confetti: colored shapes, no emojis
   const confetti = ["#C1272D", "#E0A020", "#2E9E4F", "#5E1A86", "#B71C66", "#F7D774"];
   return (
-    <div dir={ur ? "rtl" : "ltr"} onClick={onClose} style={{ position: "fixed", inset: 0, zIndex: 100, background: "rgba(30,18,10,.55)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, animation: "fade .2s ease" }}>
+    <div onClick={onClose} style={{ position: "fixed", inset: 0, zIndex: 100, background: "rgba(30,18,10,.55)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, animation: "fade .2s ease" }}>
       <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", background: "#fff", borderRadius: 24, maxWidth: 420, width: "100%", padding: "40px 30px 30px", textAlign: "center", boxShadow: "0 40px 90px -30px rgba(0,0,0,.5)", animation: "pop .45s cubic-bezier(.34,1.56,.64,1)", overflow: "hidden" }}>
         {confetti.map((col, i) => (
           <span key={i} aria-hidden style={{ position: "absolute", top: -14, left: `${8 + i * 16}%`, width: i % 2 ? 8 : 10, height: i % 2 ? 14 : 10, background: col, borderRadius: i % 2 ? 2 : "50%", animation: `confettiFall ${1.8 + (i % 3) * 0.4}s ease-in ${i * 0.12}s infinite` }} />
@@ -18,10 +18,10 @@ export default function SuccessModal({ open, ur, title, message, onClose }: { op
             <path d="M14 27l8 8 16-18" fill="none" stroke="#2E9E4F" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" style={{ strokeDasharray: 48, strokeDashoffset: 48, animation: "checkDraw .4s ease .45s forwards" }} />
           </svg>
         </div>
-        <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: 26, marginTop: 16, color: "#211812" }}>{title}</div>
+        <div style={{ fontFamily: "'DM Serif Display',serif", fontSize: 26, marginTop: 16, color: "#211812" }}>{title}</div>
         <div style={{ fontSize: 14.5, color: "#5A5245", marginTop: 10, lineHeight: 1.65 }}>{message}</div>
-        <div style={{ marginTop: 14, background: "#FCF7EE", borderRadius: 12, padding: "10px 14px", fontSize: 12.5, color: "#B07A15", lineHeight: 1.5, textAlign: ur ? "right" : "left" }}>{ur ? "ہماری ٹیم آپ کی تفصیلات دیکھ کر جلد خود آپ سے رابطہ کرے گی۔" : "Our team has your details and will contact you directly soon."}</div>
-        <button onClick={onClose} style={{ cursor: "pointer", marginTop: 20, border: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 15, padding: "12px 32px", borderRadius: 13, fontFamily: "inherit" }}>{ur ? "زبردست، شکریہ!" : "Great, thanks!"}</button>
+        <div style={{ marginTop: 14, background: "#FCF7EE", borderRadius: 12, padding: "10px 14px", fontSize: 12.5, color: "#B07A15", lineHeight: 1.5, textAlign: "left" }}>Our team has your details and will contact you directly soon.</div>
+        <button onClick={onClose} style={{ cursor: "pointer", marginTop: 20, border: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 15, padding: "12px 32px", borderRadius: 13, fontFamily: "inherit" }}>Great, thanks!</button>
       </div>
     </div>
   );

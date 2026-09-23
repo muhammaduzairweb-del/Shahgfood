@@ -3,9 +3,9 @@ import SiteShell from "@/components/SiteShell";
 import GuideContent from "@/components/content/GuideContent";
 
 export const metadata: Metadata = {
-  title: "Best Desi Food & Daal Chawal in Islamabad & Rawalpindi (2026 Guide)",
+  title: "Best Desi Food & Daal Chawal in Islamabad & Rawalpindi",
   description:
-    "Where to get the best daal chawal, biryani, karahi and BBQ in Islamabad & Rawalpindi. A local guide to Shah G Foods — 40+ branches, fast delivery, open daily 11 AM–2 AM.",
+    "Where to find the best daal chawal, biryani, karahi and BBQ in Islamabad and Rawalpindi. A local guide to Shah G Foods: 40 branches, fast delivery, open daily 8 AM to 2 AM.",
   alternates: { canonical: "/best-desi-food-islamabad" },
 };
 

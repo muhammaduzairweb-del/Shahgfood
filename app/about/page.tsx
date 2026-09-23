@@ -3,8 +3,8 @@ import SiteShell from "@/components/SiteShell";
 import { AboutContent } from "@/components/content/ContentPages";
 
 export const metadata: Metadata = {
-  title: "About us",
-  description: "The Shah G Foods story — from one plate of legendary Daal Chawal in F-10 to 35+ branches across Islamabad & Rawalpindi.",
+  title: "About Us",
+  description: "The Shah G Foods story: from one plate of Daal Chawal at F-10 Markaz to 40 branches across Islamabad and Rawalpindi.",
   alternates: { canonical: "/about" },
 };
 

@@ -10,7 +10,7 @@ export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
   try {
-    const { sub, lang } = await req.json();
+    const { sub } = await req.json();
     if (!sub?.endpoint || !sub?.keys?.p256dh || !sub?.keys?.auth) {
       return NextResponse.json({ ok: false, error: "Invalid subscription." }, { status: 400 });
     }
@@ -19,7 +19,6 @@ export async function POST(req: NextRequest) {
       endpoint: sub.endpoint,
       p256dh: sub.keys.p256dh,
       auth: sub.keys.auth,
-      lang: lang === "ur" ? "ur" : "en",
       updatedAt: Date.now(),
     });
     return NextResponse.json({ ok: true });

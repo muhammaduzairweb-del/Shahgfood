@@ -61,11 +61,11 @@ async function handle(req: NextRequest) {
   let removed = 0;
   const jobs = subsSnap.docs.map(async (d) => {
     const s = d.data();
-    const msg = messageFor(slot, s.lang === "ur");
+    const msg = messageFor(slot);
     try {
       await webpush.sendNotification(
         { endpoint: s.endpoint, keys: { p256dh: s.p256dh, auth: s.auth } },
-        JSON.stringify({ title: msg.title, body: msg.body, tag: `shahg-${slot}`, url: slot === 10 || slot === 17 ? "/partner" : "/restaurant/shah-g-foods/menu" })
+        JSON.stringify({ title: msg.title, body: msg.body, tag: `shahg-${slot}`, url: "/menu" })
       );
       sent++;
     } catch (e) {

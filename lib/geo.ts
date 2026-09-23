@@ -52,16 +52,16 @@ export function getPrecisePosition(targetAccuracy = 50, maxWaitMs = 15000): Prom
   });
 }
 
-export async function reverseGeocode(lat: number, lng: number, lang: "en" | "ur"): Promise<PreciseAddress> {
+export async function reverseGeocode(lat: number, lng: number): Promise<PreciseAddress> {
   const res = await fetch(
     `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`,
-    { headers: { "Accept-Language": lang === "ur" ? "ur,en" : "en" } }
+    { headers: { "Accept-Language": "en" } }
   );
   if (!res.ok) throw new Error("reverse geocoding failed");
   const data = await res.json();
   const a = data.address || {};
 
-  const house = a.house_number ? `${lang === "ur" ? "مکان" : "House"} ${a.house_number}` : "";
+  const house = a.house_number ? `House ${a.house_number}` : "";
   const street = a.road || a.pedestrian || a.residential || "";
   const area = a.suburb || a.neighbourhood || a.quarter || a.city_district || a.village || a.town || "";
   const city = a.city || a.town || a.municipality || a.county || a.state || "";

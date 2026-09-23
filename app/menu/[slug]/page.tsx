@@ -4,7 +4,7 @@ import SiteShell from "@/components/SiteShell";
 import DishDetail from "@/components/content/DishDetail";
 import { MENU, CATS, dishSlug, getDishBySlug, dishImage } from "@/lib/data";
 
-const SITE_URL = "https://shahgfood.com";
+import { SITE_URL } from "@/lib/copy";
 
 export function generateStaticParams() {
   return MENU.map((d) => ({ slug: dishSlug(d.name) }));
@@ -14,8 +14,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const d = getDishBySlug(slug);
   if (!d) return {};
-  const title = `${d.name} — Rs. ${d.price}`;
-  const description = `${d.desc}. Order ${d.name} online from Shah G Foods — freshly cooked, delivered hot across Islamabad & Rawalpindi. Rs. ${d.price}.`;
+  const title = `${d.name}: Rs. ${d.price}`;
+  const description = `${d.desc}. Order ${d.name} from Shah G Foods for Rs. ${d.price}, freshly cooked and delivered hot across Islamabad and Rawalpindi.`;
   const img = dishImage(d);
   return {
     title,

@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { CATS, MENU, TILE, type Category, type CategoryKey, dishImage } from "@/lib/data";
-import { DICT } from "@/lib/i18n";
-import { fmt as fmtBase } from "@/lib/cart";
-import { useApp } from "@/components/AppProvider";
+import { T } from "@/lib/copy";
+import { fmt } from "@/lib/format";
 import { useWidth } from "@/components/hooks";
 import { DishCard, DishRow, RED } from "@/components/ui";
 import PageHero from "@/components/PageHero";
@@ -24,9 +23,9 @@ function Highlight({ text, q }: { text: string; q: string }) {
   );
 }
 
-function CategoryBanner({ c, ur, count, h, imgW, phone }: { c: Category; ur: boolean; count: number; h: number; imgW: string; phone: boolean }) {
+function CategoryBanner({ c, count, h, imgW, phone }: { c: Category; count: number; h: number; imgW: string; phone: boolean }) {
   const img = MENU.filter((d) => d.cat === c.key).map(dishImage).find(Boolean);
-  const word = ur ? c.lu : c.label;
+  const word = c.label;
   return (
     <div style={{ position: "relative", overflow: "hidden", borderRadius: 20, height: h, background: TILE[c.key as CategoryKey], display: "flex", alignItems: "center", boxShadow: "0 16px 32px -24px rgba(0,0,0,.6)" }}>
       {img && (
@@ -39,21 +38,18 @@ function CategoryBanner({ c, ur, count, h, imgW, phone }: { c: Category; ur: boo
         />
       )}
       <div style={{ position: "relative", zIndex: 1, padding: phone ? "0 20px" : "0 30px", maxWidth: "56%" }}>
-        <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: "clamp(34px,10vw,58px)", lineHeight: 1.0, color: "#F7EFE0", textTransform: ur ? "none" : "lowercase", letterSpacing: ur ? "normal" : "-.5px", textShadow: "0 4px 20px rgba(0,0,0,.5)" }}>{word}</div>
-        {(ur ? c.subu : c.sub) && (
-          <div style={{ marginTop: phone ? 7 : 10, color: "rgba(255,255,255,.92)", fontSize: phone ? 12 : "clamp(13px,1.5vw,15.5px)", fontWeight: 500, lineHeight: 1.5, fontStyle: ur ? "normal" : "italic", maxWidth: 440, textShadow: "0 2px 8px rgba(0,0,0,.45)", display: "-webkit-box", WebkitLineClamp: phone ? 2 : 4, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{ur ? c.subu : c.sub}</div>
+        <div style={{ fontFamily: "'DM Serif Display',serif", fontSize: "clamp(34px,10vw,58px)", lineHeight: 1.0, color: "#F7EFE0", textTransform: "lowercase", letterSpacing: "-.5px", textShadow: "0 4px 20px rgba(0,0,0,.5)" }}>{word}</div>
+        {c.sub && (
+          <div style={{ marginTop: phone ? 7 : 10, color: "rgba(255,255,255,.92)", fontSize: phone ? 12 : "clamp(13px,1.5vw,15.5px)", fontWeight: 500, lineHeight: 1.5, fontStyle: "italic", maxWidth: 440, textShadow: "0 2px 8px rgba(0,0,0,.45)", display: "-webkit-box", WebkitLineClamp: phone ? 2 : 4, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{c.sub}</div>
         )}
-        <div className="num" style={{ marginTop: phone ? 9 : 13, display: "inline-block", background: "rgba(0,0,0,.32)", color: "#fff", fontSize: 12, fontWeight: 700, padding: "5px 12px", borderRadius: 999 }}>{count} {ur ? "ڈشز" : "items"}</div>
+        <div className="num" style={{ marginTop: phone ? 9 : 13, display: "inline-block", background: "rgba(0,0,0,.32)", color: "#fff", fontSize: 12, fontWeight: 700, padding: "5px 12px", borderRadius: 999 }}>{count} items</div>
       </div>
     </div>
   );
 }
 
 export default function MenuContent() {
-  const { lang } = useApp();
-  const t = DICT[lang];
-  const ur = lang === "ur";
-  const fmt = (n: number) => fmtBase(n, ur);
+  const t = T;
   const w = useWidth();
   const isPhone = w < 640;
   const cols = w < 900 ? 2 : w < 1200 ? 3 : 4;
@@ -75,17 +71,17 @@ export default function MenuContent() {
   }, []);
 
   const query = search.trim().toLowerCase();
-  // search across name, urdu, description AND category — so "rice", "spicy", "cold" etc. all work
+  // search across name, description AND category — so "rice", "spicy", "cold" etc. all work
   const matches = (d: (typeof MENU)[number]) => {
     if (!query) return true;
     const c = CATS.find((x) => x.key === d.cat);
-    const hay = `${d.name} ${d.urdu} ${d.desc} ${d.du} ${c?.label ?? ""} ${c?.lu ?? ""} ${c?.short ?? ""}`.toLowerCase();
+    const hay = `${d.name} ${d.desc} ${c?.label ?? ""} ${c?.short ?? ""}`.toLowerCase();
     return hay.includes(query);
   };
   const suggestions = query ? MENU.filter((d) => matches(d) && (!d.group || d.primary)).slice(0, 8) : [];
   const catLabel = (key: CategoryKey) => {
     const c = CATS.find((x) => x.key === key);
-    return c ? (ur ? c.lu : c.short) : "";
+    return c ? c.short : "";
   };
 
   // rotating placeholder that shows real dish names
@@ -95,7 +91,7 @@ export default function MenuContent() {
     return () => clearInterval(id);
   }, []);
   const phDish = MENU.find((x) => x.id === PH_IDS[phIdx]);
-  const placeholder = phDish ? `${ur ? "تلاش کریں" : "Search"} "${ur ? phDish.urdu : phDish.name}"…` : t.searchPh;
+  const placeholder = phDish ? `Search "${phDish.name}"…` : t.searchPh;
 
   const shownCats = cat === "all" ? CATS.filter((c) => c.key !== "all") : CATS.filter((c) => c.key === cat);
   const sections = shownCats
@@ -105,7 +101,7 @@ export default function MenuContent() {
 
   return (
     <>
-      <PageHero title={ur ? "شاہ جی فوڈز مینو" : "Shah G Foods Menu"} subtitle={t.menuSub} image={encodeURI("/chicken Biryani.jpg")} badge={ur ? "فیچرڈ ریستوران" : "FEATURED RESTAURANT"} />
+      <PageHero title="The Shah G Foods Menu" subtitle={t.menuSub} image={encodeURI("/chicken Biryani.jpg")} badge="ORDER BY CALL OR WHATSAPP" />
 
       {/* search — normal width, scrolls away */}
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 20px 4px" }}>
@@ -133,16 +129,16 @@ export default function MenuContent() {
                 suggestions.map((s, i) => (
                   <button
                     key={s.id}
-                    onMouseDown={(e) => { e.preventDefault(); setSearch(ur ? s.urdu : s.name); setFocused(false); }}
-                    style={{ width: "100%", textAlign: ur ? "right" : "left", cursor: "pointer", border: "none", background: "transparent", padding: "11px 15px", display: "flex", alignItems: "center", gap: 11, borderTop: i === 0 ? "none" : "1px solid #F4EEE2" }}
+                    onMouseDown={(e) => { e.preventDefault(); setSearch(s.name); setFocused(false); }}
+                    style={{ width: "100%", textAlign: "left", cursor: "pointer", border: "none", background: "transparent", padding: "11px 15px", display: "flex", alignItems: "center", gap: 11, borderTop: i === 0 ? "none" : "1px solid #F4EEE2" }}
                   >
                     <span style={{ color: "#B0A692", fontSize: 14, flex: "none" }}>⌕</span>
-                    <span style={{ flex: 1, fontSize: 14.5, fontWeight: 600, color: "#211D18" }}><Highlight text={ur ? s.urdu : s.name} q={query} /></span>
+                    <span style={{ flex: 1, fontSize: 14.5, fontWeight: 600, color: "#211D18" }}><Highlight text={s.name} q={query} /></span>
                     <span className="num" style={{ fontSize: 12, color: "#8A8072", flex: "none" }}>{catLabel(s.cat)} · {fmt(s.price)}</span>
                   </button>
                 ))
               ) : (
-                <div style={{ padding: "14px 16px", fontSize: 14, color: "#8A8072" }}>{ur ? "کوئی ڈش نہیں ملی۔" : "No matches — try another word."}</div>
+                <div style={{ padding: "14px 16px", fontSize: 14, color: "#8A8072" }}>No dishes match that. Try another word.</div>
               )}
             </div>
           )}
@@ -154,7 +150,7 @@ export default function MenuContent() {
         <div className="no-bar" style={{ maxWidth: 1280, margin: "0 auto", display: "flex", flexWrap: "nowrap", gap: 9, overflowX: "auto", padding: "10px 22px 12px" }}>
           {CATS.map((c) => {
             const active = cat === c.key;
-            return <button key={c.key} onClick={() => setCat(c.key)} style={{ flex: "none", cursor: "pointer", border: `1.5px solid ${active ? RED : "#E7DECD"}`, padding: "10px 17px", borderRadius: 24, fontSize: 13.5, fontWeight: 700, fontFamily: "inherit", background: active ? RED : "#fff", color: active ? "#fff" : "#5A5245" }}>{ur ? c.lu : c.label}</button>;
+            return <button key={c.key} onClick={() => setCat(c.key)} style={{ flex: "none", cursor: "pointer", border: `1.5px solid ${active ? RED : "#E7DECD"}`, padding: "10px 17px", borderRadius: 24, fontSize: 13.5, fontWeight: 700, fontFamily: "inherit", background: active ? RED : "#fff", color: active ? "#fff" : "#5A5245" }}>{c.label}</button>;
           })}
         </div>
       </div>
@@ -162,22 +158,22 @@ export default function MenuContent() {
       {/* dishes — normal width */}
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "18px 20px 50px" }}>
         {total === 0 ? (
-          <div style={{ textAlign: "center", color: "#8A8072", padding: "50px 0", fontSize: 15 }}>{ur ? "کوئی ڈش نہیں ملی۔" : "No dishes found."}</div>
+          <div style={{ textAlign: "center", color: "#8A8072", padding: "50px 0", fontSize: 15 }}>No dishes found.</div>
         ) : (
           sections.map(({ c, items }) => (
             <section key={c.key} style={{ marginTop: 26 }}>
-              <CategoryBanner c={c} ur={ur} count={items.length} h={bannerH} imgW={imgW} phone={isPhone} />
+              <CategoryBanner c={c} count={items.length} h={bannerH} imgW={imgW} phone={isPhone} />
               <div style={{ marginTop: 16 }}>
                 {isPhone ? (
                   <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                     {items.map((d) => (
-                      <DishRow key={d.id} d={d} ur={ur} t={t} fmt={fmt} />
+                      <DishRow key={d.id} d={d} />
                     ))}
                   </div>
                 ) : (
                   <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 18 }}>
                     {items.map((d) => (
-                      <DishCard key={d.id} d={d} ur={ur} t={t} fmt={fmt} showDesc />
+                      <DishCard key={d.id} d={d} showDesc />
                     ))}
                   </div>
                 )}

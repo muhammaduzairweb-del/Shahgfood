@@ -1,14 +1,13 @@
 import type { MetadataRoute } from "next";
 import { BRANCHES, branchSlug, MENU, dishSlug } from "@/lib/data";
 
-const SITE_URL = "https://shahgfood.com";
+import { SITE_URL } from "@/lib/copy";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   const routes: [string, number, MetadataRoute.Sitemap[number]["changeFrequency"]][] = [
     ["", 1, "daily"],
-    ["restaurant/shah-g-foods/menu", 0.9, "weekly"],
-    ["partner", 0.9, "weekly"],
+    ["menu", 0.9, "weekly"],
     ["best-desi-food-islamabad", 0.9, "weekly"],
     ["best-daal-chawal-islamabad", 0.9, "weekly"],
     ["shah-g-near-me", 0.8, "weekly"],
@@ -16,16 +15,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["shah-g-foods-photos", 0.6, "monthly"],
     ["branches", 0.8, "weekly"],
     ["about", 0.6, "monthly"],
-    ["how-it-works", 0.6, "monthly"],
-    ["mission", 0.5, "monthly"],
-    ["why-shah-g-online", 0.6, "monthly"],
-    ["success-stories", 0.5, "monthly"],
-    ["complaint", 0.4, "monthly"],
+    ["contact", 0.6, "monthly"],
     ["faqs", 0.6, "monthly"],
     ["privacy", 0.3, "yearly"],
     ["terms", 0.3, "yearly"],
     ["refund", 0.3, "yearly"],
-    ["shipping", 0.3, "yearly"],
     // dedicated per-branch landing pages (local SEO)
     ...BRANCHES.map((b) => [`branches/${branchSlug(b.name)}`, 0.75, "weekly"] as [string, number, MetadataRoute.Sitemap[number]["changeFrequency"]]),
     // dedicated per-dish pages (menu SEO)

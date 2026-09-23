@@ -24,8 +24,7 @@ function haversine(aLat: number, aLng: number, bLat: number, bLng: number): numb
 }
 
 export default function LocationPicker() {
-  const { lang, setBranch, setArea, setLocated, setPickerOpen, setCity: setGlobalCity } = useApp();
-  const ur = lang === "ur";
+  const { setBranch, setArea, setLocated, setPickerOpen, setCity: setGlobalCity } = useApp();
   const isMobile = useWidth() < 760;
 
   const [detecting, setDetecting] = useState(false);
@@ -52,14 +51,14 @@ export default function LocationPicker() {
     // reverse-geocode → exact street address; house number only exists where
     // OpenStreetMap has it mapped, hence the manual house field below
     try {
-      const r = await reverseGeocode(latitude, longitude, ur ? "ur" : "en");
+      const r = await reverseGeocode(latitude, longitude);
       setLabel(r.label);
       // the ADMIN REGION decides coverage: border towns (Khanpur ~18 km from
       // B-17) are physically close but in a different province — not served
       setServed(matchCoverage(r) ?? "other");
       // map data rarely carries house numbers here, hand the cursor to the
       // house field so the user completes the address in one step
-      if (!/house|مکان/i.test(r.label) && !house.trim()) houseRef.current?.focus();
+      if (!/house/i.test(r.label) && !house.trim()) houseRef.current?.focus();
     } catch {
       setLabel(`${latitude.toFixed(4)}, ${longitude.toFixed(4)}`);
       setServed(cityFromCoords(latitude, longitude) ?? "other");
@@ -70,7 +69,7 @@ export default function LocationPicker() {
   const detect = async () => {
     setGeoError("");
     if (!navigator.geolocation) {
-      setGeoError(ur ? "آپ کا براؤزر لوکیشن سپورٹ نہیں کرتا، نقشے پر خود پن لگائیں۔" : "Your browser doesn't support location. Drop the pin on the map instead.");
+      setGeoError("Your browser does not support location. Tap your spot on the map instead.");
       return;
     }
     setDetecting(true);
@@ -80,9 +79,7 @@ export default function LocationPicker() {
       await applyCoords(pos.coords.latitude, pos.coords.longitude);
     } catch {
       setGeoError(
-        ur
-          ? "لوکیشن نہیں مل سکی، کوئی بات نہیں، نقشے پر ٹیپ کر کے خود اپنی جگہ چنیں۔"
-          : "Couldn't get your location. No problem, just tap your spot on the map."
+        "We could not get your location. Just tap your spot on the map instead."
       );
     }
     setDetecting(false);
@@ -91,9 +88,9 @@ export default function LocationPicker() {
   const finalAddress = () => {
     const h = house.trim();
     if (!h) return label;
-    const prefix = ur ? `مکان ${h}` : `House ${h}`;
+    const prefix = `House ${h}`;
     // don't double-add if OSM already returned a house number
-    return label && !label.toLowerCase().includes("house") && !label.includes("مکان")
+    return label && !label.toLowerCase().includes("house")
       ? `${prefix}, ${label}`
       : label || prefix;
   };
@@ -104,7 +101,7 @@ export default function LocationPicker() {
     const branchName = nearest?.name || BRANCHES[0].name;
     setBranch(branchName);
     // honest coverage: outside our cities → "other", so the homepage shows
-    // the "not operating in your area yet" state instead of wrong restaurants
+    // that we do not deliver there yet
     setGlobalCity(served ?? (nearest ? nearest.city : ""));
     setArea(finalAddress() || branchName);
     setLocated(true);
@@ -112,7 +109,7 @@ export default function LocationPicker() {
   };
 
   return (
-    <div dir={ur ? "rtl" : "ltr"} style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: isMobile ? 0 : 22, animation: "fade .2s ease" }}>
+    <div style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: isMobile ? 0 : 22, animation: "fade .2s ease" }}>
       <div style={{ position: "absolute", inset: 0, background: "rgba(24,12,30,.62)", backdropFilter: "blur(4px)" }} />
 
       <div
@@ -121,7 +118,7 @@ export default function LocationPicker() {
           width: isMobile ? "100%" : "min(940px,100%)",
           height: isMobile ? "100dvh" : "min(620px,94vh)",
           display: "flex",
-          flexDirection: isMobile ? "column" : ur ? "row-reverse" : "row",
+          flexDirection: isMobile ? "column" : "row",
           overflow: "hidden",
           background: "#F7F3EB",
           borderRadius: isMobile ? 0 : 28,
@@ -136,7 +133,7 @@ export default function LocationPicker() {
           </div>
           {/* floating hint */}
           <div style={{ position: "absolute", left: "50%", transform: "translateX(-50%)", bottom: 14, zIndex: 500, background: "rgba(22,14,26,.82)", color: "#fff", fontSize: 12.5, fontWeight: 700, padding: "9px 16px", borderRadius: 999, whiteSpace: "nowrap", backdropFilter: "blur(4px)", pointerEvents: "none" }}>
-            <FaHandPointer size={13} style={{ marginInlineEnd: 7, verticalAlign: "-2px" }} />{ur ? "نقشے پر ٹیپ کریں یا پن گھسیٹیں" : "Tap the map or drag the pin to your exact spot"}
+            <FaHandPointer size={13} style={{ marginInlineEnd: 7, verticalAlign: "-2px" }} />Tap the map or drag the pin to your exact spot
           </div>
           {/* skip (X) over the map on mobile */}
           {isMobile && (
@@ -151,11 +148,11 @@ export default function LocationPicker() {
             {!isMobile && (
               <button onClick={() => { setLocated(true); setPickerOpen(false); }} aria-label="skip" style={{ position: "absolute", top: 14, insetInlineEnd: 14, width: 34, height: 34, borderRadius: "50%", border: "none", background: "rgba(255,255,255,.16)", color: "#fff", fontSize: 15, cursor: "pointer" }}>✕</button>
             )}
-            <div style={{ fontFamily: "'DM Serif Display','Noto Nastaliq Urdu',serif", fontSize: isMobile ? 21 : 26, lineHeight: 1.2 }}>
-              <FaMapMarkerAlt size={20} style={{ verticalAlign: "-2px", marginInlineEnd: 8 }} />{ur ? "آپ کہاں ہیں؟" : "Where are you?"}
+            <div style={{ fontFamily: "'DM Serif Display',serif", fontSize: isMobile ? 21 : 26, lineHeight: 1.2 }}>
+              <FaMapMarkerAlt size={20} style={{ verticalAlign: "-2px", marginInlineEnd: 8 }} />Where are you?
             </div>
             <div style={{ fontSize: 13, color: "rgba(255,255,255,.85)", marginTop: 6, lineHeight: 1.6 }}>
-              {ur ? "ہم آپ کو صرف وہی ریستوران دکھائیں گے جو آپ کے علاقے میں سروس دیتے ہیں۔" : "We'll show you only the restaurants that actually serve your area."}
+              We use it to find your nearest branch and fill in your delivery address.
             </div>
           </div>
 
@@ -169,10 +166,10 @@ export default function LocationPicker() {
               {detecting ? (
                 <>
                   <span style={{ width: 15, height: 15, border: "2.5px solid rgba(255,255,255,.4)", borderTopColor: "#fff", borderRadius: "50%", display: "inline-block", animation: "orbitSpin 1s linear infinite" }} />
-                  {ur ? "لائیو لوکیشن ٹریک ہو رہی ہے…" : "Tracking your live location…"}
+                  Finding your location…
                 </>
               ) : (
-                <><FaCrosshairs size={15} /> {ur ? "میری موجودہ لوکیشن استعمال کریں" : "Use my current location"}</>
+                <><FaCrosshairs size={15} /> Use my current location</>
               )}
             </button>
 
@@ -182,9 +179,7 @@ export default function LocationPicker() {
 
             {served === "other" && (
               <div style={{ background: "#FCF7EE", border: "1px solid #EFE3CF", color: "#8a6a2f", borderRadius: 13, padding: "11px 14px", fontSize: 12.5, fontWeight: 700, lineHeight: 1.6 }}>
-                {ur
-                  ? "ہم فی الحال آپ کے علاقے میں کام نہیں کر رہے۔ اگر آپ یہاں ریستوران چلاتے ہیں تو اسے لسٹ کریں اور آرڈرز حاصل کریں!"
-                  : "We're not operating in your area yet. If you run a restaurant here, list it on Shah G Online and start getting orders!"}
+                Sorry, we do not deliver to this area yet. Shah G Foods currently delivers across Islamabad and Rawalpindi.
               </div>
             )}
 
@@ -198,18 +193,18 @@ export default function LocationPicker() {
             {/* house number, map data rarely has it in Pakistan, so the user adds it */}
             <div>
               <div style={{ fontSize: 11.5, fontWeight: 800, letterSpacing: ".4px", color: "#8A8072", marginBottom: 6 }}>
-                <FaHome size={12} style={{ verticalAlign: "-1px", marginInlineEnd: 5 }} />{ur ? "مکان / فلیٹ نمبر" : "YOUR HOUSE / FLAT NUMBER"}
+                <FaHome size={12} style={{ verticalAlign: "-1px", marginInlineEnd: 5 }} />YOUR HOUSE / FLAT NUMBER
               </div>
               <input
                 ref={houseRef}
                 value={house}
                 onChange={(e) => setHouse(e.target.value)}
-                placeholder={ur ? "مثلاً 12-B, مکمل پتے کے لیے لکھیں" : "e.g. 12-B, type it to complete your address"}
+                placeholder="e.g. 12-B, type it to complete your address"
                 style={{ width: "100%", boxSizing: "border-box", fontFamily: "inherit", fontSize: 14.5, padding: "12px 14px", borderRadius: 12, border: `1.5px solid ${label && !house.trim() ? "#E0A020" : "#E0D6C4"}`, background: "#fff", color: "#211812", outline: "none", transition: "border-color .2s" }}
               />
               {label && !house.trim() && (
                 <div style={{ fontSize: 11.5, color: "#A87A10", fontWeight: 700, marginTop: 6, lineHeight: 1.5 }}>
-                  {ur ? "GPS مکان نمبر نہیں پڑھ سکتا، اوپر لکھ دیں تو پتہ مکمل ہو جائے گا۔" : "GPS can't read house numbers. Type yours above to complete the address."}
+                  GPS cannot read house numbers. Type yours above to complete the address.
                 </div>
               )}
             </div>
@@ -221,10 +216,10 @@ export default function LocationPicker() {
               disabled={!canConfirm}
               style={{ cursor: canConfirm ? "pointer" : "default", border: "none", background: canConfirm ? "#1E7A33" : "#D8D0C0", color: "#fff", fontWeight: 800, fontSize: 16, fontFamily: "inherit", padding: 16, borderRadius: 14, boxShadow: canConfirm ? "0 14px 30px -12px rgba(30,122,51,.6)" : "none", transition: "background .2s ease" }}
             >
-              {canConfirm ? (ur ? "✓ یہی میری لوکیشن ہے" : "✓ Yes, this is my location") : ur ? "پہلے لوکیشن چنیں" : "Set your location first"}
+              {canConfirm ? "✓ Yes, this is my location" : "Set your location first"}
             </button>
             <button onClick={() => { setLocated(true); setPickerOpen(false); }} style={{ cursor: "pointer", border: "none", background: "transparent", fontFamily: "inherit", textAlign: "center", fontSize: 13, fontWeight: 700, color: "#8A8072", padding: 4 }}>
-              {ur ? "ابھی نہیں، بعد میں" : "Skip for now"}
+              Skip for now
             </button>
           </div>
         </div>

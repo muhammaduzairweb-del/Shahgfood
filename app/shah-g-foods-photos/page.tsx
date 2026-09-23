@@ -3,9 +3,9 @@ import SiteShell from "@/components/SiteShell";
 import { PhotosContent } from "@/components/content/SeoPages";
 
 export const metadata: Metadata = {
-  title: "Shah G Foods Photos — Food Gallery",
+  title: { absolute: "Shah G Foods Photos: Real Food Gallery" },
   description:
-    "Photos of Shah G Foods — daal chawal, biryani, karahi, handi, charcoal BBQ, rolls, chaat, lassi and desi chai. See the food, then order online across Islamabad & Rawalpindi.",
+    "Real photos of Shah G Foods dishes: daal chawal, biryani, karahi, charcoal BBQ, rolls, chaat, shakes and chai. See the food, then order in Islamabad and Rawalpindi.",
   alternates: { canonical: "/shah-g-foods-photos" },
 };
 

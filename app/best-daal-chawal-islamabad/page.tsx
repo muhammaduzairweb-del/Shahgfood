@@ -5,7 +5,7 @@ import { DaalChawalContent } from "@/components/content/SeoPages";
 export const metadata: Metadata = {
   title: "Best Daal Chawal in Islamabad & Rawalpindi",
   description:
-    "Where to get the best daal chawal in Islamabad & Rawalpindi — Shah G Foods' legendary, budget-friendly daal chawal, cooked fresh and delivered hot. Order online, 40+ branches.",
+    "Looking for the best daal chawal in Islamabad or Rawalpindi? Shah G Foods serves its famous, budget-friendly Daal Chawal at 40 branches. Cooked fresh and delivered hot.",
   alternates: { canonical: "/best-daal-chawal-islamabad" },
 };
 

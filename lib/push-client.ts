@@ -11,7 +11,7 @@ function urlB64ToUint8Array(base64: string): Uint8Array {
   return arr;
 }
 
-export async function ensurePushSubscription(lang: "en" | "ur"): Promise<void> {
+export async function ensurePushSubscription(): Promise<void> {
   try {
     if (typeof window === "undefined") return;
     if (!("serviceWorker" in navigator) || !("PushManager" in window)) return;
@@ -28,15 +28,15 @@ export async function ensurePushSubscription(lang: "en" | "ur"): Promise<void> {
       });
     }
 
-    // re-register at most once a day (keeps lang fresh, survives DB cleanups)
-    const marker = `push-registered-${lang}`;
+    // re-register at most once a day (survives DB cleanups)
+    const marker = "push-registered";
     const today = new Date().toDateString();
     if (localStorage.getItem(marker) === today) return;
 
     await fetch("/api/push/subscribe", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sub: sub.toJSON(), lang }),
+      body: JSON.stringify({ sub: sub.toJSON() }),
     });
     localStorage.setItem(marker, today);
   } catch { /* push unsupported or blocked — local reminders still work */ }

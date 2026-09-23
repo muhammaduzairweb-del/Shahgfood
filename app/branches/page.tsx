@@ -3,8 +3,8 @@ import SiteShell from "@/components/SiteShell";
 import { BranchesContent } from "@/components/content/ContentPages";
 
 export const metadata: Metadata = {
-  title: "Our Branches",
-  description: "35+ Shah G Foods branches across Islamabad & Rawalpindi. Find your nearest one for fast desi food delivery.",
+  title: "All Branches in Islamabad & Rawalpindi",
+  description: "Find your nearest Shah G Foods branch. 40 locations across Islamabad and Rawalpindi with addresses, timings and directions. Open daily 8 AM to 2 AM.",
   alternates: { canonical: "/branches" },
 };
 

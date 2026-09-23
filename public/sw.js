@@ -17,14 +17,14 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("push", (event) => {
   let data = {};
   try { data = event.data ? event.data.json() : {}; } catch { /* ignore */ }
-  const title = data.title || "Shah G Online";
+  const title = data.title || "Shah G Foods";
   event.waitUntil(
     self.registration.showNotification(title, {
       body: data.body || "",
       icon: "/icon.svg",
       badge: "/icon.svg",
       tag: data.tag || "shahg-push",
-      data: { url: data.url || "/restaurant/shah-g-foods/menu" },
+      data: { url: data.url || "/menu" },
     })
   );
 });
@@ -32,7 +32,7 @@ self.addEventListener("push", (event) => {
 // Open the site when a notification is clicked
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
-  const url = (event.notification.data && event.notification.data.url) || "/restaurant/shah-g-foods/menu";
+  const url = (event.notification.data && event.notification.data.url) || "/menu";
   event.waitUntil(
     clients.matchAll({ type: "window", includeUncontrolled: true }).then((list) => {
       for (const c of list) {

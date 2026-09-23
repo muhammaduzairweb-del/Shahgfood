@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useApp } from "@/components/AppProvider";
 import { useWidth } from "@/components/hooks";
 
 const RED = "#C1272D";
@@ -30,8 +29,6 @@ interface BIPEvent extends Event {
 }
 
 export default function InstallApp() {
-  const { lang } = useApp();
-  const ur = lang === "ur";
   const isMobile = useWidth() < 820;
 
   const [deferred, setDeferred] = useState<BIPEvent | null>(null);
@@ -97,7 +94,7 @@ export default function InstallApp() {
 
   return (
     <div
-      dir={ur ? "rtl" : "ltr"}
+     
       style={{
         position: "fixed",
         bottom: isMobile ? 88 : 22,
@@ -116,24 +113,24 @@ export default function InstallApp() {
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/icon.svg" alt="Shah G LIVE" width={44} height={44} style={{ borderRadius: 11, flex: "none", alignSelf: iosHelp ? "flex-start" : "center" }} />
+      <img src="/icon.svg" alt="Shah G Foods" width={44} height={44} style={{ borderRadius: 11, flex: "none", alignSelf: iosHelp ? "flex-start" : "center" }} />
       <div style={{ flex: 1, minWidth: 0 }}>
         {iosHelp ? (
           <div style={{ fontSize: 13, color: "#4A4238" }}>
-            <div style={{ fontWeight: 800, color: "#211812", marginBottom: 8 }}>{ur ? "سفاری میں انسٹال کریں" : "Install in Safari"}</div>
+            <div style={{ fontWeight: 800, color: "#211812", marginBottom: 8 }}>Install in Safari</div>
             <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 7 }}>
               <span style={{ flex: "none", width: 24, height: 24, borderRadius: 7, background: "#F2ECE1", display: "flex", alignItems: "center", justifyContent: "center" }}><ShareIcon /></span>
-              <span>{ur ? "نیچے شیئر بٹن دبائیں" : "Tap the Share button below"}</span>
+              <span>Tap the Share button below</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
               <span style={{ flex: "none", width: 24, height: 24, borderRadius: 7, background: "#F2ECE1", display: "flex", alignItems: "center", justifyContent: "center" }}><PlusSquareIcon /></span>
-              <span>{ur ? "”Add to Home Screen“ منتخب کریں" : "Choose “Add to Home Screen”"}</span>
+              <span>Choose “Add to Home Screen”</span>
             </div>
           </div>
         ) : (
           <>
-            <div style={{ fontSize: 14.5, fontWeight: 800, color: "#211812" }}>{ur ? "شاہ جی لائیو انسٹال کریں" : "Install Shah G LIVE"}</div>
-            <div style={{ fontSize: 12.5, color: "#8A8072", marginTop: 2 }}>{ur ? "تیز آرڈرنگ · ہوم اسکرین پر · آف لائن بھی" : "Faster ordering · on your home screen · works offline"}</div>
+            <div style={{ fontSize: 14.5, fontWeight: 800, color: "#211812" }}>Install Shah G Foods</div>
+            <div style={{ fontSize: 12.5, color: "#8A8072", marginTop: 2 }}>Order faster, right from your home screen</div>
           </>
         )}
       </div>
@@ -142,7 +139,7 @@ export default function InstallApp() {
           onClick={install}
           style={{ cursor: "pointer", flex: "none", border: "none", background: RED, color: "#fff", fontWeight: 800, fontSize: 13.5, fontFamily: "inherit", padding: "10px 18px", borderRadius: 12 }}
         >
-          {isIOS ? (ur ? "کیسے؟" : "How?") : ur ? "انسٹال" : "Install"}
+          {isIOS ? ("How?") : "Install"}
         </button>
       )}
       <button onClick={dismiss} aria-label="Dismiss" style={{ cursor: "pointer", flex: "none", border: "none", background: "#F2ECE1", color: "#8A8072", width: 26, height: 26, borderRadius: "50%", fontSize: 16, lineHeight: 1 }}>×</button>
