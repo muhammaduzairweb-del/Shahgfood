@@ -64,11 +64,16 @@ export default function SiteFooter() {
         </div>
       </div>
       <div style={{ borderTop: "1px solid rgba(255,255,255,.1)", padding: isMobile ? "16px 20px 104px" : "16px 20px", display: "flex", flexWrap: "wrap", gap: "6px 18px", alignItems: "center", justifyContent: "center", fontSize: 12, color: "rgba(255,255,255,.4)" }}>
-        <span className="num">© {new Date().getFullYear()} Shah G Foods · shahgfood.com</span>
+        <span className="num">© {new Date().getFullYear()} shahgfood.com</span>
         <span style={{ opacity: 0.4 }}>·</span>
         <Link href="/privacy" style={{ color: "rgba(255,255,255,.55)", textDecoration: "none" }}>Privacy Policy</Link>
         <Link href="/terms" style={{ color: "rgba(255,255,255,.55)", textDecoration: "none" }}>Terms</Link>
         <Link href="/refund" style={{ color: "rgba(255,255,255,.55)", textDecoration: "none" }}>Refund Policy</Link>
+        <span style={{ flexBasis: "100%", textAlign: "center", marginTop: 4, color: "rgba(255,255,255,.55)" }}>
+          Developed by{" "}
+          <a href="https://zairwebstudio.com" target="_blank" rel="noopener" style={{ color: "#F7D774", fontWeight: 800, textDecoration: "none" }}>ZairWebStudio</a>
+          {" "}· This website and domain are the property of ZairWebStudio
+        </span>
       </div>
     </footer>
   );
