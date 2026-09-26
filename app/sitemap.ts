@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["complaints", 0.9, "daily"],
     ["complaints/new", 0.7, "monthly"],
     ["contact", 0.6, "monthly"],
+    ["website-for-sale", 0.5, "weekly"],
     ["faqs", 0.6, "monthly"],
     ["privacy", 0.3, "yearly"],
     ["terms", 0.3, "yearly"],

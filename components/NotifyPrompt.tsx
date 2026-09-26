@@ -42,7 +42,7 @@ export default function NotifyPrompt() {
     <div
       style={{
         position: "fixed",
-        top: 92,
+        top: 126,
         insetInlineEnd: 16,
         zIndex: 65,
         width: "min(320px, calc(100% - 32px))",

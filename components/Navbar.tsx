@@ -10,7 +10,9 @@ import { useWidth, useHideOnScroll } from "@/components/hooks";
 import { IconHome, IconMenu, IconInfo, IconPin } from "@/components/icons";
 
 const PURPLE = "#8E1E7C";
-const SALE_EMAIL = "muhammaduzair.web@gmail.com";
+export const SALE_EMAIL = "muhammaduzair.web@gmail.com";
+// height of the sticky "for sale" strip on top of the navbar
+export const SALE_BAR_H = 34;
 
 export default function Navbar() {
   const { branch, area, setPickerOpen } = useApp();
@@ -44,12 +46,19 @@ export default function Navbar() {
 
   return (
     <>
-      {/* "for sale" notice: scrolls away, the navbar below stays sticky */}
-      <div style={{ background: "#16171B", color: "rgba(255,255,255,.85)", fontSize: isMobile ? 11.5 : 12.5, fontWeight: 600, textAlign: "center", padding: "7px 14px", lineHeight: 1.4 }}>
-        This website and the domain <strong style={{ color: "#fff" }}>shahgfood.com</strong> are for sale. Reach me at{" "}
-        <a href={`mailto:${SALE_EMAIL}?subject=${encodeURIComponent("Enquiry: shahgfood.com website and domain for sale")}`} style={{ color: "#F7D774", fontWeight: 800, textDecoration: "underline", whiteSpace: "nowrap" }}>{SALE_EMAIL}</a>
-      </div>
       <header style={{ position: "sticky", top: 0, zIndex: 50 }}>
+        {/* "for sale" notice: part of the sticky header, so it stays visible while scrolling */}
+        <div style={{ height: SALE_BAR_H, background: "#16171B", color: "rgba(255,255,255,.85)", fontSize: isMobile ? 11.5 : 12.5, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", gap: isMobile ? 8 : 12, padding: "0 12px", whiteSpace: "nowrap", overflow: "hidden" }}>
+          {isMobile ? (
+            <span>Website + domain for sale from <strong style={{ color: "#F7D774" }}>2,800 USD</strong></span>
+          ) : (
+            <span>This website and the domain <strong style={{ color: "#fff" }}>shahgfood.com</strong> are for sale, starting from <strong style={{ color: "#F7D774" }}>2,800 USD</strong></span>
+          )}
+          <Link href="/website-for-sale" style={{ flex: "none", textDecoration: "none", background: "#F7D774", color: "#211812", fontWeight: 800, fontSize: isMobile ? 11 : 12, padding: isMobile ? "4px 10px" : "5px 13px", borderRadius: 999 }}>Learn more →</Link>
+          {w >= 1150 && (
+            <a href={`mailto:${SALE_EMAIL}?subject=${encodeURIComponent("Enquiry: shahgfood.com website and domain for sale")}`} style={{ color: "rgba(255,255,255,.75)", fontWeight: 700, textDecoration: "underline" }}>{SALE_EMAIL}</a>
+          )}
+        </div>
         <div style={{ height: 4, background: "linear-gradient(90deg,#F26B21,#ED1E79)" }} />
         <div style={{ background: "linear-gradient(90deg,rgba(94,26,134,.82) 0%,rgba(142,30,124,.74) 46%,rgba(183,28,102,.82) 100%)", backdropFilter: "blur(20px) saturate(180%)", WebkitBackdropFilter: "blur(20px) saturate(180%)", boxShadow: "0 6px 24px -12px rgba(94,26,134,.7)", borderBottom: "1px solid rgba(255,255,255,.12)" }}>
           <div style={{ maxWidth: 1280, margin: "0 auto", padding: "10px 22px", display: "flex", alignItems: "center", gap: 16 }}>

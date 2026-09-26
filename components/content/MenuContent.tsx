@@ -7,6 +7,7 @@ import { fmt } from "@/lib/format";
 import { useWidth } from "@/components/hooks";
 import { DishCard, DishRow, RED } from "@/components/ui";
 import PageHero from "@/components/PageHero";
+import { SALE_BAR_H } from "@/components/Navbar";
 
 // dish ids whose names cycle through the search placeholder
 const PH_IDS = [1, 4, 8, 72, 18, 55, 71, 87];
@@ -53,7 +54,7 @@ export default function MenuContent() {
   const w = useWidth();
   const isPhone = w < 640;
   const cols = w < 900 ? 2 : w < 1200 ? 3 : 4;
-  const navTop = isPhone ? 70 : 84; // sits the sticky filter right under the navbar
+  const navTop = (isPhone ? 70 : 84) + SALE_BAR_H; // sits the sticky filter right under the navbar
   const bannerH = isPhone ? 168 : 230; // Savour-style banner proportions
   const imgW = isPhone ? "50%" : "48%";
 
