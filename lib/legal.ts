@@ -19,7 +19,7 @@ export interface LegalDoc {
 
 const COMPANY = "Shah G Foods";
 const SITE = "shahgfood.com";
-const UPDATED = "Last updated: 23 September 2026";
+const UPDATED = "Last updated: 26 September 2026";
 const CONTACT = `Email ${PUBLIC_EMAIL} or call ${ORDER_PHONE}.`;
 
 /* ---------------- PRIVACY ---------------- */
@@ -41,6 +41,7 @@ export const PRIVACY: LegalDoc = {
         "Contact form: your name, phone number, email address, message and any file you choose to attach.",
         "Notifications: if you turn on browser notifications, we store a technical subscription key so we can send you occasional offers. It does not identify you personally.",
         "Technical data: basic information such as device type, browser and pages visited, plus local storage that keeps the site working.",
+        "Advertising: we show ads from Google AdSense. Google and its partners use cookies to serve ads based on your previous visits to this and other websites. You can turn off personalised ads at https://adssettings.google.com, or opt out of third-party cookies at https://www.aboutads.info.",
       ],
     },
     {
@@ -56,7 +57,7 @@ export const PRIVACY: LegalDoc = {
     {
       h: "4. Sharing",
       body: [
-        "We share your details only with the branch and rider handling your order, and with service providers that run the website (hosting, email and notifications).",
+        "We share your details only with the branch and rider handling your order, and with service providers that run the website (hosting, email, notifications and advertising).",
         "We may disclose information when the law requires it.",
         "We never sell your personal information.",
       ],

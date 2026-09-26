@@ -12,7 +12,7 @@ const nextConfig = {
     return [
       // old marketplace-era URLs -> their Shah G Foods equivalents
       { source: "/restaurant/shah-g-foods/menu", destination: "/menu", permanent: true },
-      { source: "/complaint", destination: "/contact", permanent: true },
+      { source: "/complaint", destination: "/complaints", permanent: true },
       { source: "/careers", destination: "/contact", permanent: true },
       { source: "/track", destination: "/contact", permanent: true },
       { source: "/shipping", destination: "/terms", permanent: true },
@@ -29,7 +29,8 @@ const nextConfig = {
       { source: "/login", destination: "/", permanent: true },
       { source: "/signup", destination: "/", permanent: true },
       { source: "/forgot-password", destination: "/", permanent: true },
-      { source: "/admin/:path*", destination: "/", permanent: false },
+      { source: "/admin", destination: "/", permanent: false },
+      { source: "/admin/super", destination: "/", permanent: false },
     ];
   },
   // Pin the workspace root — a stray lockfile in the parent Downloads folder

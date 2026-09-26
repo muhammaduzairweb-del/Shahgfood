@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FaPhoneAlt } from "react-icons/fa";
+import { FaPhoneAlt, FaExclamationCircle } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import { BRANCHES, LOGO, LOGO_FILTER, ORDER_TEL } from "@/lib/data";
 import { T } from "@/lib/copy";
@@ -86,6 +86,9 @@ export default function Navbar() {
                 </nav>
               )}
 
+              <Link href="/complaints" aria-current={pathname.startsWith("/complaints") ? "page" : undefined} style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 7, background: "#C1272D", color: "#fff", fontWeight: 800, fontSize: isMobile ? 12.5 : 13.5, borderRadius: 999, padding: isMobile ? "9px 13px" : "9px 18px", whiteSpace: "nowrap", border: "1.5px solid rgba(255,255,255,.35)" }}>
+                <FaExclamationCircle size={13} /> {isMobile ? "Complain" : "Complaints"}
+              </Link>
               <a href={`tel:${ORDER_TEL}`} style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 7, background: "#fff", color: PURPLE, fontWeight: 800, fontSize: isMobile ? 12.5 : 13.5, borderRadius: 999, padding: isMobile ? "9px 13px" : "9px 18px", whiteSpace: "nowrap" }}>
                 <FaPhoneAlt size={13} /> {isMobile ? "Call" : "Call to order"}
               </a>

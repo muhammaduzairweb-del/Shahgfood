@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
-import { FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
+import { FaPhoneAlt, FaWhatsapp, FaExclamationCircle } from "react-icons/fa";
 import { CATS, MENU, REVIEWS, SITE_IMAGES, ORDER_TEL, dishImage, waOrderLink } from "@/lib/data";
 import { T, FAQS } from "@/lib/copy";
 import { fmt, mono } from "@/lib/format";
@@ -169,6 +169,16 @@ export default function HomeContent() {
       </section>
 
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "26px 20px 40px" }}>
+
+        {/* COMPLAINTS tagline */}
+        <Link href="/complaints" style={{ textDecoration: "none", color: "inherit", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", background: "#fff", border: "1.5px solid #F1D5D6", borderRadius: 18, padding: "15px 18px", marginBottom: 26 }}>
+          <span style={{ width: 42, height: 42, borderRadius: 12, background: "#FCF2F1", color: RED, display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}><FaExclamationCircle size={19} /></span>
+          <span style={{ flex: "1 1 240px" }}>
+            <span style={{ display: "block", fontWeight: 800, fontSize: 16 }}>Complaints about all restaurants, in one place</span>
+            <span style={{ display: "block", fontSize: 13.5, color: "#8A8072", marginTop: 2 }}>Read what customers say about restaurants across Pakistan, or file your own complaint.</span>
+          </span>
+          <span style={{ color: RED, fontWeight: 800, fontSize: 14, whiteSpace: "nowrap" }}>See complaints →</span>
+        </Link>
 
         {/* SIGNATURE */}
         <div style={{ background: CHARCOAL, borderRadius: 26, overflow: "hidden", display: "flex", flexWrap: "wrap", color: "#fff", boxShadow: "0 24px 50px -30px rgba(0,0,0,.7)" }}>

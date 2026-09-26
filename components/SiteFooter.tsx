@@ -24,6 +24,8 @@ export default function SiteFooter() {
     ["Food photos", "/shah-g-foods-photos"],
   ];
   const help: [string, string][] = [
+    ["Restaurant complaints", "/complaints"],
+    ["File a complaint", "/complaints/new"],
     ["Contact & feedback", "/contact"],
     ["FAQs", "/faqs"],
     ["Contact number", "/shah-g-contact-number"],
@@ -69,11 +71,6 @@ export default function SiteFooter() {
         <Link href="/privacy" style={{ color: "rgba(255,255,255,.55)", textDecoration: "none" }}>Privacy Policy</Link>
         <Link href="/terms" style={{ color: "rgba(255,255,255,.55)", textDecoration: "none" }}>Terms</Link>
         <Link href="/refund" style={{ color: "rgba(255,255,255,.55)", textDecoration: "none" }}>Refund Policy</Link>
-        <span style={{ flexBasis: "100%", textAlign: "center", marginTop: 4, color: "rgba(255,255,255,.55)" }}>
-          Developed by{" "}
-          <a href="https://zairwebstudio.com" target="_blank" rel="noopener" style={{ color: "#F7D774", fontWeight: 800, textDecoration: "none" }}>ZairWebStudio</a>
-          {" "}· This website and domain are the property of ZairWebStudio
-        </span>
       </div>
     </footer>
   );
