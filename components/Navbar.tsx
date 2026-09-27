@@ -50,9 +50,9 @@ export default function Navbar() {
         {/* "for sale" notice: part of the sticky header, so it stays visible while scrolling */}
         <div style={{ height: SALE_BAR_H, background: "#16171B", color: "rgba(255,255,255,.85)", fontSize: isMobile ? 11.5 : 12.5, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", gap: isMobile ? 8 : 12, padding: "0 12px", whiteSpace: "nowrap", overflow: "hidden" }}>
           {isMobile ? (
-            <span>Website + domain for sale from <strong style={{ color: "#F7D774" }}>2,800 USD</strong></span>
+            <span>This website + domain are <strong style={{ color: "#F7D774" }}>for sale</strong></span>
           ) : (
-            <span>This website and the domain <strong style={{ color: "#fff" }}>shahgfood.com</strong> are for sale, starting from <strong style={{ color: "#F7D774" }}>2,800 USD</strong></span>
+            <span>This website and the domain <strong style={{ color: "#fff" }}>shahgfood.com</strong> are for sale · <strong style={{ color: "#F7D774" }}>listed on GoDaddy Premium</strong></span>
           )}
           <Link href="/website-for-sale" style={{ flex: "none", textDecoration: "none", background: "#F7D774", color: "#211812", fontWeight: 800, fontSize: isMobile ? 11 : 12, padding: isMobile ? "4px 10px" : "5px 13px", borderRadius: 999 }}>Learn more →</Link>
           {w >= 1150 && (
@@ -95,8 +95,8 @@ export default function Navbar() {
                 </nav>
               )}
 
-              <Link href="/complaints" aria-current={pathname.startsWith("/complaints") ? "page" : undefined} style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 7, background: "#C1272D", color: "#fff", fontWeight: 800, fontSize: isMobile ? 12.5 : 13.5, borderRadius: 999, padding: isMobile ? "9px 13px" : "9px 18px", whiteSpace: "nowrap", border: "1.5px solid rgba(255,255,255,.35)" }}>
-                <FaExclamationCircle size={13} /> {isMobile ? "Complain" : "Complaints"}
+              <Link href="/complaints/new" aria-current={pathname.startsWith("/complaints") ? "page" : undefined} style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 7, background: "#C1272D", color: "#fff", fontWeight: 800, fontSize: isMobile ? 12.5 : 13.5, borderRadius: 999, padding: isMobile ? "9px 13px" : "9px 18px", whiteSpace: "nowrap", border: "1.5px solid rgba(255,255,255,.35)" }}>
+                <FaExclamationCircle size={13} /> {isMobile ? "Complain" : "File a complaint"}
               </Link>
               <a href={`tel:${ORDER_TEL}`} style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 7, background: "#fff", color: PURPLE, fontWeight: 800, fontSize: isMobile ? 12.5 : 13.5, borderRadius: 999, padding: isMobile ? "9px 13px" : "9px 18px", whiteSpace: "nowrap" }}>
                 <FaPhoneAlt size={13} /> {isMobile ? "Call" : "Call to order"}

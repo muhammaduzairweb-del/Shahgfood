@@ -24,7 +24,6 @@ export default function SiteFooter() {
     ["Food photos", "/shah-g-foods-photos"],
   ];
   const help: [string, string][] = [
-    ["Restaurant complaints", "/complaints"],
     ["File a complaint", "/complaints/new"],
     ["Contact", "/contact"],
     ["FAQs", "/faqs"],

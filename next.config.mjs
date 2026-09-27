@@ -45,7 +45,8 @@ const nextConfig = {
     return [
       // old marketplace-era URLs -> their Shah G Foods equivalents
       { source: "/restaurant/shah-g-foods/menu", destination: "/menu", permanent: true },
-      { source: "/complaint", destination: "/complaints", permanent: true },
+      { source: "/complaint", destination: "/complaints/new", permanent: true },
+      { source: "/complaints", destination: "/complaints/new", permanent: false },
       { source: "/careers", destination: "/contact", permanent: true },
       { source: "/track", destination: "/contact", permanent: true },
       { source: "/shipping", destination: "/terms", permanent: true },

@@ -171,13 +171,13 @@ export default function HomeContent() {
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "26px 20px 40px" }}>
 
         {/* COMPLAINTS tagline */}
-        <Link href="/complaints" style={{ textDecoration: "none", color: "inherit", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", background: "#fff", border: "1.5px solid #F1D5D6", borderRadius: 18, padding: "15px 18px", marginBottom: 26 }}>
+        <Link href="/complaints/new" style={{ textDecoration: "none", color: "inherit", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", background: "#fff", border: "1.5px solid #F1D5D6", borderRadius: 18, padding: "15px 18px", marginBottom: 26 }}>
           <span style={{ width: 42, height: 42, borderRadius: 12, background: "#FCF2F1", color: RED, display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}><FaExclamationCircle size={19} /></span>
           <span style={{ flex: "1 1 240px" }}>
-            <span style={{ display: "block", fontWeight: 800, fontSize: 16 }}>Complaints about all restaurants, in one place</span>
-            <span style={{ display: "block", fontSize: 13.5, color: "#8A8072", marginTop: 2 }}>Read what customers say about restaurants across Pakistan, or file your own complaint.</span>
+            <span style={{ display: "block", fontWeight: 800, fontSize: 16 }}>Had a bad experience at a restaurant?</span>
+            <span style={{ display: "block", fontSize: 13.5, color: "#8A8072", marginTop: 2 }}>File a complaint about any restaurant in Pakistan. Your contact details stay private.</span>
           </span>
-          <span style={{ color: RED, fontWeight: 800, fontSize: 14, whiteSpace: "nowrap" }}>See complaints →</span>
+          <span style={{ color: RED, fontWeight: 800, fontSize: 14, whiteSpace: "nowrap" }}>File a complaint →</span>
         </Link>
 
         {/* SIGNATURE */}

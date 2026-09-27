@@ -6,7 +6,9 @@ import { useEffect, useState } from "react";
 export function useWidth(): number {
   const [w, setW] = useState(1200);
   useEffect(() => {
-    const onResize = () => setW(window.innerWidth);
+    // clientWidth is the real layout width. innerWidth grows when a phone zooms
+    // out to fit wide content, which would wrongly keep the desktop layout.
+    const onResize = () => setW(document.documentElement.clientWidth || window.innerWidth);
     onResize();
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);

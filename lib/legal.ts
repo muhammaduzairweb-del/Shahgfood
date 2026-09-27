@@ -157,7 +157,7 @@ export const REFUND: LegalDoc = {
       h: "2. How to report a problem",
       body: [
         "Contact us within 2 hours of delivery. Share your name, phone number, the branch and what went wrong. A photo of the food helps us resolve it faster.",
-        `${CONTACT} You can also file a complaint on the Complaints page.`,
+        `${CONTACT} You can also use the complaint form on this website.`,
       ],
     },
     {

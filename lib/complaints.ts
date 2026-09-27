@@ -1,9 +1,6 @@
 // ===== Restaurant complaints | shared types and helpers =====
-// Flow: visitor submits via /api/complaints → it is emailed to the team →
-// approved complaints are added by hand to lib/complaints-data.ts and deployed.
+// Flow: visitor submits via /api/complaints and it is emailed to the team.
 // The complainant's name, phone and email only ever go to the team inbox.
-
-import { PUBLISHED_COMPLAINTS } from "./complaints-data";
 
 export type ComplaintCity = string;
 
@@ -45,31 +42,4 @@ export const LIMITS = { restaurant: 80, area: 80, title: 120, story: 3000, order
 
 export function restaurantKey(name: string): string {
   return name.toLowerCase().replace(/\s+/g, " ").trim();
-}
-
-/** Published complaints, newest first. */
-export function publishedComplaints(): Complaint[] {
-  return [...PUBLISHED_COMPLAINTS].sort((a, b) => b.publishedAt - a.publishedAt);
-}
-
-export interface RestaurantSummary {
-  key: string;
-  name: string;
-  count: number;
-  avg: number;
-}
-
-/** Per-restaurant complaint count and average rating, most-complained first. */
-export function summarize(list: Complaint[]): RestaurantSummary[] {
-  const map = new Map<string, RestaurantSummary & { sum: number }>();
-  for (const c of list) {
-    const key = restaurantKey(c.restaurant);
-    const cur = map.get(key) ?? { key, name: c.restaurant, count: 0, avg: 0, sum: 0 };
-    cur.count += 1;
-    cur.sum += c.rating;
-    map.set(key, cur);
-  }
-  return [...map.values()]
-    .map(({ sum, ...r }) => ({ ...r, avg: sum / r.count }))
-    .sort((a, b) => b.count - a.count || a.avg - b.avg);
 }

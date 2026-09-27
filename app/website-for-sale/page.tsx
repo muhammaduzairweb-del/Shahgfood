@@ -3,9 +3,9 @@ import SiteShell from "@/components/SiteShell";
 import SaleContent from "@/components/content/SaleContent";
 
 export const metadata: Metadata = {
-  title: { absolute: "Food Website & Domain for Sale: shahgfood.com | From 2,800 USD" },
+  title: { absolute: "shahgfood.com Is for Sale: Food Website & Premium Domain" },
   description:
-    "Buy shahgfood.com: a 3-month-old food website with 86,800 Google impressions, 2,510 clicks and a 6.1 average position. Full Next.js code, 150+ pages, free hosting. Starting from 2,800 USD.",
+    "shahgfood.com is for sale: a premium domain listed on GoDaddy plus a 3-month-old food website with 86,800 Google impressions, 2,510 clicks and a 6.1 average position.",
   alternates: { canonical: "/website-for-sale" },
 };
 

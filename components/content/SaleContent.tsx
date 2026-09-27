@@ -4,15 +4,15 @@ import Link from "next/link";
 import {
   FaGoogle, FaMousePointer, FaEye, FaTrophy, FaGlobe, FaCode, FaUtensils, FaMapMarkedAlt, FaExclamationCircle,
   FaWhatsapp, FaMobileAlt, FaBell, FaEnvelope, FaSearch, FaAd, FaServer, FaCheckCircle, FaRocket, FaStore,
-  FaMotorcycle, FaBlog, FaChartLine, FaHandshake,
+  FaMotorcycle, FaChartLine, FaHandshake, FaShieldAlt, FaBolt, FaStar,
 } from "react-icons/fa";
 import { SALE_EMAIL } from "@/components/Navbar";
 import { useWidth } from "@/components/hooks";
+import { GODADDY_LISTING_PRICE, GODADDY_LISTING_URL, GODADDY_SCREENSHOT, TRAFFIC_AS_OF, WEBSITE_PRICE, BUNDLE_PRICE, gmailLink, mailtoLink } from "@/lib/sale";
 
 const GOLD = "#F7D774";
 const RED = "#C1272D";
 const serif = "'DM Serif Display',serif";
-const MAILTO = `mailto:${SALE_EMAIL}?subject=${encodeURIComponent("Offer for shahgfood.com (website + domain)")}`;
 
 // Numbers straight from Google Search Console (last 3 months, Jul to Sep 2026)
 const STATS = [
@@ -26,7 +26,7 @@ const STRENGTHS = [
   { h: "Real Google traffic from day one", p: "No waiting 6 to 12 months for SEO. The site is already indexed and brings in visitors from Google every single day, with peaks of around 60 clicks and 1,600 impressions a day." },
   { h: "Ranking on the first page", p: "An average position of 6.1 means the site shows up on page one for food searches. Getting there from scratch usually takes a new site many months of content and link building." },
   { h: "A food keyword domain", p: "shahgfood.com is short, easy to remember and clearly about food, which suits a restaurant, a cloud kitchen, a delivery service or a food review brand." },
-  { h: "150+ pages already built", p: "92 dish pages with real photos and prices, 40 local landing pages, food guides and a Pakistan-wide complaints and ratings section that keeps adding fresh content." },
+  { h: "150+ pages already built", p: "92 dish pages with real photos and prices, 40 branch landing pages, food guides, a branch finder and a complaint form, all indexed by Google." },
   { h: "Zero monthly running cost", p: "The site runs on Vercel's free hosting. There is no server bill. You only pay the yearly domain renewal." },
   { h: "Ready to earn", p: "Google AdSense is already installed, and ordering works by Call and WhatsApp, so it can make money from ads, orders or leads straight away." },
 ];
@@ -36,7 +36,7 @@ const INCLUDED = [
   { Icon: FaCode, t: "Full source code", d: "Next.js 16 + TypeScript, transferred as a GitHub repository." },
   { Icon: FaUtensils, t: "Menu system", d: "92 dishes with photos, prices, categories, search and a page for every dish." },
   { Icon: FaMapMarkedAlt, t: "Location pages", d: "40 branch landing pages built for local search, plus a 'near me' finder." },
-  { Icon: FaExclamationCircle, t: "Complaints & ratings platform", d: "Pakistan-wide, with 31 cities, filters, rankings and a submission form." },
+  { Icon: FaExclamationCircle, t: "Customer complaint form", d: "Customers can report problems privately; every complaint goes straight to your inbox." },
   { Icon: FaWhatsapp, t: "Call & WhatsApp ordering", d: "One-tap ordering with pre-filled WhatsApp messages and the customer's location." },
   { Icon: FaMobileAlt, t: "Installable app (PWA)", d: "Customers can add it to their phone's home screen like an app." },
   { Icon: FaBell, t: "Push notifications", d: "Meal-time notifications to bring visitors back every day." },
@@ -50,7 +50,7 @@ const FOR_WHO = [
   { Icon: FaStore, t: "Restaurants", d: "Launch with an online menu, ordering and Google traffic already in place." },
   { Icon: FaUtensils, t: "Cloud kitchens", d: "Put your own menu in and start taking Call and WhatsApp orders." },
   { Icon: FaMotorcycle, t: "Delivery startups", d: "A ready base with location, menus and ordering to build on." },
-  { Icon: FaBlog, t: "Food review brands", d: "Grow the complaints and ratings section into a national platform." },
+  { Icon: FaStar, t: "Restaurant chains", d: "Built for many branches: every branch already has its own page on Google." },
 ];
 
 const STEPS = [
@@ -63,9 +63,9 @@ const STEPS = [
 const FAQ = [
   { q: "Is the traffic real?", a: "Yes. Every number on this page comes from Google Search Console. Serious buyers can check the account live on a screen share before paying." },
   { q: "How old is the website?", a: "About 3 months. It started receiving Google traffic in early July 2026." },
-  { q: "Does the sale include the Shah G Foods restaurant brand?", a: "No. The sale covers the domain shahgfood.com and the website with all its code and pages. The site can be fully rebranded with your own name, logo, menu and colours." },
+  { q: "Can this become the official Shah G Foods website?", a: "Yes. It already has the full menu with photos, all 40 branch pages and Call and WhatsApp ordering on your number. After the handover it is yours to run, change and grow." },
   { q: "Do I need coding skills to run it?", a: "Not for day-to-day use. It is hosted for free on Vercel and updates deploy automatically. Changing menus or text is simple for any web developer." },
-  { q: "Why 'starting from' 2,800 USD?", a: "2,800 USD is the starting price for the domain and website as they are. Extra work such as rebranding or custom features can be quoted separately." },
+  { q: "What is the price?", a: `The domain and website are sold together as one package for ${BUNDLE_PRICE}: the domain shahgfood.com (listed on GoDaddy's premium marketplace at ${GODADDY_LISTING_PRICE}) plus the complete website with code, SEO, all pages and handover (${WEBSITE_PRICE}).` },
 ];
 
 export default function SaleContent() {
@@ -91,15 +91,93 @@ export default function SaleContent() {
             In just 3 months this site has earned <b style={{ color: "#fff" }}>86,800 Google impressions</b> and <b style={{ color: "#fff" }}>2,510 clicks</b>, ranking on the first page. Skip the slow start and launch your food business with an audience from day one.
           </p>
           <div style={{ background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.14)", borderRadius: 20, padding: "16px 26px", marginTop: 4 }}>
-            <div style={{ fontSize: 12.5, fontWeight: 800, letterSpacing: "1px", color: "rgba(255,255,255,.6)" }}>STARTING FROM</div>
-            <div className="num" style={{ fontSize: isPhone ? 40 : 52, fontWeight: 800, color: GOLD, lineHeight: 1.1 }}>2,800 <span style={{ fontSize: "0.45em", color: "#fff" }}>USD</span></div>
-            <div style={{ fontSize: 12.5, color: "rgba(255,255,255,.6)" }}>Domain + full website + source code</div>
+            <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: "1px", color: "rgba(255,255,255,.6)" }}>COMPLETE PACKAGE · DOMAIN + WEBSITE</div>
+            <div className="num" style={{ fontSize: isPhone ? 34 : 46, fontWeight: 800, color: GOLD, lineHeight: 1.15 }}>{BUNDLE_PRICE}</div>
+            <div className="num" style={{ fontSize: 12.5, color: "rgba(255,255,255,.6)" }}>Domain {GODADDY_LISTING_PRICE} + website {WEBSITE_PRICE}</div>
           </div>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
-            <a href={MAILTO} style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: GOLD, color: "#211812", fontWeight: 800, fontSize: 16, padding: "15px 28px", borderRadius: 14 }}><FaEnvelope size={15} /> Make an offer</a>
-            <a href="#numbers" style={{ textDecoration: "none", border: "1.5px solid rgba(255,255,255,.4)", color: "#fff", fontWeight: 700, fontSize: 16, padding: "15px 26px", borderRadius: 14 }}>See the numbers ↓</a>
+            <a href="#pricing" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: GOLD, color: "#211812", fontWeight: 800, fontSize: 16, padding: "15px 28px", borderRadius: 14 }}>See what you get ↓</a>
+            <a href={gmailLink()} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, border: "1.5px solid rgba(255,255,255,.4)", color: "#fff", fontWeight: 700, fontSize: 16, padding: "15px 26px", borderRadius: 14 }}><FaEnvelope size={15} /> Email to buy</a>
           </div>
           <div style={{ fontSize: 13, color: "rgba(255,255,255,.55)" }}>{SALE_EMAIL}</div>
+        </div>
+      </section>
+
+      {/* PRICING: sold together as one package */}
+      <section id="pricing" style={{ ...section, scrollMarginTop: 130 }}>
+        <h2 style={h2}>One package, everything included</h2>
+        <p style={sub}>The domain and the website are sold together, so you get the name, the working website and all of its Google traffic in one handover.</p>
+        <div style={{ marginTop: 28, borderRadius: 26, overflow: "hidden", border: "1px solid #EAE1D2", boxShadow: "0 30px 60px -40px rgba(0,0,0,.55)", background: "#fff" }}>
+          <div style={{ display: "grid", gridTemplateColumns: isPhone ? "1fr" : "1fr 1fr" }}>
+            {[
+              {
+                badge: "PREMIUM DOMAIN",
+                title: "shahgfood.com",
+                price: GODADDY_LISTING_PRICE,
+                note: "GoDaddy premium listing price",
+                dark: true,
+                items: [
+                  "Listed on GoDaddy Premium Domains",
+                  "Ownership verified by GoDaddy",
+                  "Short, memorable .com with a food keyword",
+                  "86,800 Google impressions in 3 months",
+                  "2,510 organic clicks, average position 6.1",
+                  "Already indexed and ranking on page one",
+                  "Safe transfer through GoDaddy",
+                ],
+              },
+              {
+                badge: "THE WEBSITE",
+                title: "Complete website",
+                price: WEBSITE_PRICE,
+                note: "code, SEO, pages and handover",
+                dark: false,
+                items: [
+                  "Full source code (Next.js 16 + TypeScript) on GitHub",
+                  "150+ pages: 92 dishes, 40 branches, guides",
+                  "Full SEO setup: structured data, sitemap, unique titles",
+                  "Menu with real photos, prices, search and categories",
+                  "Call & WhatsApp ordering on every dish",
+                  "Branch finder with GPS and map",
+                  "Complaint form with private email delivery",
+                  "Installable app (PWA) and push notifications",
+                  "Security headers, AdSense ready",
+                  "Free Vercel hosting setup and full handover",
+                ],
+              },
+            ].map((p) => (
+              <div key={p.badge} style={{ padding: isPhone ? "24px 20px" : "30px 30px", background: p.dark ? "linear-gradient(160deg,#2A1233,#16171B)" : "#fff", color: p.dark ? "#fff" : "#211812" }}>
+                <span style={{ fontSize: 11.5, fontWeight: 800, letterSpacing: ".8px", padding: "5px 12px", borderRadius: 999, background: p.dark ? "rgba(247,215,116,.16)" : "#FCF2F1", color: p.dark ? GOLD : RED }}>{p.badge}</span>
+                <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginTop: 14 }}>
+                  <div style={{ fontFamily: serif, fontSize: 26 }}>{p.title}</div>
+                  <div className="num" style={{ fontSize: 20, fontWeight: 800, color: p.dark ? GOLD : "#211812" }}>{p.price}</div>
+                </div>
+                <div style={{ fontSize: 12.5, color: p.dark ? "rgba(255,255,255,.6)" : "#8A8072", marginTop: 2 }}>{p.note}</div>
+                <ul style={{ listStyle: "none", padding: 0, margin: "18px 0 0", display: "flex", flexDirection: "column", gap: 10 }}>
+                  {p.items.map((it) => (
+                    <li key={it} style={{ display: "flex", gap: 10, fontSize: 14.5, lineHeight: 1.5, color: p.dark ? "rgba(255,255,255,.88)" : "#4A4238" }}>
+                      <FaCheckCircle size={15} color={p.dark ? GOLD : "#2E9E4F"} style={{ flex: "none", marginTop: 3 }} /> {it}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* total + the one buy button */}
+          <div style={{ padding: isPhone ? "22px 20px" : "26px 30px", background: `linear-gradient(135deg,${GOLD},#F2B84B)`, color: "#211812", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+            <div>
+              <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: "1px" }}>COMPLETE PACKAGE · DOMAIN + WEBSITE</div>
+              <div className="num" style={{ fontSize: isPhone ? 34 : 42, fontWeight: 800, lineHeight: 1.1, marginTop: 4 }}>{BUNDLE_PRICE}</div>
+              <div className="num" style={{ fontSize: 13, color: "#4A3A1C", marginTop: 3 }}>{GODADDY_LISTING_PRICE} domain + {WEBSITE_PRICE} website</div>
+            </div>
+            <a href={gmailLink()} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: "#16171B", color: "#fff", fontWeight: 800, fontSize: 16, padding: "15px 26px", borderRadius: 14 }}>
+              <FaEnvelope size={15} /> Buy the complete package
+            </a>
+          </div>
+        </div>
+        <div style={{ textAlign: "center", fontSize: 13, color: "#8A8072", marginTop: 14 }}>
+          The button opens a ready-to-send email in Gmail. Not using Gmail? <a href={mailtoLink()} style={{ color: RED, fontWeight: 700 }}>Open in your email app</a> or write to <b>{SALE_EMAIL}</b>.
         </div>
       </section>
 
@@ -123,8 +201,52 @@ export default function SaleContent() {
         <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginTop: 14, background: "#fff", border: "1px solid #EAE1D2", borderRadius: 14, padding: "12px 16px", fontSize: 13.5, color: "#5A5245", lineHeight: 1.6 }}>
           <FaCheckCircle size={15} color="#2E9E4F" style={{ flex: "none", marginTop: 3 }} />
           <span>
-            <b>Data as of 26 September 2026.</b> Traffic changes over time, so today&apos;s numbers may be a little higher or lower, but all of it is organic and real, coming from Google Search with no paid ads.
+            <b>Data as of {TRAFFIC_AS_OF}.</b> Traffic changes over time, so today&apos;s numbers may be a little higher or lower, but all of it is organic and real, coming from Google Search with no paid ads.
           </span>
+        </div>
+      </section>
+
+      {/* GODADDY LISTING */}
+      <section style={section}>
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 14 }}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#E8FBF6", border: "1px solid #B7EBDD", fontSize: 12, fontWeight: 800, padding: "6px 13px", borderRadius: 999, color: "#0B7A5E" }}><FaCheckCircle size={12} /> OWNERSHIP VERIFIED BY GODADDY</span>
+        </div>
+        <h2 style={h2}>Listed on GoDaddy Premium Domains</h2>
+        <p style={sub}>shahgfood.com is listed for sale on GoDaddy&apos;s premium domain marketplace. GoDaddy has verified the current owner, so the transfer can go through GoDaddy safely.</p>
+        <figure style={{ margin: "26px 0 0", background: "#fff", border: "1px solid #EAE1D2", borderRadius: 20, padding: isPhone ? 8 : 14, boxShadow: "0 24px 50px -34px rgba(0,0,0,.45)" }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <a href={GODADDY_LISTING_URL} target="_blank" rel="noopener noreferrer" aria-label="Open the live GoDaddy listing for shahgfood.com">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={GODADDY_SCREENSHOT} alt={`GoDaddy listing for shahgfood.com, premium and verified domain, listed at ${GODADDY_LISTING_PRICE}`} loading="lazy" style={{ width: "100%", height: "auto", display: "block", borderRadius: 12 }} />
+          </a>
+          <figcaption style={{ fontSize: 12.5, color: "#8A8072", textAlign: "center", marginTop: 10 }}>Screenshot of the GoDaddy listing, {TRAFFIC_AS_OF}. The listing price is for the domain only.</figcaption>
+        </figure>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, marginTop: 18 }}>
+          <a href={GODADDY_LISTING_URL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: "#111", color: "#fff", fontWeight: 800, fontSize: 15.5, padding: "14px 24px", borderRadius: 14 }}>
+            <FaCheckCircle size={15} color="#3DDC97" /> Verify it yourself on GoDaddy ↗
+          </a>
+          <div style={{ fontSize: 12.5, color: "#8A8072", textAlign: "center" }}>Opens the live GoDaddy listing for shahgfood.com in a new tab.</div>
+        </div>
+      </section>
+
+      {/* FOR SHAH G FOODS */}
+      <section style={section}>
+        <div style={{ background: "linear-gradient(135deg,#5E1A86,#B71C66)", color: "#fff", borderRadius: 26, padding: isPhone ? "30px 22px" : "44px 44px" }}>
+          <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: "1px", color: GOLD }}>FOR SHAH G FOODS</div>
+          <div style={{ fontFamily: serif, fontSize: "clamp(26px,3.6vw,40px)", lineHeight: 1.15, marginTop: 8 }}>Your name, your customers, already on Google</div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(190px,1fr))", gap: 14, marginTop: 22 }}>
+            {[
+              { h: "Your brand as a .com", p: "shahgfood.com matches the name your customers already search for. It is the most natural address for your official website." },
+              { h: "Every branch on Google", p: "All 40 branches already have their own page with address, timings and directions, so each branch can be found in local searches." },
+              { h: "Your full menu, online", p: "92 dishes with real photos and prices, each with its own page, ready for customers to browse and order." },
+              { h: "Orders straight to you", p: "Call and WhatsApp buttons on every dish send customers directly to your number, with no commission to any app." },
+            ].map((x) => (
+              <div key={x.h} style={{ background: "rgba(255,255,255,.1)", border: "1px solid rgba(255,255,255,.18)", borderRadius: 16, padding: "18px 18px" }}>
+                <div style={{ fontWeight: 800, fontSize: 16 }}>{x.h}</div>
+                <p style={{ margin: "6px 0 0", fontSize: 14, lineHeight: 1.65, color: "rgba(255,255,255,.85)" }}>{x.p}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -174,6 +296,26 @@ export default function SaleContent() {
         </div>
       </section>
 
+      {/* BUILT PROPERLY */}
+      <section style={section}>
+        <h2 style={h2}>Built properly, not a template</h2>
+        <p style={sub}>Clean, modern code that any developer can pick up and extend.</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(230px,1fr))", gap: 12, marginTop: 26 }}>
+          {[
+            { Icon: FaCode, t: "Next.js 16 + TypeScript", d: "The same technology used by large modern web apps, with strict type checking." },
+            { Icon: FaBolt, t: "Fast static pages", d: "150+ pages are pre-built, so they load almost instantly on mobile data." },
+            { Icon: FaShieldAlt, t: "Security headers", d: "HTTPS enforced, content security policy and protection against clickjacking." },
+            { Icon: FaSearch, t: "SEO built in", d: "Structured data for the restaurant and every branch, a sitemap and unique titles on every page." },
+          ].map((x) => (
+            <div key={x.t} style={{ ...card, padding: "18px 18px" }}>
+              <span style={{ width: 40, height: 40, borderRadius: 12, background: "#16171B", color: GOLD, display: "inline-flex", alignItems: "center", justifyContent: "center" }}><x.Icon size={17} /></span>
+              <div style={{ fontWeight: 800, fontSize: 15.5, marginTop: 10 }}>{x.t}</div>
+              <p style={{ margin: "5px 0 0", fontSize: 13.5, color: "#6B6355", lineHeight: 1.6 }}>{x.d}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* HOW IT WORKS */}
       <section style={section}>
         <h2 style={h2}>How the sale works</h2>
@@ -209,8 +351,8 @@ export default function SaleContent() {
         <div style={{ background: "linear-gradient(135deg,#16171B,#2A1233)", color: "#fff", borderRadius: 26, padding: isPhone ? "34px 22px" : "50px 40px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
           <FaRocket size={30} color={GOLD} />
           <div style={{ fontFamily: serif, fontSize: "clamp(26px,3.6vw,40px)", lineHeight: 1.15 }}>Start your food business with a head start</div>
-          <p style={{ margin: 0, color: "rgba(255,255,255,.75)", fontSize: 15.5, maxWidth: 560, lineHeight: 1.7 }}>shahgfood.com, the full website and its Google traffic, starting from <b style={{ color: GOLD }}>2,800 USD</b>. Send your offer today.</p>
-          <a href={MAILTO} style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: GOLD, color: "#211812", fontWeight: 800, fontSize: 16, padding: "15px 30px", borderRadius: 14, marginTop: 6 }}><FaEnvelope size={15} /> {SALE_EMAIL}</a>
+          <p style={{ margin: 0, color: "rgba(255,255,255,.75)", fontSize: 15.5, maxWidth: 560, lineHeight: 1.7 }}>The domain and the complete website together for <b style={{ color: GOLD }}>{BUNDLE_PRICE}</b>, handed over as one package.</p>
+          <a href={gmailLink()} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: GOLD, color: "#211812", fontWeight: 800, fontSize: 16, padding: "15px 30px", borderRadius: 14, marginTop: 6 }}><FaEnvelope size={15} /> {SALE_EMAIL}</a>
           <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center", fontSize: 13, color: "rgba(255,255,255,.6)", marginTop: 4 }}>
             {["Verified Google data", "Full code ownership", "Free hosting"].map((t) => (
               <span key={t} style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><FaCheckCircle size={12} color="#4CAF50" /> {t}</span>

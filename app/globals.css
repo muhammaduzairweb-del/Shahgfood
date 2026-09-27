@@ -8,6 +8,12 @@ body {
   padding: 0;
 }
 
+/* never let anything make the page wider than the screen (phones would zoom
+   out to fit). clip, unlike hidden, keeps position: sticky working. */
+html {
+  overflow-x: clip;
+}
+
 body {
   background: #f2ece1;
   font-family: "Plus Jakarta Sans", system-ui, sans-serif;

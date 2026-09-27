@@ -15,7 +15,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["shah-g-foods-photos", 0.6, "monthly"],
     ["branches", 0.8, "weekly"],
     ["about", 0.6, "monthly"],
-    ["complaints", 0.9, "daily"],
     ["complaints/new", 0.7, "monthly"],
     ["contact", 0.6, "monthly"],
     ["website-for-sale", 0.5, "weekly"],

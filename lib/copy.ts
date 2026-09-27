@@ -73,6 +73,6 @@ export const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Something went wrong with my order. What should I do?",
-    a: "We are sorry. Call or WhatsApp us with your order details and the branch you ordered from, and our team will make it right. You can also file a complaint on the Complaints page.",
+    a: "We are sorry. Call or WhatsApp us with your order details and the branch you ordered from, and our team will make it right. You can also use the complaint form on this website.",
   },
 ];
