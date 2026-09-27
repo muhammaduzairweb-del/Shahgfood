@@ -37,7 +37,7 @@ async function handle(req: NextRequest) {
   if (!pub || !priv) {
     return NextResponse.json({ ok: false, error: "VAPID keys not configured." }, { status: 500 });
   }
-  webpush.setVapidDetails(process.env.VAPID_SUBJECT || "mailto:business@shahgfood.com", pub, priv);
+  webpush.setVapidDetails(process.env.VAPID_SUBJECT || "mailto:muhammaduzair.web@gmail.com", pub, priv);
 
   const hour = karachiHour();
   const today = karachiDate();

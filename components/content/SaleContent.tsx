@@ -120,6 +120,12 @@ export default function SaleContent() {
             </div>
           ))}
         </div>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginTop: 14, background: "#fff", border: "1px solid #EAE1D2", borderRadius: 14, padding: "12px 16px", fontSize: 13.5, color: "#5A5245", lineHeight: 1.6 }}>
+          <FaCheckCircle size={15} color="#2E9E4F" style={{ flex: "none", marginTop: 3 }} />
+          <span>
+            <b>Data as of 26 September 2026.</b> Traffic changes over time, so today&apos;s numbers may be a little higher or lower, but all of it is organic and real, coming from Google Search with no paid ads.
+          </span>
+        </div>
       </section>
 
       {/* WHY STRONG */}

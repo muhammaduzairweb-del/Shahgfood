@@ -3,7 +3,6 @@ import { BRANCHES, MENU, HOURS } from "./data";
 
 export const BRAND = "Shah G Foods";
 export const SITE_URL = "https://shahgfood.com";
-export const PUBLIC_EMAIL = "business@shahgfood.com";
 export const HOURS_TEXT = HOURS;
 export const BRANCH_COUNT = BRANCHES.length;
 export const DISH_COUNT = MENU.length;
@@ -74,6 +73,6 @@ export const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Something went wrong with my order. What should I do?",
-    a: "We are sorry. Use the Contact page or call us with your order details and the branch you ordered from, and our team will make it right.",
+    a: "We are sorry. Call or WhatsApp us with your order details and the branch you ordered from, and our team will make it right. You can also file a complaint on the Complaints page.",
   },
 ];

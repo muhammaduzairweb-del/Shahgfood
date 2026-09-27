@@ -2,7 +2,6 @@
 // Good-faith template for a restaurant that takes orders by phone and WhatsApp.
 // Have a qualified lawyer review it before you rely on it.
 
-import { PUBLIC_EMAIL } from "./copy";
 import { ORDER_PHONE } from "./data";
 
 export interface LegalSection {
@@ -20,7 +19,7 @@ export interface LegalDoc {
 const COMPANY = "Shah G Foods";
 const SITE = "shahgfood.com";
 const UPDATED = "Last updated: 26 September 2026";
-const CONTACT = `Email ${PUBLIC_EMAIL} or call ${ORDER_PHONE}.`;
+const CONTACT = `Call or WhatsApp us on ${ORDER_PHONE}.`;
 
 /* ---------------- PRIVACY ---------------- */
 export const PRIVACY: LegalDoc = {
@@ -158,7 +157,7 @@ export const REFUND: LegalDoc = {
       h: "2. How to report a problem",
       body: [
         "Contact us within 2 hours of delivery. Share your name, phone number, the branch and what went wrong. A photo of the food helps us resolve it faster.",
-        `Report it on the Contact page, or ${CONTACT.charAt(0).toLowerCase() + CONTACT.slice(1)}`,
+        `${CONTACT} You can also file a complaint on the Complaints page.`,
       ],
     },
     {

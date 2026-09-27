@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import { FaPhoneAlt } from "react-icons/fa";
-import { MENU, BRANCHES, HOURS, ORDER_PHONE, ORDER_TEL, type Branch, branchSlug, dishImage, dishSlug, distanceKm } from "@/lib/data";
-import { PUBLIC_EMAIL, BRANCH_COUNT } from "@/lib/copy";
+import { MENU, BRANCHES, HOURS, ORDER_PHONE, ORDER_TEL, ORDER_WA, type Branch, branchSlug, dishImage, dishSlug, distanceKm } from "@/lib/data";
+import { BRANCH_COUNT } from "@/lib/copy";
 import { fmt } from "@/lib/format";
 import { useWidth } from "@/components/hooks";
 import PageHero from "@/components/PageHero";
@@ -176,9 +176,9 @@ export function ContactNumberContent() {
         </a>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 14, marginTop: 16 }}>
-          <a href={`mailto:${PUBLIC_EMAIL}`} style={{ textDecoration: "none", background: "#fff", border: "1px solid #EAE1D2", borderRadius: 16, padding: "16px 18px", color: "inherit" }}>
-            <div style={{ fontSize: 12, fontWeight: 800, color: RED }}>EMAIL</div>
-            <div className="num" style={{ fontSize: 15, marginTop: 5, wordBreak: "break-all" }}>{PUBLIC_EMAIL}</div>
+          <a href={`https://wa.me/${ORDER_WA}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", background: "#fff", border: "1px solid #EAE1D2", borderRadius: 16, padding: "16px 18px", color: "inherit" }}>
+            <div style={{ fontSize: 12, fontWeight: 800, color: RED }}>WHATSAPP</div>
+            <div className="num" style={{ fontSize: 15, marginTop: 5 }}>{ORDER_PHONE}</div>
           </a>
           <div style={{ background: "#fff", border: "1px solid #EAE1D2", borderRadius: 16, padding: "16px 18px" }}>
             <div style={{ fontSize: 12, fontWeight: 800, color: RED }}>TIMINGS</div>

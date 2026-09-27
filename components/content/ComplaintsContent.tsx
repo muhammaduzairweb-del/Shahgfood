@@ -154,7 +154,7 @@ export function ComplaintsList() {
           <FaShieldAlt size={14} style={{ flex: "none", marginTop: 3 }} />
           <span>
             Complaints are the personal experiences and opinions of customers, either sent to us directly or collected from public reviews posted online. They are checked by our team before publishing but have not been independently verified.
-            Restaurant owners can respond to or dispute a complaint through the <Link href="/contact" style={{ color: RED, fontWeight: 700 }}>contact page</Link>.
+            Restaurant owners can respond to or dispute a complaint by sending their side through the <Link href="/complaints/new" style={{ color: RED, fontWeight: 700 }}>complaint form</Link>.
           </span>
         </div>
       </div>

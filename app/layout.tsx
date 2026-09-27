@@ -4,7 +4,7 @@ import "./globals.css";
 import { AppProvider } from "@/components/AppProvider";
 import Overlays from "@/components/Overlays";
 import { BRANCHES, ORDER_TEL, branchSlug } from "@/lib/data";
-import { SITE_URL, PUBLIC_EMAIL } from "@/lib/copy";
+import { SITE_URL } from "@/lib/copy";
 
 const DESCRIPTION =
   "Shah G Foods is the home of the famous Daal Chawal in Islamabad and Rawalpindi. Order biryani, karahi, charcoal BBQ, rolls, chaat and chai from 40 branches, open daily 8 AM to 2 AM. Call or WhatsApp to order.";
@@ -90,7 +90,6 @@ const restaurant = {
   image: `${SITE_URL}/Shahgfoods__Feature.jpg`,
   logo: `${SITE_URL}/Shahglogo.png`,
   telephone: PHONE,
-  email: PUBLIC_EMAIL,
   servesCuisine: ["Pakistani", "Desi", "BBQ", "Fast Food"],
   priceRange: "Rs 100–2000",
   currenciesAccepted: "PKR",

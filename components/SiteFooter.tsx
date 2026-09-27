@@ -26,7 +26,7 @@ export default function SiteFooter() {
   const help: [string, string][] = [
     ["Restaurant complaints", "/complaints"],
     ["File a complaint", "/complaints/new"],
-    ["Contact & feedback", "/contact"],
+    ["Contact", "/contact"],
     ["FAQs", "/faqs"],
     ["Contact number", "/shah-g-contact-number"],
     ["Best Daal Chawal in Islamabad", "/best-daal-chawal-islamabad"],
