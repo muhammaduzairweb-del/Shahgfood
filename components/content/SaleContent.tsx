@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import { SALE_EMAIL } from "@/components/Navbar";
 import { useWidth } from "@/components/hooks";
-import { GODADDY_LISTING_PRICE, GODADDY_LISTING_URL, GODADDY_SCREENSHOT, TRAFFIC_AS_OF, WEBSITE_PRICE, BUNDLE_PRICE, gmailLink, mailtoLink } from "@/lib/sale";
+import { PACKAGE_PRICE, GODADDY_LISTING_URL, TRAFFIC_AS_OF, SALE_WHATSAPP_DISPLAY, gmailLink, mailtoLink, whatsappLink } from "@/lib/sale";
 
 const GOLD = "#F7D774";
 const RED = "#C1272D";
@@ -65,7 +65,7 @@ const FAQ = [
   { q: "How old is the website?", a: "About 3 months. It started receiving Google traffic in early July 2026." },
   { q: "Can this become the official Shah G Foods website?", a: "Yes. It already has the full menu with photos, all 40 branch pages and Call and WhatsApp ordering on your number. After the handover it is yours to run, change and grow." },
   { q: "Do I need coding skills to run it?", a: "Not for day-to-day use. It is hosted for free on Vercel and updates deploy automatically. Changing menus or text is simple for any web developer." },
-  { q: "What is the price?", a: `The domain and website are sold together as one package for ${BUNDLE_PRICE}: the domain shahgfood.com (listed on GoDaddy's premium marketplace at ${GODADDY_LISTING_PRICE}) plus the complete website with code, SEO, all pages and handover (${WEBSITE_PRICE}).` },
+  { q: "What is the price?", a: `${PACKAGE_PRICE} for everything: the domain shahgfood.com, the complete website with its source code and SEO, all 150+ pages and the full handover. It is a one-time payment.` },
 ];
 
 export default function SaleContent() {
@@ -92,14 +92,15 @@ export default function SaleContent() {
           </p>
           <div style={{ background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.14)", borderRadius: 20, padding: "16px 26px", marginTop: 4 }}>
             <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: "1px", color: "rgba(255,255,255,.6)" }}>COMPLETE PACKAGE · DOMAIN + WEBSITE</div>
-            <div className="num" style={{ fontSize: isPhone ? 34 : 46, fontWeight: 800, color: GOLD, lineHeight: 1.15 }}>{BUNDLE_PRICE}</div>
-            <div className="num" style={{ fontSize: 12.5, color: "rgba(255,255,255,.6)" }}>Domain {GODADDY_LISTING_PRICE} + website {WEBSITE_PRICE}</div>
+            <div className="num" style={{ fontSize: isPhone ? 38 : 50, fontWeight: 800, color: GOLD, lineHeight: 1.15 }}>{PACKAGE_PRICE}</div>
+            <div style={{ fontSize: 12.5, color: "rgba(255,255,255,.6)" }}>Domain + complete website + Google traffic, one handover</div>
           </div>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
             <a href="#pricing" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: GOLD, color: "#211812", fontWeight: 800, fontSize: 16, padding: "15px 28px", borderRadius: 14 }}>See what you get ↓</a>
             <a href={gmailLink()} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, border: "1.5px solid rgba(255,255,255,.4)", color: "#fff", fontWeight: 700, fontSize: 16, padding: "15px 26px", borderRadius: 14 }}><FaEnvelope size={15} /> Email to buy</a>
+            <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: "#25D366", color: "#fff", fontWeight: 800, fontSize: 16, padding: "15px 26px", borderRadius: 14 }}><FaWhatsapp size={19} /> WhatsApp to buy</a>
           </div>
-          <div style={{ fontSize: 13, color: "rgba(255,255,255,.55)" }}>{SALE_EMAIL}</div>
+          <div className="num" style={{ fontSize: 13, color: "rgba(255,255,255,.55)" }}>{SALE_EMAIL} · <span style={{ whiteSpace: "nowrap" }}>WhatsApp {SALE_WHATSAPP_DISPLAY}</span></div>
         </div>
       </section>
 
@@ -113,11 +114,9 @@ export default function SaleContent() {
               {
                 badge: "PREMIUM DOMAIN",
                 title: "shahgfood.com",
-                price: GODADDY_LISTING_PRICE,
-                note: "GoDaddy premium listing price",
+                note: "the name, with its Google traffic",
                 dark: true,
                 items: [
-                  "Listed on GoDaddy Premium Domains",
                   "Ownership verified by GoDaddy",
                   "Short, memorable .com with a food keyword",
                   "86,800 Google impressions in 3 months",
@@ -129,7 +128,6 @@ export default function SaleContent() {
               {
                 badge: "THE WEBSITE",
                 title: "Complete website",
-                price: WEBSITE_PRICE,
                 note: "code, SEO, pages and handover",
                 dark: false,
                 items: [
@@ -148,10 +146,7 @@ export default function SaleContent() {
             ].map((p) => (
               <div key={p.badge} style={{ padding: isPhone ? "24px 20px" : "30px 30px", background: p.dark ? "linear-gradient(160deg,#2A1233,#16171B)" : "#fff", color: p.dark ? "#fff" : "#211812" }}>
                 <span style={{ fontSize: 11.5, fontWeight: 800, letterSpacing: ".8px", padding: "5px 12px", borderRadius: 999, background: p.dark ? "rgba(247,215,116,.16)" : "#FCF2F1", color: p.dark ? GOLD : RED }}>{p.badge}</span>
-                <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginTop: 14 }}>
-                  <div style={{ fontFamily: serif, fontSize: 26 }}>{p.title}</div>
-                  <div className="num" style={{ fontSize: 20, fontWeight: 800, color: p.dark ? GOLD : "#211812" }}>{p.price}</div>
-                </div>
+                <div style={{ fontFamily: serif, fontSize: 26, marginTop: 14 }}>{p.title}</div>
                 <div style={{ fontSize: 12.5, color: p.dark ? "rgba(255,255,255,.6)" : "#8A8072", marginTop: 2 }}>{p.note}</div>
                 <ul style={{ listStyle: "none", padding: 0, margin: "18px 0 0", display: "flex", flexDirection: "column", gap: 10 }}>
                   {p.items.map((it) => (
@@ -168,8 +163,8 @@ export default function SaleContent() {
           <div style={{ padding: isPhone ? "22px 20px" : "26px 30px", background: `linear-gradient(135deg,${GOLD},#F2B84B)`, color: "#211812", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
             <div>
               <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: "1px" }}>COMPLETE PACKAGE · DOMAIN + WEBSITE</div>
-              <div className="num" style={{ fontSize: isPhone ? 34 : 42, fontWeight: 800, lineHeight: 1.1, marginTop: 4 }}>{BUNDLE_PRICE}</div>
-              <div className="num" style={{ fontSize: 13, color: "#4A3A1C", marginTop: 3 }}>{GODADDY_LISTING_PRICE} domain + {WEBSITE_PRICE} website</div>
+              <div className="num" style={{ fontSize: isPhone ? 36 : 44, fontWeight: 800, lineHeight: 1.1, marginTop: 4 }}>{PACKAGE_PRICE}</div>
+              <div style={{ fontSize: 13, color: "#4A3A1C", marginTop: 3 }}>One-time payment · everything above included</div>
             </div>
             <a href={gmailLink()} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: "#16171B", color: "#fff", fontWeight: 800, fontSize: 16, padding: "15px 26px", borderRadius: 14 }}>
               <FaEnvelope size={15} /> Buy the complete package
@@ -211,16 +206,8 @@ export default function SaleContent() {
         <div style={{ display: "flex", justifyContent: "center", marginBottom: 14 }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#E8FBF6", border: "1px solid #B7EBDD", fontSize: 12, fontWeight: 800, padding: "6px 13px", borderRadius: 999, color: "#0B7A5E" }}><FaCheckCircle size={12} /> OWNERSHIP VERIFIED BY GODADDY</span>
         </div>
-        <h2 style={h2}>Listed on GoDaddy Premium Domains</h2>
-        <p style={sub}>shahgfood.com is listed for sale on GoDaddy&apos;s premium domain marketplace. GoDaddy has verified the current owner, so the transfer can go through GoDaddy safely.</p>
-        <figure style={{ margin: "26px 0 0", background: "#fff", border: "1px solid #EAE1D2", borderRadius: 20, padding: isPhone ? 8 : 14, boxShadow: "0 24px 50px -34px rgba(0,0,0,.45)" }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <a href={GODADDY_LISTING_URL} target="_blank" rel="noopener noreferrer" aria-label="Open the live GoDaddy listing for shahgfood.com">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={GODADDY_SCREENSHOT} alt={`GoDaddy listing for shahgfood.com, premium and verified domain, listed at ${GODADDY_LISTING_PRICE}`} loading="lazy" style={{ width: "100%", height: "auto", display: "block", borderRadius: 12 }} />
-          </a>
-          <figcaption style={{ fontSize: 12.5, color: "#8A8072", textAlign: "center", marginTop: 10 }}>Screenshot of the GoDaddy listing, {TRAFFIC_AS_OF}. The listing price is for the domain only.</figcaption>
-        </figure>
+        <h2 style={h2}>Verified ownership on GoDaddy</h2>
+        <p style={sub}>shahgfood.com is registered and listed on GoDaddy, which has verified the current owner. The transfer to you can go through GoDaddy, the world's largest domain registrar, so it is safe for both sides.</p>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, marginTop: 18 }}>
           <a href={GODADDY_LISTING_URL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: "#111", color: "#fff", fontWeight: 800, fontSize: 15.5, padding: "14px 24px", borderRadius: 14 }}>
             <FaCheckCircle size={15} color="#3DDC97" /> Verify it yourself on GoDaddy ↗
@@ -351,7 +338,7 @@ export default function SaleContent() {
         <div style={{ background: "linear-gradient(135deg,#16171B,#2A1233)", color: "#fff", borderRadius: 26, padding: isPhone ? "34px 22px" : "50px 40px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
           <FaRocket size={30} color={GOLD} />
           <div style={{ fontFamily: serif, fontSize: "clamp(26px,3.6vw,40px)", lineHeight: 1.15 }}>Start your food business with a head start</div>
-          <p style={{ margin: 0, color: "rgba(255,255,255,.75)", fontSize: 15.5, maxWidth: 560, lineHeight: 1.7 }}>The domain and the complete website together for <b style={{ color: GOLD }}>{BUNDLE_PRICE}</b>, handed over as one package.</p>
+          <p style={{ margin: 0, color: "rgba(255,255,255,.75)", fontSize: 15.5, maxWidth: 560, lineHeight: 1.7 }}>The domain and the complete website together for <b style={{ color: GOLD }}>{PACKAGE_PRICE}</b>, handed over as one package.</p>
           <a href={gmailLink()} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: GOLD, color: "#211812", fontWeight: 800, fontSize: 16, padding: "15px 30px", borderRadius: 14, marginTop: 6 }}><FaEnvelope size={15} /> {SALE_EMAIL}</a>
           <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center", fontSize: 13, color: "rgba(255,255,255,.6)", marginTop: 4 }}>
             {["Verified Google data", "Full code ownership", "Free hosting"].map((t) => (
