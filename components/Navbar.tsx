@@ -18,6 +18,7 @@ export default function Navbar() {
   const { branch, area, setPickerOpen } = useApp();
   const t = T;
   const pathname = usePathname();
+  const onSalePage = pathname.startsWith("/website-for-sale");
   const w = useWidth();
   const isMobile = w < 820;
   const selBranch = BRANCHES.find((b) => b.name === branch) || BRANCHES[0];
@@ -47,8 +48,9 @@ export default function Navbar() {
   return (
     <>
       <header style={{ position: "sticky", top: 0, zIndex: 50 }}>
-        {/* "for sale" notice: part of the sticky header, so it stays visible while scrolling */}
-        <div style={{ height: SALE_BAR_H, background: "#16171B", color: "rgba(255,255,255,.85)", fontSize: isMobile ? 11.5 : 12.5, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", gap: isMobile ? 8 : 12, padding: "0 12px", whiteSpace: "nowrap", overflow: "hidden" }}>
+        {/* "for sale" notice: part of the sticky header, so it stays visible while
+            scrolling. Hidden on the sale page itself, which already says it all. */}
+        {!onSalePage && <div style={{ height: SALE_BAR_H, background: "#16171B", color: "rgba(255,255,255,.85)", fontSize: isMobile ? 11.5 : 12.5, fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", gap: isMobile ? 8 : 12, padding: "0 12px", whiteSpace: "nowrap", overflow: "hidden" }}>
           {isMobile ? (
             <span>This website + domain are <strong style={{ color: "#F7D774" }}>for sale</strong></span>
           ) : (
@@ -58,7 +60,7 @@ export default function Navbar() {
           {w >= 1150 && (
             <a href={`mailto:${SALE_EMAIL}?subject=${encodeURIComponent("Enquiry: shahgfood.com website and domain for sale")}`} style={{ color: "rgba(255,255,255,.75)", fontWeight: 700, textDecoration: "underline" }}>{SALE_EMAIL}</a>
           )}
-        </div>
+        </div>}
         <div style={{ height: 4, background: "linear-gradient(90deg,#F26B21,#ED1E79)" }} />
         <div style={{ background: "linear-gradient(90deg,rgba(94,26,134,.82) 0%,rgba(142,30,124,.74) 46%,rgba(183,28,102,.82) 100%)", backdropFilter: "blur(20px) saturate(180%)", WebkitBackdropFilter: "blur(20px) saturate(180%)", boxShadow: "0 6px 24px -12px rgba(94,26,134,.7)", borderBottom: "1px solid rgba(255,255,255,.12)" }}>
           <div style={{ maxWidth: 1280, margin: "0 auto", padding: "10px 22px", display: "flex", alignItems: "center", gap: 16 }}>

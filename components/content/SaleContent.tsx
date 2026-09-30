@@ -85,7 +85,7 @@ export default function SaleContent() {
             <FaHandshake size={14} /> WEBSITE + DOMAIN FOR SALE
           </div>
           <h1 style={{ fontFamily: serif, fontSize: "clamp(34px,6vw,64px)", lineHeight: 1.05, margin: 0, fontWeight: 400, letterSpacing: "-.5px" }}>
-            Own <span style={{ color: GOLD }}>shahgfood.com</span>, a food website that already has Google traffic
+            <span style={{ color: GOLD }}>Shah G Foods</span> Owners Will Get Priority
           </h1>
           <p style={{ margin: 0, fontSize: isPhone ? 15.5 : 17.5, lineHeight: 1.7, color: "rgba(255,255,255,.82)", maxWidth: 680 }}>
             In just 3 months this site has earned <b style={{ color: "#fff" }}>86,800 Google impressions</b> and <b style={{ color: "#fff" }}>2,510 clicks</b>, ranking on the first page. Skip the slow start and launch your food business with an audience from day one.
