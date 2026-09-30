@@ -19,7 +19,7 @@ function template() {
   const body = [
     "Hello,",
     "",
-    `I saw shahgfood.com is for sale and I am interested in the complete package: the domain and the website (${PACKAGE_PRICE}).`,
+    `I saw shahgfood.com is for sale and I am interested in the exclusive Shah G Foods owners' package: the domain and the website (${PACKAGE_PRICE}).`,
     "",
     "My details:",
     "Name: ",
@@ -39,7 +39,7 @@ const SALE_WHATSAPP_NUMBER = "971506989552"; // wa.me format: country code + num
 
 /** Opens a WhatsApp chat with the seller, message pre-filled. */
 export function whatsappLink(): string {
-  const msg = `Hello! I saw that shahgfood.com is for sale and I am interested in the complete package: the domain and the website (${PACKAGE_PRICE}). Please share the next steps.\n\nName: \nBusiness name: `;
+  const msg = `Hello! I saw that shahgfood.com is for sale and I am interested in the exclusive Shah G Foods owners' package: the domain and the website (${PACKAGE_PRICE}). Please share the next steps.\n\nName: \nBusiness name: `;
   return `https://wa.me/${SALE_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
 }
 

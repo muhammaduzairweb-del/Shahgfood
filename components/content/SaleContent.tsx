@@ -65,7 +65,7 @@ const FAQ = [
   { q: "How old is the website?", a: "About 3 months. It started receiving Google traffic in early July 2026." },
   { q: "Can this become the official Shah G Foods website?", a: "Yes. It already has the full menu with photos, all 40 branch pages and Call and WhatsApp ordering on your number. After the handover it is yours to run, change and grow." },
   { q: "Do I need coding skills to run it?", a: "Not for day-to-day use. It is hosted for free on Vercel and updates deploy automatically. Changing menus or text is simple for any web developer." },
-  { q: "What is the price?", a: `${PACKAGE_PRICE} for everything: the domain shahgfood.com, the complete website with its source code and SEO, all 150+ pages and the full handover. It is a one-time payment.` },
+  { q: "What is the price?", a: `${PACKAGE_PRICE} for everything: the domain shahgfood.com, the complete website with its source code and SEO, all 150+ pages and the full handover. This is an exclusive price for the owners of Shah G Foods; the price for any other buyer is higher. It is a one-time payment.` },
 ];
 
 export default function SaleContent() {
@@ -91,9 +91,11 @@ export default function SaleContent() {
             In just 3 months this site has earned <b style={{ color: "#fff" }}>86,800 Google impressions</b> and <b style={{ color: "#fff" }}>2,510 clicks</b>, ranking on the first page. Skip the slow start and launch your food business with an audience from day one.
           </p>
           <div style={{ background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.14)", borderRadius: 20, padding: "16px 26px", marginTop: 4 }}>
+            <div style={{ display: "inline-block", fontSize: 11.5, fontWeight: 800, letterSpacing: ".8px", color: "#211812", background: GOLD, padding: "5px 12px", borderRadius: 999, marginBottom: 8 }}>EXCLUSIVE OFFER FOR THE SHAH G FOODS OWNERS</div>
             <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: "1px", color: "rgba(255,255,255,.6)" }}>COMPLETE PACKAGE · DOMAIN + WEBSITE</div>
             <div className="num" style={{ fontSize: isPhone ? 38 : 50, fontWeight: 800, color: GOLD, lineHeight: 1.15 }}>{PACKAGE_PRICE}</div>
             <div style={{ fontSize: 12.5, color: "rgba(255,255,255,.6)" }}>Domain + complete website + Google traffic, one handover</div>
+            <div style={{ fontSize: 12.5, color: GOLD, marginTop: 6, fontWeight: 700 }}>Special price reserved for the owners of Shah G Foods. Other buyers pay a higher price.</div>
           </div>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
             <a href="#pricing" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: GOLD, color: "#211812", fontWeight: 800, fontSize: 16, padding: "15px 28px", borderRadius: 14 }}>See what you get ↓</a>
@@ -165,6 +167,7 @@ export default function SaleContent() {
               <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: "1px" }}>COMPLETE PACKAGE · DOMAIN + WEBSITE</div>
               <div className="num" style={{ fontSize: isPhone ? 36 : 44, fontWeight: 800, lineHeight: 1.1, marginTop: 4 }}>{PACKAGE_PRICE}</div>
               <div style={{ fontSize: 13, color: "#4A3A1C", marginTop: 3 }}>One-time payment · everything above included</div>
+              <div style={{ fontSize: 12.5, fontWeight: 800, color: "#211812", marginTop: 6 }}>Exclusive price for the Shah G Foods owners</div>
             </div>
             <a href={gmailLink()} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, background: "#16171B", color: "#fff", fontWeight: 800, fontSize: 16, padding: "15px 26px", borderRadius: 14 }}>
               <FaEnvelope size={15} /> Buy the complete package
